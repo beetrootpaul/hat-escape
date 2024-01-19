@@ -1,0 +1,31 @@
+{
+  "name": "mini-jam-150-game",
+  "version": "0.0.0",
+  "author": "Beetroot Paul",
+  "license": "UNLICENSED",
+  "private": true,
+  "description": "TODO TODO TODO",
+  "homepage": "https://todo.todo/todo",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/beetrootpaul/mini-jam-150-game.git"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "prepare": "husky install",
+    "format": "prettier --ignore-path .gitignore --write src/",
+    "typecheck": "tsc",
+    "typecheck:watch": "tsc --watch",
+    "start": "npm run dev",
+    "dev": "beetpx dev --open --htmlTitle \"[dev] TODO\""
+  },
+  "devDependencies": {
+    "@beetpx/beetpx": "0.23.3",
+    "husky": "8.0.3",
+    "prettier": "3.2.4",
+    "prettier-plugin-organize-imports": "3.2.4",
+    "typescript": "5.3.3"
+  }
+}
