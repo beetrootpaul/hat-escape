@@ -19,7 +19,7 @@ export class Hero {
   getCollisionCircle(): CollisionCircle {
     return {
       center: this.#xy,
-      r: 7,
+      r: 3,
     };
   }
 

@@ -7,6 +7,8 @@ import {
   timer_,
   u_,
   v_,
+  v_0_0_,
+  white_,
 } from "@beetpx/beetpx";
 import { Collisions } from "./collisions/Collisions";
 import { Hero } from "./Hero";
@@ -16,11 +18,13 @@ import { Room } from "./Room";
 export class Game {
   #hero: Hero;
   #room: Room;
+  #roomCounter: number;
   #light: Light;
   #roomTransition: BpxTimer | null;
   #shouldRespawn: boolean;
 
   constructor() {
+    this.#roomCounter = 1;
     this.#room = new Room();
     this.#hero = new Hero(this.#room.getCenter());
     this.#light = new Light(this.#room.getLightXy());
@@ -42,6 +46,7 @@ export class Game {
       this.#roomTransition.progress > 0.5
     ) {
       this.#shouldRespawn = false;
+      this.#roomCounter += 1;
       this.#room = new Room();
       this.#hero.respawnAt(this.#room.getCenter());
       this.#light = new Light(this.#room.getLightXy());
@@ -69,6 +74,8 @@ export class Game {
     this.#room.draw();
     this.#light.draw();
     this.#hero.draw();
+
+    b_.print(`room ${this.#roomCounter}`, v_0_0_, white_);
 
     if (this.#roomTransition) {
       const x1 = Math.max(

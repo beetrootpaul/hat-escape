@@ -15,7 +15,7 @@ export class Light {
   getCollisionCircle(): CollisionCircle {
     return {
       center: this.#xy,
-      r: 4,
+      r: 2,
     };
   }
 }
