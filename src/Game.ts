@@ -37,7 +37,7 @@ export class Game {
     this.#roomTransition = null;
     this.#shouldRespawn = false;
     this.#enemySpawner = timer_(60);
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 30; i++) {
       this.#enemySpawner.update();
     }
   }
@@ -72,7 +72,7 @@ export class Game {
       this.#hero.respawnAt(this.#room.getCenter());
       this.#light = new Light(this.#room.getLightXy());
       this.#enemySpawner = timer_(60);
-      for (let i = 0; i < 40; i++) {
+      for (let i = 0; i < 30; i++) {
         this.#enemySpawner.update();
       }
       this.#enemies = [];
@@ -101,7 +101,7 @@ export class Game {
       }
     }
 
-    if (!this.#roomTransition) {
+    if (!this.#roomTransition && !this.#hero.isDashing()) {
       for (const enemy of this.#enemies) {
         if (
           Collisions.areColliding(
@@ -119,12 +119,17 @@ export class Game {
       }
     }
 
-    if (!this.#roomTransition) {
+    if (!this.#roomTransition || this.#roomTransition.progress > 0.6) {
       const directions = b_.areDirectionsPressedAsVector();
-      this.#hero.move(directions);
+      if (!this.#hero.isDashing()) {
+        this.#hero.move(directions);
+      }
       this.#hero.update();
-      if (b_.isPressed("a") && this.#hero.canAttackAgain()) {
+      if (b_.isPressed("a") && this.#hero.canAttack()) {
         this.#hero.attack();
+      }
+      if (b_.isPressed("b") && this.#hero.canDash()) {
+        this.#hero.dash();
       }
     }
 
@@ -136,11 +141,11 @@ export class Game {
   draw(): void {
     b_.clearCanvas(black_);
     this.#room.draw();
-    this.#light.draw();
+    this.#hero.draw();
     for (const enemy of this.#enemies) {
       enemy.draw();
     }
-    this.#hero.draw();
+    this.#light.draw();
 
     b_.print(`room ${this.#roomCounter}`, v_1_1_, white_);
 

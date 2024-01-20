@@ -1,5 +1,6 @@
 import {
   b_,
+  blue_,
   BpxTimer,
   BpxVector2d,
   green_,
@@ -8,14 +9,18 @@ import {
   timer_,
   u_,
   v_,
+  v_0_0_,
 } from "@beetpx/beetpx";
 import { CollisionCircle } from "./collisions/CollisionCircle";
 import { EnemyTarget } from "./EnemyTarget";
 
 export class Hero implements EnemyTarget {
   #xy: BpxVector2d;
+  #speed: BpxVector2d = v_0_0_;
   #attackTimer: BpxTimer | null = null;
+  #dashTimer: BpxTimer | null = null;
   #toNextAttackTimer: BpxTimer = timer_(60);
+  #toNextDashTimer: BpxTimer = timer_(10);
 
   constructor(xy: BpxVector2d) {
     this.#xy = xy;
@@ -29,10 +34,14 @@ export class Hero implements EnemyTarget {
   }
 
   draw(): void {
-    b_.ellipseFilled(this.#xy.sub(3), v_(7, 7), rgb_(140, 200, 50));
+    if (this.#dashTimer) {
+      b_.ellipseFilled(this.#xy.sub(3), v_(7, 7), rgb_(80, 120, 20));
+    } else {
+      b_.ellipseFilled(this.#xy.sub(3), v_(7, 7), rgb_(140, 200, 50));
+    }
 
     if (this.#attackTimer) {
-      const size = 15;
+      const size = 23;
       const wh = v_(
         size * u_.trigSin(this.#attackTimer.progress * 2),
         size * u_.trigCos(this.#attackTimer.progress * 2),
@@ -41,6 +50,11 @@ export class Hero implements EnemyTarget {
     }
 
     b_.line(
+      this.#xy.sub(6, 11),
+      v_(u_.lerp(0, 13, this.#toNextDashTimer.progress), 1),
+      this.#toNextAttackTimer.hasFinished ? blue_ : rgb_(0, 0, 100),
+    );
+    b_.line(
       this.#xy.sub(6, 10),
       v_(u_.lerp(0, 13, this.#toNextAttackTimer.progress), 1),
       this.#toNextAttackTimer.hasFinished ? green_ : rgb_(0, 100, 0),
@@ -48,16 +62,27 @@ export class Hero implements EnemyTarget {
   }
 
   move(directions: BpxVector2d): void {
-    this.#xy = this.#xy.add(directions);
+    this.#speed = directions;
   }
 
   update(): void {
+    if (this.isDashing()) {
+      this.#xy = this.#xy.add(this.#speed.mul(4));
+    } else {
+      this.#xy = this.#xy.add(this.#speed);
+    }
+
     if (this.#attackTimer?.hasFinished) {
       this.#attackTimer = null;
     }
+    if (this.#dashTimer?.hasFinished) {
+      this.#dashTimer = null;
+    }
     this.#attackTimer?.update();
+    this.#dashTimer?.update();
 
     this.#toNextAttackTimer.update();
+    this.#toNextDashTimer.update();
   }
 
   getCollisionCircle(): CollisionCircle {
@@ -68,14 +93,19 @@ export class Hero implements EnemyTarget {
   }
 
   respawnAt(xy: BpxVector2d): void {
+    this.#speed = v_0_0_;
     this.#xy = xy;
     while (!this.#toNextAttackTimer.hasFinished) {
       this.#toNextAttackTimer.update();
     }
+    while (!this.#toNextDashTimer.hasFinished) {
+      this.#toNextDashTimer.update();
+    }
     this.#attackTimer = null;
+    this.#dashTimer = null;
   }
 
-  canAttackAgain(): boolean {
+  canAttack(): boolean {
     return this.#toNextAttackTimer.hasFinished;
   }
 
@@ -84,11 +114,24 @@ export class Hero implements EnemyTarget {
     this.#toNextAttackTimer = timer_(60);
   }
 
+  canDash(): boolean {
+    return this.#toNextDashTimer.hasFinished;
+  }
+
+  dash(): void {
+    this.#dashTimer = timer_(6);
+    this.#toNextDashTimer = timer_(60);
+  }
+
+  isDashing(): boolean {
+    return !!this.#dashTimer;
+  }
+
   getAttackCollisionCircle(): CollisionCircle | null {
     if (this.#attackTimer) {
       return {
         center: this.#xy,
-        r: 15,
+        r: 24,
       };
     }
     return null;

@@ -17,8 +17,8 @@ export class Enemy {
     const angle = u_.trigAtan2(diff.x, diff.y);
     const speed = 0.5;
     this.#xy = this.#xy.add(
-      speed * u_.trigCos(angle),
-      speed * u_.trigSin(angle),
+      speed * u_.trigCos(angle + Math.random() * 0.3 - 0.15),
+      speed * u_.trigSin(angle + Math.random() * 0.3 - 0.15),
     );
   }
 
@@ -29,7 +29,7 @@ export class Enemy {
   getCollisionCircle(): CollisionCircle {
     return {
       center: this.#xy,
-      r: 3,
+      r: 2,
     };
   }
 
