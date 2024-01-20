@@ -9,7 +9,7 @@ export class Light {
   }
 
   draw(): void {
-    b_.ellipseFilled(this.#xy.sub(5), v_(10, 10), rgb_(140, 140, 140));
+    b_.ellipseFilled(this.#xy.sub(5), v_(10, 10), rgb_(240, 240, 240));
   }
 
   getCollisionCircle(): CollisionCircle {

@@ -13,6 +13,7 @@ import {
 } from "@beetpx/beetpx";
 import { CollisionCircle } from "./collisions/CollisionCircle";
 import { EnemyTarget } from "./EnemyTarget";
+import { Wall } from "./Wall";
 
 export class Hero implements EnemyTarget {
   #xy: BpxVector2d;
@@ -65,11 +66,18 @@ export class Hero implements EnemyTarget {
     this.#speed = directions;
   }
 
-  update(): void {
-    if (this.isDashing()) {
-      this.#xy = this.#xy.add(this.#speed.mul(4));
-    } else {
-      this.#xy = this.#xy.add(this.#speed);
+  update(walls: Wall[]): void {
+    const prevXy = this.#xy;
+    const diff = this.isDashing() ? this.#speed.mul(4) : this.#speed;
+    this.#xy = this.#xy.add(diff);
+    if (walls.some((w) => w.collidesWith(this.getCollisionCircle()))) {
+      this.#xy = prevXy.add(diff.x, 0);
+      if (walls.some((w) => w.collidesWith(this.getCollisionCircle()))) {
+        this.#xy = prevXy.add(0, diff.y);
+        if (walls.some((w) => w.collidesWith(this.getCollisionCircle()))) {
+          this.#xy = prevXy;
+        }
+      }
     }
 
     if (this.#attackTimer?.hasFinished) {
@@ -131,7 +139,7 @@ export class Hero implements EnemyTarget {
     if (this.#attackTimer) {
       return {
         center: this.#xy,
-        r: 24,
+        r: 23,
       };
     }
     return null;

@@ -1,6 +1,7 @@
 import { b_, BpxVector2d, rgb_, u_, v_ } from "@beetpx/beetpx";
 import { CollisionCircle } from "./collisions/CollisionCircle";
 import { EnemyTarget } from "./EnemyTarget";
+import { Wall } from "./Wall";
 
 export class Enemy {
   #xy: BpxVector2d;
@@ -12,14 +13,30 @@ export class Enemy {
     this.#target = target;
   }
 
-  update(): void {
-    const diff = this.#target.getXy().sub(this.#xy);
-    const angle = u_.trigAtan2(diff.x, diff.y);
-    const speed = 0.5;
-    this.#xy = this.#xy.add(
-      speed * u_.trigCos(angle + Math.random() * 0.3 - 0.15),
-      speed * u_.trigSin(angle + Math.random() * 0.3 - 0.15),
+  update(walls: Wall[]): void {
+    const distance = this.#target.getXy().sub(this.#xy);
+    const angle = u_.trigAtan2(distance.x, distance.y);
+    const speed = 0.9;
+    const prevXy = this.#xy;
+
+    const diff = v_(
+      speed * u_.trigCos(angle + Math.random() * 0.5 - 0.25),
+      speed * u_.trigSin(angle + Math.random() * 0.5 - 0.25),
     );
+    this.#xy = this.#xy.add(diff);
+    if (walls.some((w) => w.collidesWith(this.getCollisionCircle()))) {
+      this.#xy = prevXy.add(diff.x, 0);
+      if (walls.some((w) => w.collidesWith(this.getCollisionCircle()))) {
+        this.#xy = prevXy.add(0, diff.y);
+        if (walls.some((w) => w.collidesWith(this.getCollisionCircle()))) {
+          this.#xy = prevXy;
+        }
+      }
+    }
+
+    if (walls.some((w) => w.collidesWith(this.getCollisionCircle()))) {
+      this.#xy = prevXy;
+    }
   }
 
   draw(): void {

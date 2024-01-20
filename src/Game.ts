@@ -20,7 +20,7 @@ import { Light } from "./Light";
 import { Room } from "./Room";
 
 export class Game {
-  #hero: Hero;
+  readonly #hero: Hero;
   #room: Room;
   #roomCounter: number;
   #light: Light;
@@ -40,8 +40,8 @@ export class Game {
     this.#enemySpawners = [
       new EnemySpawner(v_(60, 30)),
       new EnemySpawner(v_(60, 115)),
-      new EnemySpawner(v_(30, 80)),
-      new EnemySpawner(v_(115, 80)),
+      new EnemySpawner(v_(10, 80)),
+      new EnemySpawner(v_(90, 80)),
     ];
   }
 
@@ -124,7 +124,7 @@ export class Game {
       if (!this.#hero.isDashing()) {
         this.#hero.move(directions);
       }
-      this.#hero.update();
+      this.#hero.update(this.#room.walls);
       if (b_.isPressed("a") && this.#hero.canAttack()) {
         this.#hero.attack();
       }
@@ -134,7 +134,7 @@ export class Game {
     }
 
     for (const enemy of this.#enemies) {
-      enemy.update();
+      enemy.update(this.#room.walls);
     }
   }
 

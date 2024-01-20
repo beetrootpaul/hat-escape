@@ -9,7 +9,7 @@ export class EnemySpawner {
 
   constructor(xy: BpxVector2d) {
     this.#xy = xy;
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 20; i++) {
       this.#timer.update();
     }
   }
@@ -26,7 +26,7 @@ export class EnemySpawner {
   }
 
   restart(): void {
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 20; i++) {
       this.#timer.update();
     }
   }

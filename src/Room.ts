@@ -4,22 +4,24 @@ import { Wall } from "./Wall";
 
 export class Room {
   static #boundaries: Wall[] = [
-    new Wall(v_(0, 0), v_(128, 8)),
-    new Wall(v_(0, 120), v_(128, 8)),
+    new Wall(v_(0, 0), v_(128, 4)),
+    new Wall(v_(0, 124), v_(128, 4)),
+    new Wall(v_(0, 0), v_(4, 128)),
+    new Wall(v_(124, 0), v_(4, 128)),
   ];
   static #wallConfigurations: Array<Wall[]> = [
     [],
-    [new Wall(v_(40, 40), v_(64, 8))],
-    [new Wall(v_(20, 50), v_(4, 38)), new Wall(v_(100, 50), v_(4, 38))],
+    [new Wall(v_(40, 40), v_(64, 16))],
+    [new Wall(v_(20, 50), v_(16, 38)), new Wall(v_(116, 50), v_(16, 38))],
   ];
 
   #offset: BpxVector2d = v_(2, 2);
 
-  #walls: Wall[];
+  walls: Wall[];
 
   constructor() {
-    this.#walls = Room.#boundaries;
-    this.#walls = this.#walls.concat(
+    this.walls = Room.#boundaries;
+    this.walls = this.walls.concat(
       u_.randomElementOf(Room.#wallConfigurations)!,
     );
   }
@@ -30,12 +32,12 @@ export class Room {
         b_.rectFilled(
           this.#offset.add(g.tile.mul(v_(col, row))),
           g.tile.sub(1),
-          rgb_(60, 60, 100),
+          rgb_(40, 40, 80),
         );
       }
     }
 
-    for (const wall of this.#walls) {
+    for (const wall of this.walls) {
       wall.draw();
     }
   }
@@ -48,9 +50,9 @@ export class Room {
     return this.#offset.add(
       u_.randomElementOf([
         v_(16, 16),
-        v_(6 + g.tile.x * 13, 6),
-        v_(6, 6 + g.tile.y * 13),
-        v_(6 + g.tile.x * 13, 6 + g.tile.y * 13),
+        v_(8 + g.tile.x * 13, 8),
+        v_(8, 6 + g.tile.y * 13),
+        v_(8 + g.tile.x * 13, 8 + g.tile.y * 13),
       ])!,
     );
   }
