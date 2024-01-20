@@ -5,6 +5,7 @@ import { EnemyTarget } from "./EnemyTarget";
 export class Enemy {
   #xy: BpxVector2d;
   #target: EnemyTarget;
+  isAlive: boolean = true;
 
   constructor(xy: BpxVector2d, target: EnemyTarget) {
     this.#xy = xy;
@@ -30,5 +31,9 @@ export class Enemy {
       center: this.#xy,
       r: 3,
     };
+  }
+
+  destroy() {
+    this.isAlive = false;
   }
 }

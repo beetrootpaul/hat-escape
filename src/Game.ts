@@ -43,6 +43,8 @@ export class Game {
   }
 
   update(): void {
+    this.#enemies = this.#enemies.filter((e) => e.isAlive);
+
     if (this.#roomTransition) {
       this.#roomTransition.update();
       if (this.#roomTransition.hasFinished) {
@@ -54,6 +56,8 @@ export class Game {
     if (this.#enemySpawner.hasFinished) {
       this.#enemies.push(new Enemy(v_(60, 30), this.#hero));
       this.#enemies.push(new Enemy(v_(60, 115), this.#hero));
+      this.#enemies.push(new Enemy(v_(30, 80), this.#hero));
+      this.#enemies.push(new Enemy(v_(115, 80), this.#hero));
       this.#enemySpawner = timer_(60);
     }
 
@@ -87,6 +91,17 @@ export class Game {
     }
 
     if (!this.#roomTransition) {
+      const attackCc = this.#hero.getAttackCollisionCircle();
+      if (attackCc) {
+        for (const enemy of this.#enemies) {
+          if (Collisions.areColliding(enemy.getCollisionCircle(), attackCc)) {
+            enemy.destroy();
+          }
+        }
+      }
+    }
+
+    if (!this.#roomTransition) {
       for (const enemy of this.#enemies) {
         if (
           Collisions.areColliding(
@@ -107,6 +122,10 @@ export class Game {
     if (!this.#roomTransition) {
       const directions = b_.areDirectionsPressedAsVector();
       this.#hero.move(directions);
+      this.#hero.update();
+      if (b_.isPressed("a") && this.#hero.canAttackAgain()) {
+        this.#hero.attack();
+      }
     }
 
     for (const enemy of this.#enemies) {
