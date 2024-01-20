@@ -63,7 +63,11 @@ export class Hero implements EnemyTarget {
   }
 
   move(directions: BpxVector2d): void {
-    this.#speed = directions;
+    this.#speed = directions.mul(1.2);
+    if (this.#speed.x !== 0 && this.#speed.y !== 0) {
+      // normalization of diagonal speed
+      this.#speed = this.#speed.div(1.44);
+    }
   }
 
   update(walls: Wall[]): void {
