@@ -1,4 +1,5 @@
-import { b_, rgb_, v_ } from "@beetpx/beetpx";
+import { b_ } from "@beetpx/beetpx";
+import { Game } from "./Game";
 
 b_.init(
   {
@@ -13,9 +14,11 @@ b_.init(
     jsons: [],
   },
 ).then(async ({ startGame }) => {
-  b_.setOnDraw(() => {
-    b_.rectFilled(v_(10, 20), v_(30, 40), rgb_(120, 120, 50));
-  });
+  // TODO: on start / restart
+
+  const game = new Game();
+  b_.setOnUpdate(() => game.update());
+  b_.setOnDraw(() => game.draw());
 
   await startGame();
 });
