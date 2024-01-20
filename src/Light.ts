@@ -9,13 +9,13 @@ export class Light {
   }
 
   draw(): void {
-    b_.ellipseFilled(this.#xy.sub(3), v_(4, 4), rgb_(140, 140, 140));
+    b_.ellipseFilled(this.#xy.sub(5), v_(10, 10), rgb_(140, 140, 140));
   }
 
   getCollisionCircle(): CollisionCircle {
     return {
       center: this.#xy,
-      r: 2,
+      r: 6,
     };
   }
 }

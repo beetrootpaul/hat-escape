@@ -2,15 +2,18 @@ import {
   b_,
   black_,
   BpxEasing,
+  BpxRgbColor,
   BpxTimer,
+  green_,
   rgb_,
   timer_,
   u_,
   v_,
-  v_0_0_,
+  v_1_1_,
   white_,
 } from "@beetpx/beetpx";
 import { Collisions } from "./collisions/Collisions";
+import { Enemy } from "./Enemy";
 import { Hero } from "./Hero";
 import { Light } from "./Light";
 import { Room } from "./Room";
@@ -22,6 +25,9 @@ export class Game {
   #light: Light;
   #roomTransition: BpxTimer | null;
   #shouldRespawn: boolean;
+  #enemySpawner: BpxTimer;
+  #enemies: Array<Enemy> = [];
+  #transitionColor: BpxRgbColor = green_;
 
   constructor() {
     this.#roomCounter = 1;
@@ -30,6 +36,10 @@ export class Game {
     this.#light = new Light(this.#room.getLightXy());
     this.#roomTransition = null;
     this.#shouldRespawn = false;
+    this.#enemySpawner = timer_(60);
+    for (let i = 0; i < 40; i++) {
+      this.#enemySpawner.update();
+    }
   }
 
   update(): void {
@@ -38,6 +48,13 @@ export class Game {
       if (this.#roomTransition.hasFinished) {
         this.#roomTransition = null;
       }
+    }
+
+    this.#enemySpawner.update();
+    if (this.#enemySpawner.hasFinished) {
+      this.#enemies.push(new Enemy(v_(60, 30), this.#hero));
+      this.#enemies.push(new Enemy(v_(60, 115), this.#hero));
+      this.#enemySpawner = timer_(60);
     }
 
     if (
@@ -50,6 +67,11 @@ export class Game {
       this.#room = new Room();
       this.#hero.respawnAt(this.#room.getCenter());
       this.#light = new Light(this.#room.getLightXy());
+      this.#enemySpawner = timer_(60);
+      for (let i = 0; i < 40; i++) {
+        this.#enemySpawner.update();
+      }
+      this.#enemies = [];
     }
 
     if (
@@ -61,11 +83,34 @@ export class Game {
     ) {
       this.#roomTransition = timer_(60);
       this.#shouldRespawn = true;
+      this.#transitionColor = rgb_(110, 110, 110);
+    }
+
+    if (!this.#roomTransition) {
+      for (const enemy of this.#enemies) {
+        if (
+          Collisions.areColliding(
+            enemy.getCollisionCircle(),
+            this.#hero.getCollisionCircle(),
+          )
+        ) {
+          this.#roomTransition = timer_(120);
+          this.#shouldRespawn = true;
+          this.#roomCounter = 0;
+          this.#transitionColor = rgb_(130, 13, 13);
+
+          break;
+        }
+      }
     }
 
     if (!this.#roomTransition) {
       const directions = b_.areDirectionsPressedAsVector();
       this.#hero.move(directions);
+    }
+
+    for (const enemy of this.#enemies) {
+      enemy.update();
     }
   }
 
@@ -73,9 +118,12 @@ export class Game {
     b_.clearCanvas(black_);
     this.#room.draw();
     this.#light.draw();
+    for (const enemy of this.#enemies) {
+      enemy.draw();
+    }
     this.#hero.draw();
 
-    b_.print(`room ${this.#roomCounter}`, v_0_0_, white_);
+    b_.print(`room ${this.#roomCounter}`, v_1_1_, white_);
 
     if (this.#roomTransition) {
       const x1 = Math.max(
@@ -90,7 +138,7 @@ export class Game {
           BpxEasing.outQuartic(this.#roomTransition.progress * 3 - 2),
         ),
       );
-      b_.rectFilled(v_(x1, 0), v_(x2, 128), rgb_(110, 110, 110));
+      b_.rectFilled(v_(x1, 0), v_(x2, 128), this.#transitionColor);
     }
   }
 }
