@@ -1,4 +1,10 @@
-import { b_, rgb_, v_ } from "@beetpx/beetpx";
+import { b_, BpxRgbColor } from "@beetpx/beetpx";
+import { Game } from "./Game";
+import { g } from "./globals";
+import { MagicBookFont } from "./MagicBookFont";
+
+const magicBookFont = new MagicBookFont();
+export const tmp = { magicBookFont };
 
 b_.init(
   {
@@ -7,15 +13,26 @@ b_.init(
     debugFeatures: !BEETPX__IS_PROD,
   },
   {
-    images: [],
-    fonts: [],
+    images: [{ url: g.images.font }],
+    fonts: [
+      {
+        font: magicBookFont,
+        spriteTextColor: BpxRgbColor.fromCssHex("#ffffff"),
+      },
+    ],
     sounds: [],
-    jsons: [],
+    jsons: [{ url: g.jsons.font }],
   },
 ).then(async ({ startGame }) => {
-  b_.setOnDraw(() => {
-    b_.rectFilled(v_(10, 20), v_(30, 40), rgb_(120, 120, 50));
+  // TODO: on start / restart
+
+  const game = new Game();
+  b_.setOnStarted(() => {
+    magicBookFont.setMetrics(b_.getJsonAsset(g.jsons.font));
+    b_.setFont(g.fonts.magicBook);
   });
+  b_.setOnUpdate(() => game.update());
+  b_.setOnDraw(() => game.draw());
 
   await startGame();
 });
