@@ -2,11 +2,11 @@ import { b_, BpxVector2d, rgb_, u_, v_ } from "@beetpx/beetpx";
 import { g } from "./globals";
 
 export class Room {
-  #offset: BpxVector2d = v_(32, 32);
+  #offset: BpxVector2d = v_(2, 2);
 
   draw(): void {
-    for (let row = 0; row < 11; row++) {
-      for (let col = 0; col < 11; col++) {
+    for (let row = 0; row < 15; row++) {
+      for (let col = 0; col < 15; col++) {
         b_.rectFilled(
           this.#offset.add(g.tile.mul(v_(col, row))),
           g.tile.sub(1),
@@ -17,7 +17,7 @@ export class Room {
   }
 
   getCenter(): BpxVector2d {
-    return this.#offset.add(g.tile.mul(5.5));
+    return this.#offset.add(g.tile.mul(8));
   }
 
   getLightXy(): BpxVector2d {

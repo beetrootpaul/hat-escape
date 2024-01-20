@@ -14,6 +14,7 @@ import {
 } from "@beetpx/beetpx";
 import { Collisions } from "./collisions/Collisions";
 import { Enemy } from "./Enemy";
+import { EnemySpawner } from "./EnemySpawner";
 import { Hero } from "./Hero";
 import { Light } from "./Light";
 import { Room } from "./Room";
@@ -25,7 +26,7 @@ export class Game {
   #light: Light;
   #roomTransition: BpxTimer | null;
   #shouldRespawn: boolean;
-  #enemySpawner: BpxTimer;
+  #enemySpawners: EnemySpawner[];
   #enemies: Array<Enemy> = [];
   #transitionColor: BpxRgbColor = green_;
 
@@ -36,10 +37,12 @@ export class Game {
     this.#light = new Light(this.#room.getLightXy());
     this.#roomTransition = null;
     this.#shouldRespawn = false;
-    this.#enemySpawner = timer_(60);
-    for (let i = 0; i < 30; i++) {
-      this.#enemySpawner.update();
-    }
+    this.#enemySpawners = [
+      new EnemySpawner(v_(60, 30)),
+      new EnemySpawner(v_(60, 115)),
+      new EnemySpawner(v_(30, 80)),
+      new EnemySpawner(v_(115, 80)),
+    ];
   }
 
   update(): void {
@@ -52,13 +55,11 @@ export class Game {
       }
     }
 
-    this.#enemySpawner.update();
-    if (this.#enemySpawner.hasFinished) {
-      this.#enemies.push(new Enemy(v_(60, 30), this.#hero));
-      this.#enemies.push(new Enemy(v_(60, 115), this.#hero));
-      this.#enemies.push(new Enemy(v_(30, 80), this.#hero));
-      this.#enemies.push(new Enemy(v_(115, 80), this.#hero));
-      this.#enemySpawner = timer_(60);
+    for (const es of this.#enemySpawners) {
+      const newEnemy = es.update(this.#hero);
+      if (newEnemy) {
+        this.#enemies.push(newEnemy);
+      }
     }
 
     if (
@@ -71,9 +72,8 @@ export class Game {
       this.#room = new Room();
       this.#hero.respawnAt(this.#room.getCenter());
       this.#light = new Light(this.#room.getLightXy());
-      this.#enemySpawner = timer_(60);
-      for (let i = 0; i < 30; i++) {
-        this.#enemySpawner.update();
+      for (const es of this.#enemySpawners) {
+        es.restart();
       }
       this.#enemies = [];
     }
@@ -141,13 +141,16 @@ export class Game {
   draw(): void {
     b_.clearCanvas(black_);
     this.#room.draw();
+    for (const es of this.#enemySpawners) {
+      es.draw();
+    }
     this.#hero.draw();
     for (const enemy of this.#enemies) {
       enemy.draw();
     }
     this.#light.draw();
 
-    b_.print(`room ${this.#roomCounter}`, v_1_1_, white_);
+    u_.printWithOutline(`room ${this.#roomCounter}`, v_1_1_, white_, black_);
 
     if (this.#roomTransition) {
       const x1 = Math.max(
