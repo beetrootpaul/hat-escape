@@ -22,7 +22,16 @@ b_.init(
         spriteTextColor: BpxRgbColor.fromCssHex("#ffffff"),
       },
     ],
-    sounds: [],
+    sounds: [
+      { url: g.music.drums1Damped },
+      { url: g.music.bass1Damped },
+      { url: g.music.melody1Damped },
+      { url: g.music.melody2Damped },
+      { url: g.music.drums1 },
+      { url: g.music.bass1 },
+      { url: g.music.melody1 },
+      { url: g.music.melody2 },
+    ],
     jsons: [{ url: g.jsons.font }],
   },
 ).then(async ({ startGame }) => {

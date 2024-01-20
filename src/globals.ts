@@ -12,4 +12,14 @@ export const g = {
   fonts: {
     magicBook: "magicBook",
   },
+  music: {
+    drums1Damped: "drums_1_damped.flac",
+    bass1Damped: "bass_1_damped.flac",
+    melody1Damped: "melody_1_damped.flac",
+    melody2Damped: "melody_2_damped.flac",
+    drums1: "drums_1.flac",
+    bass1: "bass_1.flac",
+    melody1: "melody_1.flac",
+    melody2: "melody_2.flac",
+  },
 };

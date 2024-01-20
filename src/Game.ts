@@ -1,6 +1,7 @@
 import {
   b_,
   black_,
+  BpxAudioPlaybackId,
   BpxEasing,
   BpxRgbColor,
   BpxTimer,
@@ -15,6 +16,7 @@ import {
 import { Collisions } from "./collisions/Collisions";
 import { Enemy } from "./Enemy";
 import { EnemySpawner } from "./EnemySpawner";
+import { g } from "./globals";
 import { Hero } from "./Hero";
 import { Light } from "./Light";
 import { Room } from "./Room";
@@ -30,6 +32,9 @@ export class Game {
   #enemies: Array<Enemy> = [];
   #transitionColor: BpxRgbColor = green_;
 
+  #playbackDamped: BpxAudioPlaybackId;
+  #playbackRegular: BpxAudioPlaybackId;
+
   constructor() {
     this.#roomCounter = 1;
     this.#room = new Room();
@@ -43,6 +48,38 @@ export class Game {
       new EnemySpawner(v_(10, 80)),
       new EnemySpawner(v_(90, 80)),
     ];
+
+    this.#playbackDamped = b_.playSoundSequence(
+      {
+        loop: [
+          [
+            { url: g.music.drums1Damped },
+            { url: g.music.bass1Damped },
+            { url: g.music.melody1Damped },
+          ],
+          [
+            { url: g.music.drums1Damped },
+            { url: g.music.bass1Damped },
+            { url: g.music.melody2Damped },
+          ],
+        ],
+      },
+      true,
+    );
+    this.#playbackRegular = b_.playSoundSequence({
+      loop: [
+        [
+          { url: g.music.drums1 },
+          { url: g.music.bass1 },
+          { url: g.music.melody1 },
+        ],
+        [
+          { url: g.music.drums1 },
+          { url: g.music.bass1 },
+          { url: g.music.melody2 },
+        ],
+      ],
+    });
   }
 
   update(): void {
@@ -113,6 +150,9 @@ export class Game {
           this.#shouldRespawn = true;
           this.#roomCounter = 0;
           this.#transitionColor = rgb_(130, 13, 13);
+          // TODO: add "press to start" screen and unmute regular on transition from it to the gameplay
+          b_.mutePlayback(this.#playbackRegular);
+          b_.unmutePlayback(this.#playbackDamped);
 
           break;
         }
@@ -125,11 +165,11 @@ export class Game {
         this.#hero.move(directions);
       }
       this.#hero.update(this.#room.walls);
-      if (b_.isPressed("a") && this.#hero.canAttack()) {
-        this.#hero.attack();
-      }
-      if (b_.isPressed("b") && this.#hero.canDash()) {
+      if (b_.isPressed("a") && this.#hero.canDash()) {
         this.#hero.dash();
+      }
+      if (b_.isPressed("b") && this.#hero.canAttack()) {
+        this.#hero.attack();
       }
     }
 
