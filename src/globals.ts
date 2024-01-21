@@ -18,10 +18,10 @@ export const g = {
   ts: v_(8, 8),
 
   images: {
-    font: "atlas32.png",
+    font: "ChevyRay_MagicBook_atlas.png",
   },
   jsons: {
-    font: "metrics.json",
+    font: "ChevyRay_MagicBook_metrics.json",
   },
   fonts: {
     magicBook: "magicBook",

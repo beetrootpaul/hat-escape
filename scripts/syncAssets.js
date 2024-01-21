@@ -30,7 +30,10 @@ if (watchForChanges) {
 // other assets
 //
 
-const otherAssets = ["atlas32.png", "metrics.json"];
+const otherAssets = [
+  "ChevyRay_MagicBook_atlas.png",
+  "ChevyRay_MagicBook_metrics.json",
+];
 
 for (const otherAsset of otherAssets) {
   let src = path.resolve(assetsDir, otherAsset);
