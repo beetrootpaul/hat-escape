@@ -59,29 +59,26 @@ export class SceneRoomTransition implements Scene {
     if (!this._timerIn.hasFinished) {
       b_.print("transition IN", v_1_1_, c.white);
       b_.print(
-        `(room=${this._gameplay.currentRoom})`,
+        `(room=${this._gameplay.roomNumber})`,
         v_1_1_.add(0, 20),
         c.white,
       );
       b_.print("TODO", v_1_1_.add(0, 40), c.white);
     } else if (!this._timerMid.hasFinished) {
       b_.print("transition MID", v_1_1_, c.red);
-      b_.print(
-        `(room=${this._gameplay.currentRoom})`,
-        v_1_1_.add(0, 20),
-        c.red,
-      );
+      b_.print(`(room=${this._gameplay.roomNumber})`, v_1_1_.add(0, 20), c.red);
       b_.print("TODO", v_1_1_.add(0, 40), c.red);
     } else if (!this._timerOut.hasFinished) {
       b_.print("transition OUT", v_1_1_, c.blue);
       b_.print(
-        `(room=${this._gameplay.currentRoom})`,
+        `(room=${this._gameplay.roomNumber})`,
         v_1_1_.add(0, 20),
         c.blue,
       );
       b_.print("TODO", v_1_1_.add(0, 40), c.blue);
     }
 
+    this._gameplay.room.draw();
     this._gameplay.hero.draw();
   }
 }

@@ -1,10 +1,11 @@
+import { RoomBlueprints } from "../RoomBlueprints";
 import { Hero } from "./Hero";
 import { Room } from "./Room";
 
 export class Gameplay {
   constructor() {
     this._roomNumber = 1;
-    this._room = Room.random();
+    this._room = new Room(RoomBlueprints.nextRandomBlueprint());
     this._hero = new Hero({ xy: this._room.center });
   }
 
@@ -12,8 +13,12 @@ export class Gameplay {
   private _room: Room;
   private _hero: Hero;
 
-  get currentRoom(): number {
+  get roomNumber(): number {
     return this._roomNumber;
+  }
+
+  get room(): Room {
+    return this._room;
   }
 
   get hero(): Hero {
@@ -22,13 +27,13 @@ export class Gameplay {
 
   loadNextRoom() {
     this._roomNumber += 1;
-    this._room = Room.random();
+    this._room = new Room(RoomBlueprints.nextRandomBlueprint());
     this._hero = new Hero({ xy: this._room.center });
   }
 
   restart() {
     this._roomNumber = 1;
-    this._room = Room.random();
+    this._room = new Room(RoomBlueprints.nextRandomBlueprint());
     this._hero = new Hero({ xy: this._room.center });
   }
 }

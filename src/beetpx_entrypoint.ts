@@ -3,6 +3,7 @@ import { AudioManager } from "./audio/AudioManager";
 import { MagicBookFont } from "./draft/MagicBookFont";
 import { g } from "./globals";
 import { PauseMenu } from "./pause/PauseMenu";
+import { RoomBlueprints } from "./RoomBlueprints";
 import { Scene } from "./scenes/Scene";
 import { SceneBrp } from "./scenes/SceneBrp";
 
@@ -43,7 +44,7 @@ b_.init(
       { url: g.music.melody1 },
       { url: g.music.melody2 },
     ],
-    jsons: [{ url: g.jsons.font }],
+    jsons: [{ url: g.jsons.font }, { url: g.jsons.roomsLdtk }],
   },
 ).then(async ({ startGame }) => {
   b_.setOnStarted(() => {
@@ -65,6 +66,9 @@ b_.init(
 
     // pause
     pauseMenu = new PauseMenu();
+
+    // rooms
+    RoomBlueprints.loadFromLdtkJson(b_.getJsonAsset(g.jsons.roomsLdtk).json);
 
     // scene
     currentScene = new SceneBrp();

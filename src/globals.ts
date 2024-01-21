@@ -26,6 +26,7 @@ export const g = {
   },
   jsons: {
     font: "ChevyRay_MagicBook_metrics.json",
+    roomsLdtk: "rooms.json",
   },
   fonts: {
     magicBook: "magicBook",
