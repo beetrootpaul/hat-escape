@@ -14,6 +14,12 @@ export class Wall {
     b_.rectFilled(this.#xy, this.#wh, rgb_(80, 80, 160));
   }
 
+  /*
+    TODO: better implementation:
+    function rchitbox(r,c)
+      return (mid(r.x,r.x+r.w,c.x)-c.x)^2+(mid(r.y,r.y+r.h,c.y)-c.y)^2<c.r^2
+    end
+   */
   collidesWith(cc: CollisionCircle): boolean {
     return !(
       this.#xy.x > cc.center.x + cc.r ||

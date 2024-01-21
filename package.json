@@ -15,17 +15,22 @@
   },
   "scripts": {
     "prepare": "husky install",
+    "cleanup": "rimraf ./.beetpx/ ./index.html",
     "format": "prettier --ignore-path .gitignore --write src/",
     "typecheck": "tsc",
     "typecheck:watch": "tsc --watch",
+    "syncAssets": "node ./scripts/syncAssets.js",
+    "syncAssets:watch": "node ./scripts/syncAssets.js watch",
     "start": "npm run dev",
-    "dev": "beetpx dev --open --htmlTitle \"[dev] TODO\""
+    "dev": "beetpx dev --open --htmlTitle \"[dev] TODO\"",
+    "itch": "npm run cleanup && npm run typecheck && beetpx build --htmlTitle \"TODO\" && beetpx zip"
   },
   "devDependencies": {
     "@beetpx/beetpx": "0.23.3",
     "husky": "8.0.3",
     "prettier": "3.2.4",
     "prettier-plugin-organize-imports": "3.2.4",
+    "rimraf": "5.0.5",
     "typescript": "5.3.3"
   }
 }

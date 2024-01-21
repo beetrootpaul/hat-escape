@@ -2,9 +2,11 @@ import { b_, BpxRgbColor } from "@beetpx/beetpx";
 import { Game } from "./Game";
 import { g } from "./globals";
 import { MagicBookFont } from "./MagicBookFont";
+import { PauseScreen } from "./PauseScreen";
 
 const magicBookFont = new MagicBookFont();
-export const tmp = { magicBookFont };
+
+const pause = new PauseScreen();
 
 b_.init(
   {
@@ -20,7 +22,16 @@ b_.init(
         spriteTextColor: BpxRgbColor.fromCssHex("#ffffff"),
       },
     ],
-    sounds: [],
+    sounds: [
+      { url: g.music.drums1Damped },
+      { url: g.music.bass1Damped },
+      { url: g.music.melody1Damped },
+      { url: g.music.melody2Damped },
+      { url: g.music.drums1 },
+      { url: g.music.bass1 },
+      { url: g.music.melody1 },
+      { url: g.music.melody2 },
+    ],
     jsons: [{ url: g.jsons.font }],
   },
 ).then(async ({ startGame }) => {
@@ -31,8 +42,30 @@ b_.init(
     magicBookFont.setMetrics(b_.getJsonAsset(g.jsons.font));
     b_.setFont(g.fonts.magicBook);
   });
-  b_.setOnUpdate(() => game.update());
-  b_.setOnDraw(() => game.draw());
+  b_.setOnUpdate(() => {
+    if (PauseScreen.isGamePaused) {
+      if (b_.wasJustPressed("menu")) {
+        PauseScreen.isGamePaused = false;
+      }
+    } else {
+      if (b_.wasJustPressed("menu")) {
+        PauseScreen.isGamePaused = true;
+      }
+    }
+
+    if (PauseScreen.isGamePaused) {
+      // do nothing
+    } else {
+      game.update();
+    }
+  });
+  b_.setOnDraw(() => {
+    if (PauseScreen.isGamePaused) {
+      pause.draw();
+    } else {
+      game.draw();
+    }
+  });
 
   await startGame();
 });
