@@ -81,5 +81,7 @@ export class SceneRoomTransition implements Scene {
       );
       b_.print("TODO", v_1_1_.add(0, 40), c.blue);
     }
+
+    this._gameplay.hero.draw();
   }
 }

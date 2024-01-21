@@ -13,7 +13,10 @@ export class SceneRoomGameplay implements Scene {
 
   init(): void {}
 
-  update(): void {}
+  update(): void {
+    this._gameplay.hero.move(b_.areDirectionsPressedAsVector());
+    this._gameplay.hero.update();
+  }
 
   postUpdate(): Scene | null {
     if (b_.wasJustPressed("a")) {
@@ -36,5 +39,7 @@ export class SceneRoomGameplay implements Scene {
     b_.print("gameplay", v_1_1_, c.green);
     b_.print(`room ${this._gameplay.currentRoom}`, v_1_1_.add(0, 20), c.green);
     b_.print("TODO", v_1_1_.add(0, 40), c.green);
+
+    this._gameplay.hero.draw();
   }
 }

@@ -1,5 +1,4 @@
 import { b_, BpxPixels, BpxVector2d, v_, v_0_0_ } from "@beetpx/beetpx";
-import { AudioManager } from "../audio/AudioManager";
 import { c, cm, g } from "../globals";
 import { PauseMenuEntry } from "./PauseMenuEntry";
 import { PauseMenuEntrySimple } from "./PauseMenuEntrySimple";
@@ -24,7 +23,6 @@ export class PauseMenu {
 
   constructor() {
     this._entryResume = new PauseMenuEntrySimple("resume", () => {
-      AudioManager.resumeMusic();
       this._isActive = false;
     });
 
@@ -58,9 +56,10 @@ export class PauseMenu {
   }
 
   update(): void {
-    if (!this.isActive && b_.wasJustPressed("menu")) {
-      AudioManager.pauseMusic();
-      this._isActive = true;
+    if (!this.isActive) {
+      if (b_.wasJustPressed("menu")) {
+        this._isActive = true;
+      }
       return;
     }
 
