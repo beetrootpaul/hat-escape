@@ -1,5 +1,5 @@
 import { b_, BpxVector2d, rgb_, u_, v_ } from "@beetpx/beetpx";
-import { g } from "./globals";
+import { g } from "../globals";
 import { Wall } from "./Wall";
 
 export class Room {
@@ -30,8 +30,8 @@ export class Room {
     for (let row = 0; row < 15; row++) {
       for (let col = 0; col < 15; col++) {
         b_.rectFilled(
-          this.#offset.add(g.tile.mul(v_(col, row))),
-          g.tile.sub(1),
+          this.#offset.add(g.ts.mul(v_(col, row))),
+          g.ts.sub(1),
           rgb_(40, 40, 80),
         );
       }
@@ -43,16 +43,16 @@ export class Room {
   }
 
   getCenter(): BpxVector2d {
-    return this.#offset.add(g.tile.mul(8));
+    return this.#offset.add(g.ts.mul(8));
   }
 
   getLightXy(): BpxVector2d {
     return this.#offset.add(
       u_.randomElementOf([
         v_(16, 16),
-        v_(8 + g.tile.x * 13, 8),
-        v_(8, 6 + g.tile.y * 13),
-        v_(8 + g.tile.x * 13, 8 + g.tile.y * 13),
+        v_(8 + g.ts.x * 13, 8),
+        v_(8, 6 + g.ts.y * 13),
+        v_(8 + g.ts.x * 13, 8 + g.ts.y * 13),
       ])!,
     );
   }

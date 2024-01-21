@@ -13,10 +13,10 @@ import {
   v_1_1_,
   white_,
 } from "@beetpx/beetpx";
+import { g } from "../globals";
 import { Collisions } from "./collisions/Collisions";
 import { Enemy } from "./Enemy";
 import { EnemySpawner } from "./EnemySpawner";
-import { g } from "./globals";
 import { Hero } from "./Hero";
 import { Light } from "./Light";
 import { Room } from "./Room";

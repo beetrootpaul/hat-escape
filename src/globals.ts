@@ -1,8 +1,22 @@
-import { v_ } from "@beetpx/beetpx";
+import {
+  black_,
+  blue_,
+  BpxCanvasSnapshotColorMapping,
+  BpxRgbColor,
+  green_,
+  red_,
+  rgb_,
+  v_,
+  white_,
+} from "@beetpx/beetpx";
 
 export const g = {
-  viewport: v_(128, 128),
-  tile: v_(8, 8),
+  fps: 60,
+  // viewport size
+  vs: v_(128, 128),
+  // tile size
+  ts: v_(8, 8),
+
   images: {
     font: "atlas32.png",
   },
@@ -22,4 +36,21 @@ export const g = {
     melody1: "melody_1.flac",
     melody2: "melody_2.flac",
   },
+};
+
+export const c = {
+  black: black_,
+  white: white_,
+  red: red_,
+  green: green_,
+  blue: blue_,
+};
+
+export const cm = {
+  snapshotDarker: BpxCanvasSnapshotColorMapping.of(
+    (canvasColor: BpxRgbColor | null): BpxRgbColor | null => {
+      if (!canvasColor) return canvasColor;
+      return rgb_(canvasColor.r / 2, canvasColor.g / 2, canvasColor.b / 2);
+    },
+  ),
 };

@@ -1,5 +1,5 @@
 import { BpxCharSprite, BpxFont, BpxVector2d, v_ } from "@beetpx/beetpx";
-import { g } from "./globals";
+import { g } from "../globals";
 
 export class MagicBookFont implements BpxFont {
   id: string = g.fonts.magicBook;
