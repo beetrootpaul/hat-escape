@@ -31,13 +31,17 @@ if (watchForChanges) {
 //
 
 const otherAssets = [
-  "ChevyRay_MagicBook_atlas.png",
-  "ChevyRay_MagicBook_metrics.json",
+  { dir: ".", file: "ChevyRay_MagicBook_atlas.png" },
+  { dir: ".", file: "ChevyRay_MagicBook_metrics.json" },
+  { dir: "sprites", file: "attack.png" },
+  { dir: "sprites", file: "hero.png" },
+  { dir: "sprites", file: "light.png" },
+  { dir: "sprites", file: "tiles.png" },
 ];
 
 for (const otherAsset of otherAssets) {
-  let src = path.resolve(assetsDir, otherAsset);
-  let dst = path.resolve(publicDir, otherAsset);
+  let src = path.resolve(assetsDir, otherAsset.dir, otherAsset.file);
+  let dst = path.resolve(publicDir, otherAsset.file);
   fs.copyFileSync(src, dst);
   if (watchForChanges) {
     fs.watchFile(src, { interval: 1000 }, () => {
@@ -67,11 +71,4 @@ function convertWavToFlac(wavInputDir, flacOutputDir) {
         { stdio: "inherit" },
       );
     });
-}
-
-function copy(filename) {
-  fs.copyFileSync(
-    path.resolve(assetsDir, filename),
-    path.resolve(publicDir, filename),
-  );
 }

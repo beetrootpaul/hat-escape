@@ -19,6 +19,10 @@ export const g = {
 
   images: {
     font: "ChevyRay_MagicBook_atlas.png",
+    attack: "attack.png",
+    hero: "hero.png",
+    light: "light.png",
+    tiles: "tiles.png",
   },
   jsons: {
     font: "ChevyRay_MagicBook_metrics.json",

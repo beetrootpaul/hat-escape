@@ -20,7 +20,13 @@ b_.init(
     debugFeatures: !BEETPX__IS_PROD,
   },
   {
-    images: [{ url: g.images.font }],
+    images: [
+      { url: g.images.font },
+      { url: g.images.attack },
+      { url: g.images.hero },
+      { url: g.images.light },
+      { url: g.images.tiles },
+    ],
     fonts: [
       {
         font: magicBookFont,
