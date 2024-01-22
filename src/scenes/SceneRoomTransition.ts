@@ -38,7 +38,7 @@ export class SceneRoomTransition implements Scene {
   update(): void {
     this._gameplay.light.update();
     for (const mob of this._gameplay.mobs) {
-      mob.update();
+      mob.update(this._gameplay.room);
     }
 
     if (this._timerIn.hasJustFinished) {

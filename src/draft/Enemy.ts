@@ -1,7 +1,7 @@
 import { b_, BpxVector2d, rgb_, u_, v_ } from "@beetpx/beetpx";
 import { CollisionCircle } from "../collisions/CollisionCircle";
+import { Wall } from "../gameplay/Wall";
 import { EnemyTarget } from "./EnemyTarget";
-import { Wall } from "./Wall";
 
 export class Enemy {
   #xy: BpxVector2d;

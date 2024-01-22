@@ -3,6 +3,7 @@ import { CollisionCircle } from "../collisions/CollisionCircle";
 import { Collisions } from "../collisions/Collisions";
 import { g } from "../globals";
 import { AnimatedSprite } from "../Sprite";
+import { Room } from "./Room";
 
 export class Mob {
   constructor(params: { center: BpxVector2d; target: MobTarget }) {
@@ -28,7 +29,7 @@ export class Mob {
     };
   }
 
-  update(): void {
+  update(room: Room): void {
     this._sprite.update();
 
     const distance = this._target.collisionCircle.center.sub(this._center);
@@ -36,7 +37,17 @@ export class Mob {
     const speed = 0.7;
 
     const diff = v_(speed * u_.trigCos(angle), speed * u_.trigSin(angle));
-    this._center = this._center.add(diff);
+    const prevCenter = this._center;
+    this._center = prevCenter.add(diff);
+    if (room.doesCollideWithAnyWall(this.collisionCircle)) {
+      this._center = prevCenter.add(diff.x, 0);
+      if (room.doesCollideWithAnyWall(this.collisionCircle)) {
+        this._center = prevCenter.add(0, diff.y);
+        if (room.doesCollideWithAnyWall(this.collisionCircle)) {
+          this._center = prevCenter;
+        }
+      }
+    }
   }
 
   draw(): void {

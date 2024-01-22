@@ -1,6 +1,8 @@
 import { b_, BpxSprite, BpxVector2d, spr_, u_, v_ } from "@beetpx/beetpx";
+import { CollisionCircle } from "../collisions/CollisionCircle";
 import { g } from "../globals";
 import { RoomBlueprint } from "../RoomBlueprints";
+import { Wall } from "./Wall";
 
 export class Room {
   private static _sizeTiles: BpxVector2d = v_(16, 14);
@@ -34,10 +36,14 @@ export class Room {
   constructor(blueprint: RoomBlueprint) {
     this._blueprint = blueprint;
     this._light = u_.randomElementOf(blueprint.lights)!;
+    this._walls = blueprint.wallShapes.map(
+      (ws) => new Wall(ws[0].mul(g.ts), ws[1].mul(g.ts)),
+    );
   }
 
   private readonly _blueprint: RoomBlueprint;
   private readonly _light: RoomBlueprint["lights"][number];
+  private readonly _walls: Wall[];
 
   get center(): BpxVector2d {
     return Room._sizeTiles.mul(g.ts).div(2);
@@ -49,6 +55,10 @@ export class Room {
 
   get mobSpawners(): BpxVector2d[] {
     return this._blueprint.spawners.map((s) => s.mul(g.ts));
+  }
+
+  doesCollideWithAnyWall(cc: CollisionCircle): boolean {
+    return this._walls.some((w) => w.collidesWith(cc));
   }
 
   draw(): void {

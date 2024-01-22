@@ -3,6 +3,7 @@ import { CollisionCircle } from "../collisions/CollisionCircle";
 import { Collisions } from "../collisions/Collisions";
 import { g } from "../globals";
 import { StaticSprite } from "../Sprite";
+import { Room } from "./Room";
 
 export class Hero {
   private static _spriteLeft = new StaticSprite(
@@ -39,7 +40,7 @@ export class Hero {
     };
   }
 
-  move(directions: BpxVector2d) {
+  update(directions: BpxVector2d, room: Room): void {
     this._speed = directions.mul(1.3);
     if (this._speed.x !== 0 && this._speed.y !== 0) {
       // normalization of diagonal speed
@@ -51,10 +52,19 @@ export class Hero {
     } else if (this._speed.x < 0) {
       this._sprite = Hero._spriteLeft;
     }
-  }
 
-  update(): void {
-    this._center = this._center.add(this._speed);
+    const diff = this._speed;
+    const prevCenter = this._center;
+    this._center = prevCenter.add(diff);
+    if (room.doesCollideWithAnyWall(this.collisionCircle)) {
+      this._center = prevCenter.add(diff.x, 0);
+      if (room.doesCollideWithAnyWall(this.collisionCircle)) {
+        this._center = prevCenter.add(0, diff.y);
+        if (room.doesCollideWithAnyWall(this.collisionCircle)) {
+          this._center = prevCenter;
+        }
+      }
+    }
   }
 
   draw(): void {

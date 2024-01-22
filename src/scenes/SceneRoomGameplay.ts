@@ -15,8 +15,10 @@ export class SceneRoomGameplay implements Scene {
 
   update(): void {
     this._gameplay.light.update();
-    this._gameplay.hero.move(b_.areDirectionsPressedAsVector());
-    this._gameplay.hero.update();
+    this._gameplay.hero.update(
+      b_.areDirectionsPressedAsVector(),
+      this._gameplay.room,
+    );
     for (const mobSpawner of this._gameplay.mobSpawners) {
       const spawnedMob = mobSpawner.update(this._gameplay.hero);
       if (spawnedMob) {
@@ -24,7 +26,7 @@ export class SceneRoomGameplay implements Scene {
       }
     }
     for (const mob of this._gameplay.mobs) {
-      mob.update();
+      mob.update(this._gameplay.room);
     }
   }
 

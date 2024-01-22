@@ -1,6 +1,6 @@
 import { b_, BpxVector2d, rgb_, u_, v_ } from "@beetpx/beetpx";
+import { Wall } from "../gameplay/Wall";
 import { g } from "../globals";
-import { Wall } from "./Wall";
 
 export class Room {
   static #boundaries: Wall[] = [
@@ -35,10 +35,6 @@ export class Room {
           rgb_(40, 40, 80),
         );
       }
-    }
-
-    for (const wall of this.walls) {
-      wall.draw();
     }
   }
 
