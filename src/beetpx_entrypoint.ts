@@ -28,6 +28,7 @@ b_.init(
       { url: g.images.hero },
       { url: g.images.light },
       { url: g.images.tiles },
+      { url: g.images.controls },
     ],
     fonts: [
       {

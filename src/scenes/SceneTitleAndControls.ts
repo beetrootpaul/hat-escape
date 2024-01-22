@@ -2,6 +2,7 @@ import {
   b_,
   BpxEasing,
   BpxTimer,
+  spr_,
   timer_,
   u_,
   v_,
@@ -17,11 +18,10 @@ import { SceneRoomTransition } from "./SceneRoomTransition";
 
 export class SceneTitleAndControls implements Scene {
   constructor() {
-    this._hero = new Hero({ center: g.vs.mul(1 / 4, 1 / 2) });
-    this._light = new Light({ center: g.vs.mul(3 / 4, 1 / 2) });
+    this._hero = new Hero({ center: g.vs.mul(1 / 4, 3 / 5) });
+    this._light = new Light({ center: g.vs.mul(3 / 4, 3 / 5) });
   }
 
-  private _canProceed: boolean = false;
   private _slideIn: BpxTimer = timer_(16);
   private _hero: Hero;
   private _light: Light;
@@ -31,10 +31,6 @@ export class SceneTitleAndControls implements Scene {
   }
 
   update(): void {
-    if (b_.wasJustPressed("a")) {
-      this._canProceed = true;
-    }
-
     this._slideIn.update();
 
     this._hero.update(
@@ -74,6 +70,13 @@ export class SceneTitleAndControls implements Scene {
     b_.clearCanvas(c.blueGreen4);
     b_.setCameraXy(v_(0, -16));
 
+    if (this._slideIn.hasFinished) {
+      b_.sprite(spr_(g.images.controls)(0, 0, 128, 48), v_(7, 11));
+      // b_.print("dash: ", v_(8, 12), c.blueGreen1);
+      // b_.print("attack: ", v_(8, 28), c.blueGreen1);
+      // b_.print("reach the light! ", v_(8, 44), c.blueGreen1);
+    }
+
     this._hero.draw();
     this._light.draw();
 
@@ -83,12 +86,6 @@ export class SceneTitleAndControls implements Scene {
       c.redYellow3,
       c.blueGreen5,
     );
-
-    if (this._slideIn.hasFinished) {
-      b_.print("dash: ", v_(8, 24), c.blueGreen3);
-      b_.print("attack: ", v_(8, 44), c.blueGreen3);
-      b_.print("reach the light! ", v_(8, 64), c.blueGreen3);
-    }
 
     b_.setCameraXy(v_0_0_);
   }

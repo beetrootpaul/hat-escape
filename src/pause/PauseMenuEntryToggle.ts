@@ -59,15 +59,15 @@ export class PauseMenuEntryToggle implements PauseMenuEntry {
   }
 
   draw(xy: BpxVector2d): void {
-    b_.print(this._label, xy, this._isFocused ? c.redYellow1 : c.blueGreen4);
+    b_.print(this._label, xy, this._isFocused ? c.redYellow2 : c.blueGreen3);
     b_.print(
       this._yes,
       xy.add(this._labelSize.x + this._gapLabelYes, 0),
       this._value
         ? this._isFocused
-          ? c.redYellow1
-          : c.redYellow1
-        : c.blueGreen4,
+          ? c.redYellow2
+          : c.redYellow2
+        : c.blueGreen3,
     );
     b_.print(
       this._or,
@@ -75,7 +75,7 @@ export class PauseMenuEntryToggle implements PauseMenuEntry {
         this._labelSize.x + this._gapLabelYes + this._yesW + this._gapYesOrNo,
         0,
       ),
-      c.blueGreen4,
+      c.blueGreen3,
     );
     b_.print(
       this._no,
@@ -89,10 +89,10 @@ export class PauseMenuEntryToggle implements PauseMenuEntry {
         0,
       ),
       this._value
-        ? c.blueGreen4
+        ? c.blueGreen3
         : this._isFocused
-          ? c.redYellow1
-          : c.redYellow1,
+          ? c.redYellow2
+          : c.redYellow2,
     );
   }
 }

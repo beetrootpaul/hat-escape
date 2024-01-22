@@ -51,6 +51,7 @@ const otherAssets = [
   { dir: "sprites", file: "hero.png" },
   { dir: "sprites", file: "light.png" },
   { dir: "sprites", file: "tiles.png" },
+  { dir: "sprites", file: "controls.png" },
 ];
 
 for (const otherAsset of otherAssets) {

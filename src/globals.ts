@@ -18,6 +18,7 @@ export const g = {
     hero: "hero.png",
     light: "light.png",
     tiles: "tiles.png",
+    controls: "controls.png",
   },
   jsons: {
     font: "ChevyRay_MagicBook_metrics.json",
