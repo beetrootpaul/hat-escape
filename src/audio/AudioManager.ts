@@ -43,14 +43,6 @@ export class AudioManager {
     );
   }
 
-  static pauseMusic() {
-    b_.pauseAudio();
-  }
-
-  static resumeMusic() {
-    b_.resumeAudio();
-  }
-
   static makeMusicNotDamped() {
     if (this._playbackMusicDamped) {
       b_.mutePlayback(this._playbackMusicDamped);

@@ -3,8 +3,8 @@ import { CollisionCircle } from "../collisions/CollisionCircle";
 
 export class Wall {
   constructor(xy: BpxVector2d, wh: BpxVector2d) {
-    this._xy = xy.add(1);
-    this._wh = wh.sub(2);
+    this._xy = xy.add(0);
+    this._wh = wh.sub(0);
   }
 
   private readonly _xy: BpxVector2d;

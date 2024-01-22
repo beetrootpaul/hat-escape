@@ -64,14 +64,7 @@ export class SceneRoomTransition implements Scene {
   private readonly _timerOut: BpxTimer;
   private readonly _bgColor: BpxRgbColor;
 
-  init(): void {
-    if ("fromTitle" in this._params) {
-    } else {
-      if (!this._params.success) {
-        AudioManager.makeMusicDamped();
-      }
-    }
-  }
+  init(): void {}
 
   update(): void {
     if ("fromTitle" in this._params) {
@@ -109,7 +102,7 @@ export class SceneRoomTransition implements Scene {
 
   postUpdate(): Scene | null {
     if (this._timerMid.hasJustFinished) {
-      if ("fromTitle" in this._params || !this._params.success) {
+      if ("fromTitle" in this._params) {
         AudioManager.makeMusicNotDamped();
       }
     }
