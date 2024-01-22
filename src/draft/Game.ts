@@ -14,7 +14,6 @@ import {
 } from "@beetpx/beetpx";
 import { Collisions } from "../collisions/Collisions";
 import { Enemy } from "./Enemy";
-import { EnemySpawner } from "./EnemySpawner";
 import { Hero } from "./Hero";
 import { Room } from "./Room";
 
@@ -24,7 +23,6 @@ export class Game {
   #roomCounter: number;
   #roomTransition: BpxTimer | null;
   #shouldRespawn: boolean;
-  #enemySpawners: EnemySpawner[];
   #enemies: Array<Enemy> = [];
   #transitionColor: BpxRgbColor = green_;
 
@@ -34,12 +32,6 @@ export class Game {
     this.#hero = new Hero(this.#room.getCenter());
     this.#roomTransition = null;
     this.#shouldRespawn = false;
-    this.#enemySpawners = [
-      new EnemySpawner(v_(60, 30)),
-      new EnemySpawner(v_(60, 115)),
-      new EnemySpawner(v_(10, 80)),
-      new EnemySpawner(v_(90, 80)),
-    ];
   }
 
   update(): void {
@@ -52,13 +44,6 @@ export class Game {
       }
     }
 
-    for (const es of this.#enemySpawners) {
-      const newEnemy = es.update(this.#hero);
-      if (newEnemy) {
-        this.#enemies.push(newEnemy);
-      }
-    }
-
     if (
       this.#shouldRespawn &&
       this.#roomTransition &&
@@ -68,9 +53,6 @@ export class Game {
       this.#roomCounter += 1;
       this.#room = new Room();
       this.#hero.respawnAt(this.#room.getCenter());
-      for (const es of this.#enemySpawners) {
-        es.restart();
-      }
       this.#enemies = [];
     }
 
@@ -130,9 +112,6 @@ export class Game {
   draw(): void {
     b_.clearCanvas(black_);
     this.#room.draw();
-    for (const es of this.#enemySpawners) {
-      es.draw();
-    }
     this.#hero.draw();
     for (const enemy of this.#enemies) {
       enemy.draw();

@@ -2,6 +2,8 @@ import { RoomBlueprints } from "../RoomBlueprints";
 import { Collisions } from "../collisions/Collisions";
 import { Hero } from "./Hero";
 import { Light } from "./Light";
+import { Mob } from "./Mob";
+import { MobSpawner } from "./MobSpawner";
 import { Room } from "./Room";
 
 export class Gameplay {
@@ -10,14 +12,20 @@ export class Gameplay {
     this._room = new Room(RoomBlueprints.nextRandomBlueprint());
     this._hero = new Hero({ center: this._room.center });
     this._light = new Light({ center: this._room.lightCenter });
+    this._spawners = this._room.mobSpawners.map((xy) => new MobSpawner({ xy }));
+    this._mobs = [];
     this._reachedLight = false;
+    this._touchedMob = false;
   }
 
   private _roomNumber: number;
   private _room: Room;
   private _hero: Hero;
   private _light: Light;
+  private _spawners: MobSpawner[];
+  private _mobs: Mob[];
   private _reachedLight: boolean;
+  private _touchedMob: boolean;
 
   get roomNumber(): number {
     return this._roomNumber;
@@ -35,6 +43,18 @@ export class Gameplay {
     return this._light;
   }
 
+  get mobSpawners(): MobSpawner[] {
+    return this._spawners;
+  }
+
+  get mobs(): Mob[] {
+    return this._mobs;
+  }
+
+  addMob(mob: Mob) {
+    this._mobs.push(mob);
+  }
+
   didHeroReachedLight(): boolean {
     if (this._reachedLight) return true;
 
@@ -44,12 +64,24 @@ export class Gameplay {
     );
   }
 
+  didHeroTouchedMob(): boolean {
+    if (this._touchedMob) return true;
+
+    const hcc = this._hero.collisionCircle;
+    return this._mobs.some((m) =>
+      Collisions.areColliding(m.collisionCircle, hcc),
+    );
+  }
+
   loadNextRoom() {
     this._roomNumber += 1;
     this._room = new Room(RoomBlueprints.nextRandomBlueprint());
     this._hero = new Hero({ center: this._room.center });
     this._light = new Light({ center: this._room.lightCenter });
+    this._spawners = this._room.mobSpawners.map((xy) => new MobSpawner({ xy }));
+    this._mobs = [];
     this._reachedLight = false;
+    this._touchedMob = false;
   }
 
   restart() {
@@ -57,6 +89,9 @@ export class Gameplay {
     this._room = new Room(RoomBlueprints.nextRandomBlueprint());
     this._hero = new Hero({ center: this._room.center });
     this._light = new Light({ center: this._room.lightCenter });
+    this._spawners = this._room.mobSpawners.map((xy) => new MobSpawner({ xy }));
+    this._mobs = [];
     this._reachedLight = false;
+    this._touchedMob = false;
   }
 }

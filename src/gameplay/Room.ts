@@ -47,6 +47,10 @@ export class Room {
     return this._light.add(1).mul(g.ts);
   }
 
+  get mobSpawners(): BpxVector2d[] {
+    return this._blueprint.spawners.map((s) => s.mul(g.ts));
+  }
+
   draw(): void {
     for (let row = 0; row < Room._sizeTiles.y; row++) {
       for (let col = 0; col < Room._sizeTiles.x; col++) {

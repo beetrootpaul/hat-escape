@@ -17,6 +17,15 @@ export class SceneRoomGameplay implements Scene {
     this._gameplay.light.update();
     this._gameplay.hero.move(b_.areDirectionsPressedAsVector());
     this._gameplay.hero.update();
+    for (const mobSpawner of this._gameplay.mobSpawners) {
+      const spawnedMob = mobSpawner.update(this._gameplay.hero);
+      if (spawnedMob) {
+        this._gameplay.addMob(spawnedMob);
+      }
+    }
+    for (const mob of this._gameplay.mobs) {
+      mob.update();
+    }
   }
 
   postUpdate(): Scene | null {
@@ -26,7 +35,7 @@ export class SceneRoomGameplay implements Scene {
         success: true,
       });
     }
-    if (b_.wasJustPressed("b")) {
+    if (this._gameplay.didHeroTouchedMob()) {
       return new SceneRoomTransition({
         gameplay: this._gameplay,
         success: false,
@@ -46,7 +55,13 @@ export class SceneRoomGameplay implements Scene {
     b_.print("TODO", v_1_1_.add(0, 40), c.blueGreen1);
 
     this._gameplay.room.draw();
+    for (const mobSpawner of this._gameplay.mobSpawners) {
+      mobSpawner.draw();
+    }
     this._gameplay.hero.draw();
+    for (const mob of this._gameplay.mobs) {
+      mob.draw();
+    }
     this._gameplay.light.draw();
   }
 }

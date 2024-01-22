@@ -24,9 +24,9 @@ export class RoomBlueprints {
       rb.spawners = l.layerInstances
         .find((li: any) => li.__identifier === "layer_tiles")!
         .gridTiles.filter((gt: any) => gt.t === 10)
-        .map((gt: any) => [
+        .map((gt: any) =>
           v_(Math.ceil(gt.px[0]! / 8), Math.ceil(gt.px[1]! / 8)),
-        ]);
+        );
 
       rb.wallShapes = l.layerInstances
         .find((li: any) => li.__identifier === "layer_lights_and_walls")!

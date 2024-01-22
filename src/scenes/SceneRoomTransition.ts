@@ -37,6 +37,9 @@ export class SceneRoomTransition implements Scene {
 
   update(): void {
     this._gameplay.light.update();
+    for (const mob of this._gameplay.mobs) {
+      mob.update();
+    }
 
     if (this._timerIn.hasJustFinished) {
       if (this._success) {
@@ -94,7 +97,13 @@ export class SceneRoomTransition implements Scene {
     }
 
     this._gameplay.room.draw();
+    for (const mobSpawner of this._gameplay.mobSpawners) {
+      mobSpawner.draw();
+    }
     this._gameplay.hero.draw();
+    for (const mob of this._gameplay.mobs) {
+      mob.draw();
+    }
     this._gameplay.light.draw();
 
     if (!this._timerIn.hasFinished) {
