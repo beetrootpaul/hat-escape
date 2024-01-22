@@ -1,12 +1,12 @@
 import {
   b_,
   BpxEasing,
+  BpxRgbColor,
   BpxTimer,
   timer_,
   u_,
   v_,
   v_0_0_,
-  v_1_1_,
 } from "@beetpx/beetpx";
 import { AudioManager } from "../audio/AudioManager";
 import { Gameplay } from "../gameplay/Gameplay";
@@ -20,9 +20,10 @@ export class SceneRoomTransition implements Scene {
   constructor(params: { gameplay: Gameplay; success: boolean }) {
     this._gameplay = params.gameplay;
     this._success = params.success;
-    this._timerIn = timer_(30);
+    this._timerIn = timer_(16);
     this._timerMid = timer_(params.success ? 10 : 60);
-    this._timerOut = timer_(30);
+    this._timerOut = timer_(16);
+    this._bgColor = params.success ? c.redYellow2 : c.redYellow5;
   }
 
   private readonly _gameplay: Gameplay;
@@ -31,6 +32,7 @@ export class SceneRoomTransition implements Scene {
   private readonly _timerIn: BpxTimer;
   private readonly _timerMid: BpxTimer;
   private readonly _timerOut: BpxTimer;
+  private readonly _bgColor: BpxRgbColor;
 
   init(): void {
     if (!this._success) {
@@ -73,31 +75,6 @@ export class SceneRoomTransition implements Scene {
 
   draw(): void {
     b_.clearCanvas(c.blueGreen5);
-    if (!this._timerIn.hasFinished) {
-      b_.print("transition IN", v_1_1_, c.redYellow1);
-      b_.print(
-        `(room=${this._gameplay.roomNumber})`,
-        v_1_1_.add(0, 20),
-        c.redYellow1,
-      );
-      b_.print("TODO", v_1_1_.add(0, 40), c.redYellow1);
-    } else if (!this._timerMid.hasFinished) {
-      b_.print("transition MID", v_1_1_, c.redYellow5);
-      b_.print(
-        `(room=${this._gameplay.roomNumber})`,
-        v_1_1_.add(0, 20),
-        c.redYellow5,
-      );
-      b_.print("TODO", v_1_1_.add(0, 40), c.redYellow5);
-    } else if (!this._timerOut.hasFinished) {
-      b_.print("transition OUT", v_1_1_, c.blueGreen4);
-      b_.print(
-        `(room=${this._gameplay.roomNumber})`,
-        v_1_1_.add(0, 20),
-        c.blueGreen4,
-      );
-      b_.print("TODO", v_1_1_.add(0, 40), c.blueGreen4);
-    }
 
     this._gameplay.room.draw();
     for (const mobSpawner of this._gameplay.mobSpawners) {
@@ -117,16 +94,35 @@ export class SceneRoomTransition implements Scene {
         0,
         BpxEasing.inQuartic(this._timerIn.progress),
       );
-      b_.rectFilled(v_(transitionX, 0), g.vs, c.blueGreen5);
+      b_.rectFilled(
+        v_(transitionX, 0),
+        g.vs,
+        this._success ? c.redYellow2 : c.redYellow5,
+      );
     } else if (!this._timerMid.hasFinished) {
-      b_.clearCanvas(c.blueGreen5);
+      b_.rectFilled(v_0_0_, g.vs, this._success ? c.redYellow2 : c.redYellow5);
+      if (!this._success) {
+        u_.printWithOutline(
+          "death",
+          g.vs.div(2).sub(0, 4),
+          c.blueGreen3,
+          c.blueGreen5,
+          {
+            centerXy: [true, true],
+          },
+        );
+      }
     } else if (!this._timerOut.hasFinished) {
       const transitionX = u_.lerp(
         g.vs.x,
         0,
         BpxEasing.outQuartic(this._timerOut.progress),
       );
-      b_.rectFilled(v_0_0_, v_(transitionX, g.vs.y), c.blueGreen5);
+      b_.rectFilled(
+        v_0_0_,
+        v_(transitionX, g.vs.y),
+        this._success ? c.redYellow2 : c.redYellow5,
+      );
     }
   }
 }
