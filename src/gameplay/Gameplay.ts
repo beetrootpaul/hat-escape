@@ -66,6 +66,7 @@ export class Gameplay {
 
   didHeroTouchedMob(): boolean {
     if (this._touchedMob) return true;
+    if (this._hero.isDashing) return false;
 
     const hcc = this._hero.collisionCircle;
     return this._mobs.some((m) =>

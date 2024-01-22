@@ -1,4 +1,4 @@
-import { b_, BpxVector2d, v_0_0_ } from "@beetpx/beetpx";
+import { b_, BpxTimer, BpxVector2d, timer_, v_0_0_ } from "@beetpx/beetpx";
 import { CollisionCircle } from "../collisions/CollisionCircle";
 import { Collisions } from "../collisions/Collisions";
 import { g } from "../globals";
@@ -22,16 +22,23 @@ export class Hero {
     0,
     true,
   );
+  private static _dashActiveFrames: number = 6;
+  private static _dashRefreshFrames: number = 20;
 
   constructor(params: { center: BpxVector2d }) {
     this._sprite = Hero._spriteLeft;
     this._center = params.center;
     this._speed = v_0_0_;
+    this._dashTimer = timer_(Hero._dashActiveFrames + Hero._dashRefreshFrames);
+    while (!this._dashTimer.hasFinished) {
+      this._dashTimer.update();
+    }
   }
 
   private _sprite: StaticSprite;
   private _center: BpxVector2d;
   private _speed: BpxVector2d;
+  private _dashTimer: BpxTimer;
 
   get collisionCircle(): CollisionCircle {
     return {
@@ -40,8 +47,13 @@ export class Hero {
     };
   }
 
-  update(directions: BpxVector2d, room: Room): void {
-    this._speed = directions.mul(1.3);
+  get isDashing(): boolean {
+    return this._dashTimer.framesLeft > Hero._dashRefreshFrames;
+  }
+
+  update(directions: BpxVector2d, tryDash: boolean, room: Room): void {
+    this._speed = directions.mul(this.isDashing ? 5.2 : 1.3);
+
     if (this._speed.x !== 0 && this._speed.y !== 0) {
       // normalization of diagonal speed
       this._speed = this._speed.div(1.41);
@@ -65,6 +77,11 @@ export class Hero {
         }
       }
     }
+
+    if (tryDash && this._dashTimer.hasFinished) {
+      this._dashTimer.restart();
+    }
+    this._dashTimer.update();
   }
 
   draw(): void {

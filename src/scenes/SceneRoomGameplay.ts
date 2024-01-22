@@ -17,6 +17,7 @@ export class SceneRoomGameplay implements Scene {
     this._gameplay.light.update();
     this._gameplay.hero.update(
       b_.areDirectionsPressedAsVector(),
+      b_.wasJustPressed("a"),
       this._gameplay.room,
     );
     for (const mobSpawner of this._gameplay.mobSpawners) {
