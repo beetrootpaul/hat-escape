@@ -52,6 +52,7 @@ export class Mob {
 
   draw(): void {
     this._sprite.draw(this._center);
+
     if (b_.debug) {
       Collisions.drawCollisionCircle(this.collisionCircle);
     }

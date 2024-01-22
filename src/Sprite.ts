@@ -35,7 +35,7 @@ export class StaticSprite {
 export class AnimatedSprite {
   private readonly _sprites: BpxSprite[];
   private readonly _offset: BpxVector2d;
-  private _frame: number = 0;
+  private _frame: number;
   private readonly _framesN: number;
 
   constructor(
@@ -46,6 +46,7 @@ export class AnimatedSprite {
     spriteY: number,
     centered: boolean,
   ) {
+    this._frame = 0;
     this._framesN = spriteXs.length;
 
     this._sprites = u_

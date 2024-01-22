@@ -64,13 +64,23 @@ export class Gameplay {
     );
   }
 
-  didHeroTouchedMob(): boolean {
+  didHeroGetHitByMob(): boolean {
     if (this._touchedMob) return true;
     if (this._hero.isDashing) return false;
+    if (this._hero.isAttacking) return false;
 
     const hcc = this._hero.collisionCircle;
     return this._mobs.some((m) =>
       Collisions.areColliding(m.collisionCircle, hcc),
+    );
+  }
+
+  destroyMobsAttackedByHero(): void {
+    if (!this._hero.isAttacking) return;
+
+    const hcc = this._hero.attackCollisionCircle;
+    this._mobs = this._mobs.filter(
+      (m) => !Collisions.areColliding(m.collisionCircle, hcc),
     );
   }
 

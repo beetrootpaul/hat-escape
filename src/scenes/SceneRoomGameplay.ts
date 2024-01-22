@@ -15,20 +15,26 @@ export class SceneRoomGameplay implements Scene {
 
   update(): void {
     this._gameplay.light.update();
+
     this._gameplay.hero.update(
       b_.areDirectionsPressedAsVector(),
       b_.wasJustPressed("a"),
+      b_.wasJustPressed("b"),
       this._gameplay.room,
     );
+
     for (const mobSpawner of this._gameplay.mobSpawners) {
       const spawnedMob = mobSpawner.update(this._gameplay.hero);
       if (spawnedMob) {
         this._gameplay.addMob(spawnedMob);
       }
     }
+
     for (const mob of this._gameplay.mobs) {
       mob.update(this._gameplay.room);
     }
+
+    this._gameplay.destroyMobsAttackedByHero();
   }
 
   postUpdate(): Scene | null {
@@ -38,7 +44,7 @@ export class SceneRoomGameplay implements Scene {
         success: true,
       });
     }
-    if (this._gameplay.didHeroTouchedMob()) {
+    if (this._gameplay.didHeroGetHitByMob()) {
       return new SceneRoomTransition({
         gameplay: this._gameplay,
         success: false,
