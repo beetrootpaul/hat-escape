@@ -1,4 +1,6 @@
 import { b_, v_1_1_ } from "@beetpx/beetpx";
+import { Hud } from "../Hud";
+import { MaxReachedRoom } from "../MaxReachedRoom";
 import { Gameplay } from "../gameplay/Gameplay";
 import { c } from "../globals";
 import { Scene } from "./Scene";
@@ -10,6 +12,7 @@ export class SceneRoomGameplay implements Scene {
   }
 
   private readonly _gameplay: Gameplay;
+  private readonly _hud: Hud = new Hud();
 
   init(): void {}
 
@@ -72,5 +75,7 @@ export class SceneRoomGameplay implements Scene {
       mob.draw();
     }
     this._gameplay.light.draw();
+
+    this._hud.draw(this._gameplay.roomNumber, MaxReachedRoom.maxReached);
   }
 }

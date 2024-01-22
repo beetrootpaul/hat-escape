@@ -21,7 +21,9 @@ export class SceneTitleAndControls implements Scene {
   postUpdate(): Scene | null {
     if (this._canProceed) {
       AudioManager.makeMusicNotDamped();
-      return new SceneRoomGameplay({ gameplay: new Gameplay() });
+      return new SceneRoomGameplay({
+        gameplay: new Gameplay(),
+      });
     }
     return null;
   }

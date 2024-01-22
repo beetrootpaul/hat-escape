@@ -2,6 +2,7 @@ import { b_, BpxRgbColor } from "@beetpx/beetpx";
 import { AudioManager } from "./audio/AudioManager";
 import { g } from "./globals";
 import { MagicBookFont } from "./MagicBookFont";
+import { MaxReachedRoom } from "./MaxReachedRoom";
 import { PauseMenu } from "./pause/PauseMenu";
 import { RoomBlueprints } from "./RoomBlueprints";
 import { Scene } from "./scenes/Scene";
@@ -69,6 +70,7 @@ b_.init(
 
     // rooms
     RoomBlueprints.loadFromLdtkJson(b_.getJsonAsset(g.jsons.roomsLdtk).json);
+    MaxReachedRoom.loadFromStorage();
 
     // scene
     currentScene = new SceneBrp();

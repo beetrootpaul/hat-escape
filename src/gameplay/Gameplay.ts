@@ -1,3 +1,4 @@
+import { MaxReachedRoom } from "../MaxReachedRoom";
 import { RoomBlueprints } from "../RoomBlueprints";
 import { Collisions } from "../collisions/Collisions";
 import { Hero } from "./Hero";
@@ -93,6 +94,8 @@ export class Gameplay {
     this._mobs = [];
     this._reachedLight = false;
     this._touchedMob = false;
+
+    MaxReachedRoom.saveToStorageIfHigher(this._roomNumber);
   }
 
   restart() {

@@ -11,6 +11,8 @@ import {
 import { AudioManager } from "../audio/AudioManager";
 import { Gameplay } from "../gameplay/Gameplay";
 import { c, g } from "../globals";
+import { Hud } from "../Hud";
+import { MaxReachedRoom } from "../MaxReachedRoom";
 import { Scene } from "./Scene";
 import { SceneRoomGameplay } from "./SceneRoomGameplay";
 
@@ -24,6 +26,7 @@ export class SceneRoomTransition implements Scene {
   }
 
   private readonly _gameplay: Gameplay;
+  private readonly _hud: Hud = new Hud();
   private readonly _success: boolean;
   private readonly _timerIn: BpxTimer;
   private readonly _timerMid: BpxTimer;
@@ -105,6 +108,8 @@ export class SceneRoomTransition implements Scene {
       mob.draw();
     }
     this._gameplay.light.draw();
+
+    this._hud.draw(this._gameplay.roomNumber, MaxReachedRoom.maxReached);
 
     if (!this._timerIn.hasFinished) {
       const transitionX = u_.lerp(
