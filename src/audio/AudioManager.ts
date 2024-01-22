@@ -1,8 +1,6 @@
 import { b_, BpxAudioPlaybackId } from "@beetpx/beetpx";
 import { g } from "../globals";
 
-// TODO: music blips every loop
-
 export class AudioManager {
   private static _playbackMusicDamped: BpxAudioPlaybackId | null = null;
   private static _playbackMusicRegular: BpxAudioPlaybackId | null = null;

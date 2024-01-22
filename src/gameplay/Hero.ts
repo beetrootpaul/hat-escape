@@ -76,7 +76,7 @@ export class Hero {
     directions: BpxVector2d,
     tryDash: boolean,
     tryAttack: boolean,
-    room: Room,
+    room: Room | null,
   ): void {
     this._speed = directions.mul(this.isDashing ? 5.2 : 1.3);
 
@@ -94,7 +94,7 @@ export class Hero {
     const diff = this._speed;
     const prevCenter = this._center;
     this._center = prevCenter.add(diff);
-    if (room.doesCollideWithAnyWall(this.collisionCircle)) {
+    if (room?.doesCollideWithAnyWall(this.collisionCircle)) {
       this._center = prevCenter.add(diff.x, 0);
       if (room.doesCollideWithAnyWall(this.collisionCircle)) {
         this._center = prevCenter.add(0, diff.y);
