@@ -14,12 +14,13 @@ export class SceneRoomGameplay implements Scene {
   init(): void {}
 
   update(): void {
+    this._gameplay.light.update();
     this._gameplay.hero.move(b_.areDirectionsPressedAsVector());
     this._gameplay.hero.update();
   }
 
   postUpdate(): Scene | null {
-    if (b_.wasJustPressed("a")) {
+    if (this._gameplay.didHeroReachedLight()) {
       return new SceneRoomTransition({
         gameplay: this._gameplay,
         success: true,
@@ -42,5 +43,6 @@ export class SceneRoomGameplay implements Scene {
 
     this._gameplay.room.draw();
     this._gameplay.hero.draw();
+    this._gameplay.light.draw();
   }
 }

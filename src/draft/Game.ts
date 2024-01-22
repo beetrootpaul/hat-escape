@@ -12,7 +12,7 @@ import {
   v_1_1_,
   white_,
 } from "@beetpx/beetpx";
-import { Collisions } from "./collisions/Collisions";
+import { Collisions } from "../collisions/Collisions";
 import { Enemy } from "./Enemy";
 import { EnemySpawner } from "./EnemySpawner";
 import { Hero } from "./Hero";

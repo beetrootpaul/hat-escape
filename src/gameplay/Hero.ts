@@ -1,6 +1,8 @@
-import { BpxVector2d, v_0_0_ } from "@beetpx/beetpx";
-import { StaticSprite } from "../Sprite";
+import { b_, BpxVector2d, v_0_0_ } from "@beetpx/beetpx";
+import { CollisionCircle } from "../collisions/CollisionCircle";
+import { Collisions } from "../collisions/Collisions";
 import { g } from "../globals";
+import { StaticSprite } from "../Sprite";
 
 export class Hero {
   private static _spriteLeft = new StaticSprite(
@@ -20,15 +22,22 @@ export class Hero {
     true,
   );
 
-  constructor(params: { xy: BpxVector2d }) {
+  constructor(params: { center: BpxVector2d }) {
     this._sprite = Hero._spriteLeft;
-    this._xy = params.xy;
+    this._center = params.center;
     this._speed = v_0_0_;
   }
 
   private _sprite: StaticSprite;
-  private _xy: BpxVector2d;
+  private _center: BpxVector2d;
   private _speed: BpxVector2d;
+
+  get collisionCircle(): CollisionCircle {
+    return {
+      center: this._center,
+      r: 4,
+    };
+  }
 
   move(directions: BpxVector2d) {
     this._speed = directions.mul(1.3);
@@ -45,10 +54,13 @@ export class Hero {
   }
 
   update(): void {
-    this._xy = this._xy.add(this._speed);
+    this._center = this._center.add(this._speed);
   }
 
   draw(): void {
-    this._sprite.draw(this._xy);
+    this._sprite.draw(this._center);
+    if (b_.debug) {
+      Collisions.drawCollisionCircle(this.collisionCircle);
+    }
   }
 }

@@ -11,7 +11,7 @@ import {
   v_,
   v_0_0_,
 } from "@beetpx/beetpx";
-import { CollisionCircle } from "./collisions/CollisionCircle";
+import { CollisionCircle } from "../collisions/CollisionCircle";
 import { EnemyTarget } from "./EnemyTarget";
 import { Wall } from "./Wall";
 

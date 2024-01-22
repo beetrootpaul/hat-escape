@@ -27,6 +27,8 @@ export class SceneRoomTransition implements Scene {
   }
 
   update(): void {
+    this._gameplay.light.update();
+
     if (this._timerIn.hasJustFinished) {
       if (this._success) {
         this._gameplay.loadNextRoom();
@@ -80,5 +82,6 @@ export class SceneRoomTransition implements Scene {
 
     this._gameplay.room.draw();
     this._gameplay.hero.draw();
+    this._gameplay.light.draw();
   }
 }

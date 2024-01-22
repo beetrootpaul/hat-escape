@@ -1,5 +1,5 @@
 import { b_, BpxVector2d, rgb_, v_ } from "@beetpx/beetpx";
-import { CollisionCircle } from "./collisions/CollisionCircle";
+import { CollisionCircle } from "../collisions/CollisionCircle";
 
 export class Light {
   #xy: BpxVector2d;

@@ -1,5 +1,5 @@
 import { b_, BpxVector2d, rgb_ } from "@beetpx/beetpx";
-import { CollisionCircle } from "./collisions/CollisionCircle";
+import { CollisionCircle } from "../collisions/CollisionCircle";
 
 export class Wall {
   #xy: BpxVector2d;
