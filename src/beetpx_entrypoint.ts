@@ -1,12 +1,19 @@
 import { b_, BpxRgbColor } from "@beetpx/beetpx";
-import { Game } from "./Game";
+import { AudioManager } from "./audio/AudioManager";
 import { g } from "./globals";
 import { MagicBookFont } from "./MagicBookFont";
-import { PauseScreen } from "./PauseScreen";
+import { MaxReachedRoom } from "./MaxReachedRoom";
+import { PauseMenu } from "./pause/PauseMenu";
+import { RoomBlueprints } from "./RoomBlueprints";
+import { Scene } from "./scenes/Scene";
+import { SceneBrp } from "./scenes/SceneBrp";
 
-const magicBookFont = new MagicBookFont();
+const magicBookFont: MagicBookFont = new MagicBookFont();
 
-const pause = new PauseScreen();
+let pauseMenu: PauseMenu | null = null;
+
+let currentScene: Scene | null = null;
+let nextScene: Scene | null = null;
 
 b_.init(
   {
@@ -15,7 +22,13 @@ b_.init(
     debugFeatures: !BEETPX__IS_PROD,
   },
   {
-    images: [{ url: g.images.font }],
+    images: [
+      { url: g.images.font },
+      { url: g.images.attack },
+      { url: g.images.hero },
+      { url: g.images.light },
+      { url: g.images.tiles },
+    ],
     fonts: [
       {
         font: magicBookFont,
@@ -32,42 +45,53 @@ b_.init(
       { url: g.music.melody1 },
       { url: g.music.melody2 },
     ],
-    jsons: [{ url: g.jsons.font }],
+    jsons: [{ url: g.jsons.font }, { url: g.jsons.roomsLdtk }],
   },
 ).then(async ({ startGame }) => {
-  // TODO: on start / restart
-
-  const game = new Game();
   b_.setOnStarted(() => {
+    // font
     magicBookFont.setMetrics(b_.getJsonAsset(g.jsons.font));
     b_.setFont(g.fonts.magicBook);
-  });
-  b_.setOnUpdate(() => {
-    if (PauseScreen.isGamePaused) {
-      if (b_.wasJustPressed("menu")) {
-        PauseScreen.isGamePaused = false;
-      }
-    } else {
-      if (b_.wasJustPressed("menu")) {
-        PauseScreen.isGamePaused = true;
-      }
-    }
 
-    if (PauseScreen.isGamePaused) {
-      // do nothing
-    } else {
-      game.update();
-    }
+    // input
+    b_.setRepeating("left", false);
+    b_.setRepeating("right", false);
+    b_.setRepeating("up", false);
+    b_.setRepeating("down", false);
+    b_.setRepeating("a", false);
+    b_.setRepeating("b", false);
+    b_.setRepeating("menu", false);
+
+    // audio
+    AudioManager.restart();
+
+    // pause
+    pauseMenu = new PauseMenu();
+
+    // rooms
+    RoomBlueprints.loadFromLdtkJson(b_.getJsonAsset(g.jsons.roomsLdtk).json);
+    MaxReachedRoom.loadFromStorage();
+
+    // scene
+    currentScene = new SceneBrp();
   });
-  b_.setOnDraw(() => {
-    if (PauseScreen.isGamePaused) {
-      pause.draw();
-    } else {
-      game.draw();
+
+  b_.setOnUpdate(() => {
+    if (!pauseMenu?.isActive) {
+      nextScene = currentScene?.postUpdate() ?? null;
+      if (nextScene) {
+        currentScene = nextScene;
+        currentScene.init();
+      }
+      currentScene?.update();
     }
+    pauseMenu?.update();
+  });
+
+  b_.setOnDraw(() => {
+    currentScene?.draw();
+    pauseMenu?.draw();
   });
 
   await startGame();
 });
-
-// TODO: --htmlIcon

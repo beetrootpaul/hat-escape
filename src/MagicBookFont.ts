@@ -5,28 +5,28 @@ export class MagicBookFont implements BpxFont {
   id: string = g.fonts.magicBook;
   imageUrl: string = g.images.font;
 
-  #metrics: any;
-  #kerningData: Array<{
+  private _metrics: any;
+  private _kerningData: Array<{
     leftCode: number;
     rightCode: number;
     kerningX: number;
   }> = [];
 
   setMetrics(metrics: any): void {
-    this.#metrics = metrics;
+    this._metrics = metrics;
     console.log(metrics.json.kerning.length);
     for (let i = 0; i < metrics.json.kerning.length; i++) {
-      this.#kerningData.push({
+      this._kerningData.push({
         leftCode: metrics.json.kerning[i * 3],
         rightCode: metrics.json.kerning[i * 3 + 1],
         kerningX: metrics.json.kerning[i * 3 + 2],
       });
     }
-    console.log(this.#kerningData);
+    console.log(this._kerningData);
   }
 
   spritesFor(text: string): BpxCharSprite[] {
-    const j = this.#metrics.json;
+    const j = this._metrics.json;
     const sprites: BpxCharSprite[] = [];
     let prevCode = -1;
 
@@ -42,7 +42,7 @@ export class MagicBookFont implements BpxFont {
       }
 
       let kerningX = 0;
-      const datum = this.#kerningData.find(
+      const datum = this._kerningData.find(
         (k) => k.leftCode == prevCode && k.rightCode == code,
       );
       if (datum) {

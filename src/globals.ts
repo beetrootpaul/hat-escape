@@ -1,13 +1,27 @@
-import { v_ } from "@beetpx/beetpx";
+import {
+  BpxCanvasSnapshotColorMapping,
+  BpxRgbColor,
+  rgb_,
+  v_,
+} from "@beetpx/beetpx";
 
 export const g = {
-  viewport: v_(128, 128),
-  tile: v_(8, 8),
+  fps: 60,
+  // viewport size
+  vs: v_(128, 128),
+  // tile size
+  ts: v_(8, 8),
+
   images: {
-    font: "atlas32.png",
+    font: "ChevyRay_MagicBook_atlas.png",
+    attack: "attack.png",
+    hero: "hero.png",
+    light: "light.png",
+    tiles: "tiles.png",
   },
   jsons: {
-    font: "metrics.json",
+    font: "ChevyRay_MagicBook_metrics.json",
+    roomsLdtk: "rooms.json",
   },
   fonts: {
     magicBook: "magicBook",
@@ -22,4 +36,29 @@ export const g = {
     melody1: "melody_1.flac",
     melody2: "melody_2.flac",
   },
+};
+
+export const c = {
+  // Palette: Rebirth, created by VII
+  //   - https://lospec.com/palette-list/rebirth
+  //   - https://lospec.com/ventiique
+  blueGreen5: BpxRgbColor.fromCssHex("#0d0812"),
+  blueGreen4: BpxRgbColor.fromCssHex("#162c54"),
+  blueGreen3: BpxRgbColor.fromCssHex("#1c4c62"),
+  blueGreen2: BpxRgbColor.fromCssHex("#3b6166"),
+  blueGreen1: BpxRgbColor.fromCssHex("#46857b"),
+  redYellow5: BpxRgbColor.fromCssHex("#8f154f"),
+  redYellow4: BpxRgbColor.fromCssHex("#b82d46"),
+  redYellow3: BpxRgbColor.fromCssHex("#df803e"),
+  redYellow2: BpxRgbColor.fromCssHex("#e2a560"),
+  redYellow1: BpxRgbColor.fromCssHex("#edce5e"),
+};
+
+export const cm = {
+  snapshotDarker: BpxCanvasSnapshotColorMapping.of(
+    (canvasColor: BpxRgbColor | null): BpxRgbColor | null => {
+      if (!canvasColor) return canvasColor;
+      return rgb_(canvasColor.r / 2, canvasColor.g / 2, canvasColor.b / 2);
+    },
+  ),
 };
