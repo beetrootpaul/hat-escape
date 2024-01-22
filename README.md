@@ -7,6 +7,8 @@
 
 It's game created during a weekend for a 150th Mini Jam: https://itch.io/jam/mini-jam-150-magic
 
+![](assets/itch/cover.png)
+
 ---
 
 Tested on:
@@ -36,3 +38,4 @@ Tools used to create this game;
 - Aseprite (sprites)
 - LDtk (levels)
 - PICO-8 (music)
+
