@@ -36,10 +36,14 @@ export class SceneRoomGameplay implements Scene {
   }
 
   draw(): void {
-    b_.clearCanvas(c.black);
-    b_.print("gameplay", v_1_1_, c.green);
-    b_.print(`room ${this._gameplay.roomNumber}`, v_1_1_.add(0, 20), c.green);
-    b_.print("TODO", v_1_1_.add(0, 40), c.green);
+    b_.clearCanvas(c.blueGreen5);
+    b_.print("gameplay", v_1_1_, c.blueGreen1);
+    b_.print(
+      `room ${this._gameplay.roomNumber}`,
+      v_1_1_.add(0, 20),
+      c.blueGreen1,
+    );
+    b_.print("TODO", v_1_1_.add(0, 40), c.blueGreen1);
 
     this._gameplay.room.draw();
     this._gameplay.hero.draw();

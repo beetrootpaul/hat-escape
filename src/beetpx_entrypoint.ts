@@ -1,7 +1,7 @@
 import { b_, BpxRgbColor } from "@beetpx/beetpx";
 import { AudioManager } from "./audio/AudioManager";
-import { MagicBookFont } from "./draft/MagicBookFont";
 import { g } from "./globals";
+import { MagicBookFont } from "./MagicBookFont";
 import { PauseMenu } from "./pause/PauseMenu";
 import { RoomBlueprints } from "./RoomBlueprints";
 import { Scene } from "./scenes/Scene";

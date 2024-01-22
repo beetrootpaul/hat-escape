@@ -1,7 +1,16 @@
-import { b_, BpxTimer, timer_, v_1_1_ } from "@beetpx/beetpx";
+import {
+  b_,
+  BpxEasing,
+  BpxTimer,
+  timer_,
+  u_,
+  v_,
+  v_0_0_,
+  v_1_1_,
+} from "@beetpx/beetpx";
 import { AudioManager } from "../audio/AudioManager";
 import { Gameplay } from "../gameplay/Gameplay";
-import { c } from "../globals";
+import { c, g } from "../globals";
 import { Scene } from "./Scene";
 import { SceneRoomGameplay } from "./SceneRoomGameplay";
 
@@ -57,31 +66,53 @@ export class SceneRoomTransition implements Scene {
   }
 
   draw(): void {
-    b_.clearCanvas(c.black);
+    b_.clearCanvas(c.blueGreen5);
     if (!this._timerIn.hasFinished) {
-      b_.print("transition IN", v_1_1_, c.white);
+      b_.print("transition IN", v_1_1_, c.redYellow1);
       b_.print(
         `(room=${this._gameplay.roomNumber})`,
         v_1_1_.add(0, 20),
-        c.white,
+        c.redYellow1,
       );
-      b_.print("TODO", v_1_1_.add(0, 40), c.white);
+      b_.print("TODO", v_1_1_.add(0, 40), c.redYellow1);
     } else if (!this._timerMid.hasFinished) {
-      b_.print("transition MID", v_1_1_, c.red);
-      b_.print(`(room=${this._gameplay.roomNumber})`, v_1_1_.add(0, 20), c.red);
-      b_.print("TODO", v_1_1_.add(0, 40), c.red);
-    } else if (!this._timerOut.hasFinished) {
-      b_.print("transition OUT", v_1_1_, c.blue);
+      b_.print("transition MID", v_1_1_, c.redYellow5);
       b_.print(
         `(room=${this._gameplay.roomNumber})`,
         v_1_1_.add(0, 20),
-        c.blue,
+        c.redYellow5,
       );
-      b_.print("TODO", v_1_1_.add(0, 40), c.blue);
+      b_.print("TODO", v_1_1_.add(0, 40), c.redYellow5);
+    } else if (!this._timerOut.hasFinished) {
+      b_.print("transition OUT", v_1_1_, c.blueGreen4);
+      b_.print(
+        `(room=${this._gameplay.roomNumber})`,
+        v_1_1_.add(0, 20),
+        c.blueGreen4,
+      );
+      b_.print("TODO", v_1_1_.add(0, 40), c.blueGreen4);
     }
 
     this._gameplay.room.draw();
     this._gameplay.hero.draw();
     this._gameplay.light.draw();
+
+    if (!this._timerIn.hasFinished) {
+      const transitionX = u_.lerp(
+        g.vs.x,
+        0,
+        BpxEasing.inQuartic(this._timerIn.progress),
+      );
+      b_.rectFilled(v_(transitionX, 0), g.vs, c.blueGreen5);
+    } else if (!this._timerMid.hasFinished) {
+      b_.clearCanvas(c.blueGreen5);
+    } else if (!this._timerOut.hasFinished) {
+      const transitionX = u_.lerp(
+        g.vs.x,
+        0,
+        BpxEasing.outQuartic(this._timerOut.progress),
+      );
+      b_.rectFilled(v_0_0_, v_(transitionX, g.vs.y), c.blueGreen5);
+    }
   }
 }

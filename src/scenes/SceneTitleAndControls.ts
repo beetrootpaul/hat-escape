@@ -27,13 +27,13 @@ export class SceneTitleAndControls implements Scene {
   }
 
   draw(): void {
-    b_.clearCanvas(c.black);
-    b_.print("title", v_1_1_, c.green);
+    b_.clearCanvas(c.blueGreen5);
+    b_.print("title", v_1_1_, c.blueGreen1);
     b_.print(
       "make player test dash, attack, movement, menu",
       v_1_1_.add(0, 20),
-      c.green,
+      c.blueGreen1,
     );
-    b_.print("TODO", v_1_1_.add(0, 40), c.green);
+    b_.print("TODO", v_1_1_.add(0, 40), c.blueGreen1);
   }
 }

@@ -23,7 +23,7 @@ export class PauseMenuEntrySimple implements PauseMenuEntry {
   }
 
   draw(xy: BpxVector2d): void {
-    b_.print(this._text, xy, this._isFocused ? c.white : c.blue);
+    b_.print(this._text, xy, this._isFocused ? c.redYellow1 : c.blueGreen4);
   }
 
   execute(): void {

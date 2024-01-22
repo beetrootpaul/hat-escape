@@ -16,14 +16,12 @@ import { Collisions } from "../collisions/Collisions";
 import { Enemy } from "./Enemy";
 import { EnemySpawner } from "./EnemySpawner";
 import { Hero } from "./Hero";
-import { Light } from "./Light";
 import { Room } from "./Room";
 
 export class Game {
   readonly #hero: Hero;
   #room: Room;
   #roomCounter: number;
-  #light: Light;
   #roomTransition: BpxTimer | null;
   #shouldRespawn: boolean;
   #enemySpawners: EnemySpawner[];
@@ -34,7 +32,6 @@ export class Game {
     this.#roomCounter = 1;
     this.#room = new Room();
     this.#hero = new Hero(this.#room.getCenter());
-    this.#light = new Light(this.#room.getLightXy());
     this.#roomTransition = null;
     this.#shouldRespawn = false;
     this.#enemySpawners = [
@@ -71,20 +68,13 @@ export class Game {
       this.#roomCounter += 1;
       this.#room = new Room();
       this.#hero.respawnAt(this.#room.getCenter());
-      this.#light = new Light(this.#room.getLightXy());
       for (const es of this.#enemySpawners) {
         es.restart();
       }
       this.#enemies = [];
     }
 
-    if (
-      !this.#roomTransition &&
-      Collisions.areColliding(
-        this.#light.getCollisionCircle(),
-        this.#hero.getCollisionCircle(),
-      )
-    ) {
+    if (!this.#roomTransition) {
       this.#roomTransition = timer_(60);
       this.#shouldRespawn = true;
       this.#transitionColor = rgb_(110, 110, 110);
@@ -147,7 +137,6 @@ export class Game {
     for (const enemy of this.#enemies) {
       enemy.draw();
     }
-    this.#light.draw();
 
     u_.printWithOutline(`room ${this.#roomCounter}`, v_1_1_, white_, black_);
 

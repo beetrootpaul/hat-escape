@@ -129,9 +129,9 @@ export class PauseMenu {
   }
 
   private _drawMenuBox(xy: BpxVector2d, wh: BpxVector2d): void {
-    b_.rectFilled(xy.sub(2), wh.add(4), c.black);
+    b_.rectFilled(xy.sub(2), wh.add(4), c.blueGreen5);
 
-    b_.rect(xy.sub(1), wh.add(2), c.white);
+    b_.rect(xy.sub(1), wh.add(2), c.redYellow1);
   }
 
   private _drawEntry(
@@ -144,7 +144,7 @@ export class PauseMenu {
     entry.draw(xy);
 
     if (this._focusedEntry === entryIndex) {
-      b_.pixels(PauseMenu._arrowPixels, xy.add(-7, 4), c.white);
+      b_.pixels(PauseMenu._arrowPixels, xy.add(-7, 4), c.redYellow1);
     }
   }
 }

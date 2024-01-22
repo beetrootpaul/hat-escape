@@ -31,8 +31,8 @@ export class SceneBrp implements Scene {
   }
 
   draw(): void {
-    b_.clearCanvas(c.black);
-    b_.print("Beetroot Paul logo", v_1_1_, c.green);
-    b_.print("TODO", v_1_1_.add(0, 40), c.green);
+    b_.clearCanvas(c.blueGreen5);
+    b_.print("Beetroot Paul logo", v_1_1_, c.blueGreen1);
+    b_.print("TODO", v_1_1_.add(0, 40), c.blueGreen1);
   }
 }
