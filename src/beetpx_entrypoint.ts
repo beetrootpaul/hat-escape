@@ -6,7 +6,7 @@ import { MaxReachedRoom } from "./MaxReachedRoom";
 import { PauseMenu } from "./pause/PauseMenu";
 import { RoomBlueprints } from "./RoomBlueprints";
 import { Scene } from "./scenes/Scene";
-import { SceneBrp } from "./scenes/SceneBrp";
+import { SceneTitleAndControls } from "./scenes/SceneTitleAndControls";
 
 const magicBookFont: MagicBookFont = new MagicBookFont();
 
@@ -74,7 +74,8 @@ b_.init(
     MaxReachedRoom.loadFromStorage();
 
     // scene
-    currentScene = new SceneBrp();
+    currentScene = new SceneTitleAndControls();
+    currentScene.init();
   });
 
   b_.setOnUpdate(() => {
