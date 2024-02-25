@@ -1,3 +1,6 @@
+# LDtk: backups
+/assets/rooms/backups/
+
 # BeetPx: generated and temporary files
 /.beetpx/
 /index.html
