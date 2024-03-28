@@ -4,6 +4,6 @@
 npm install
 
 npm run format
-npm run typecheck
+npm run tsc
 
 git add --all .
