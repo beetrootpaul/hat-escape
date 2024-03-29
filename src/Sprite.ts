@@ -28,7 +28,7 @@ export class StaticSprite {
   update(): void {}
 
   draw(xy: BpxVector2d): void {
-    b_.sprite(this._sprite, xy.add(this._offset));
+    b_.drawSprite(this._sprite, xy.add(this._offset));
   }
 }
 
@@ -62,6 +62,6 @@ export class AnimatedSprite {
   }
 
   draw(xy: BpxVector2d): void {
-    b_.sprite(this._sprites[this._frame]!, xy.add(this._offset));
+    b_.drawSprite(this._sprites[this._frame]!, xy.add(this._offset));
   }
 }

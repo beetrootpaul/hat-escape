@@ -20,9 +20,9 @@ export class SceneRoomGameplay implements Scene {
     this._gameplay.light.update();
 
     this._gameplay.hero.update(
-      b_.areDirectionsPressedAsVector(),
-      b_.wasJustPressed("a"),
-      b_.wasJustPressed("b"),
+      b_.getPressedDirection(),
+      b_.wasButtonJustPressed("a"),
+      b_.wasButtonJustPressed("b"),
       this._gameplay.room,
     );
 
@@ -58,13 +58,13 @@ export class SceneRoomGameplay implements Scene {
 
   draw(): void {
     b_.clearCanvas(c.blueGreen5);
-    b_.print("gameplay", v_1_1_, c.blueGreen1);
-    b_.print(
+    b_.drawText("gameplay", v_1_1_, c.blueGreen1);
+    b_.drawText(
       `room ${this._gameplay.roomNumber}`,
       v_1_1_.add(0, 20),
       c.blueGreen1,
     );
-    b_.print("TODO", v_1_1_.add(0, 40), c.blueGreen1);
+    b_.drawText("TODO", v_1_1_.add(0, 40), c.blueGreen1);
 
     this._gameplay.room.draw();
     for (const mobSpawner of this._gameplay.mobSpawners) {

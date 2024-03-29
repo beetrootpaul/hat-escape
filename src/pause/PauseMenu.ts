@@ -56,7 +56,7 @@ export class PauseMenu {
 
   update(): void {
     if (!this.isActive) {
-      if (b_.wasJustPressed("menu")) {
+      if (b_.wasButtonJustPressed("menu")) {
         this._isActive = true;
       }
       return;
@@ -64,21 +64,21 @@ export class PauseMenu {
 
     if (
       this.isActive &&
-      (b_.wasJustPressed("menu") || b_.wasJustPressed("b"))
+      (b_.wasButtonJustPressed("menu") || b_.wasButtonJustPressed("b"))
     ) {
       this._entryResume?.execute();
       return;
     }
 
-    if (b_.wasJustPressed("a")) {
+    if (b_.wasButtonJustPressed("a")) {
       this._entries[this._focusedEntry]!.execute();
     }
 
-    if (b_.wasJustPressed("up")) {
+    if (b_.wasButtonJustPressed("up")) {
       this._focusedEntry =
         (this._focusedEntry - 1 + this._entries.length) % this._entries.length;
     }
-    if (b_.wasJustPressed("down")) {
+    if (b_.wasButtonJustPressed("down")) {
       this._focusedEntry = (this._focusedEntry + 1) % this._entries.length;
     }
 
@@ -124,13 +124,13 @@ export class PauseMenu {
 
   private _dimContentBehind(): void {
     b_.takeCanvasSnapshot();
-    b_.rectFilled(v_0_0_, g.vs, cm.snapshotDarker);
+    b_.drawRectFilled(v_0_0_, g.vs, cm.snapshotDarker);
   }
 
   private _drawMenuBox(xy: BpxVector2d, wh: BpxVector2d): void {
-    b_.rectFilled(xy.sub(2), wh.add(4), c.blueGreen5);
+    b_.drawRectFilled(xy.sub(2), wh.add(4), c.blueGreen5);
 
-    b_.rect(xy.sub(1), wh.add(2), c.redYellow2);
+    b_.drawRect(xy.sub(1), wh.add(2), c.redYellow2);
   }
 
   private _drawEntry(
@@ -143,7 +143,7 @@ export class PauseMenu {
     entry.draw(xy);
 
     if (this._focusedEntry === entryIndex) {
-      b_.pixels(PauseMenu._arrowPixels, xy.add(-7, 4), c.redYellow2);
+      b_.drawPixels(PauseMenu._arrowPixels, xy.add(-7, 4), c.redYellow2);
     }
   }
 }

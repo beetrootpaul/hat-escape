@@ -125,7 +125,12 @@ export class SceneRoomTransition implements Scene {
     if ("fromTitle" in this._params) {
       this._params.hero.draw();
       this._params.light.draw();
-      u_.printWithOutline("Hat Escape", v_(8, -12), c.redYellow3, c.blueGreen5);
+      u_.drawTextWithOutline(
+        "Hat Escape",
+        v_(8, -12),
+        c.redYellow3,
+        c.blueGreen5,
+      );
     } else {
       this._params.gameplay.room.draw();
       for (const mobSpawner of this._params.gameplay.mobSpawners) {
@@ -149,11 +154,11 @@ export class SceneRoomTransition implements Scene {
         0,
         BpxEasing.inQuartic(this._timerIn.progress),
       );
-      b_.rectFilled(v_(transitionX, -16), g.vs.add(0, 16), this._bgColor);
+      b_.drawRectFilled(v_(transitionX, -16), g.vs.add(0, 16), this._bgColor);
     } else if (!this._timerMid.hasFinished) {
-      b_.rectFilled(v_0_0_, g.vs, this._bgColor);
+      b_.drawRectFilled(v_0_0_, g.vs, this._bgColor);
       if ("fromTitle" in this._params) {
-        u_.printWithOutline(
+        u_.drawTextWithOutline(
           "get ready",
           g.vs.div(2).sub(0, 4),
           c.redYellow3,
@@ -163,7 +168,7 @@ export class SceneRoomTransition implements Scene {
           },
         );
       } else if (!this._params.success) {
-        u_.printWithOutline(
+        u_.drawTextWithOutline(
           "death",
           g.vs.div(2).sub(0, 4),
           c.blueGreen3,
@@ -179,7 +184,7 @@ export class SceneRoomTransition implements Scene {
         0,
         BpxEasing.outQuartic(this._timerOut.progress),
       );
-      b_.rectFilled(v_0_0_, v_(transitionX, g.vs.y), this._bgColor);
+      b_.drawRectFilled(v_0_0_, v_(transitionX, g.vs.y), this._bgColor);
     }
 
     b_.setCameraXy(v_0_0_);

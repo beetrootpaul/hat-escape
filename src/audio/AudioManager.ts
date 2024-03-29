@@ -10,7 +10,7 @@ export class AudioManager {
   }
 
   static startMusicDamped(): void {
-    this._playbackMusicDamped = b_.playSoundSequence({
+    this._playbackMusicDamped = b_.startPlaybackSequence({
       loop: [
         [
           { url: g.music.drums1Damped },
@@ -24,7 +24,9 @@ export class AudioManager {
         ],
       ],
     });
-    this._playbackMusicRegular = b_.playSoundSequence(
+    // TODO: why do I need to unmute immediately?
+    b_.unmutePlayback(this._playbackMusicDamped);
+    this._playbackMusicRegular = b_.startPlaybackSequence(
       {
         loop: [
           [
@@ -39,7 +41,7 @@ export class AudioManager {
           ],
         ],
       },
-      true,
+      { muteOnStart: true },
     );
   }
 

@@ -10,6 +10,6 @@ export class Collisions {
   }
 
   static drawCollisionCircle(cc: CollisionCircle) {
-    b_.ellipse(cc.center.sub(cc.r), v_(2, 2).mul(cc.r), c.redYellow1);
+    b_.drawEllipse(cc.center.sub(cc.r), v_(2, 2).mul(cc.r), c.redYellow1);
   }
 }

@@ -64,26 +64,29 @@ export class Room {
   draw(): void {
     for (let row = 0; row < Room._sizeTiles.y; row++) {
       for (let col = 0; col < Room._sizeTiles.x; col++) {
-        b_.sprite(Room._tileFloor, g.ts.mul(col, row));
+        b_.drawSprite(Room._tileFloor, g.ts.mul(col, row));
       }
     }
 
-    b_.sprite(Room._tileFloorLighterTL, g.ts.mul(this._light.x, this._light.y));
-    b_.sprite(
+    b_.drawSprite(
+      Room._tileFloorLighterTL,
+      g.ts.mul(this._light.x, this._light.y),
+    );
+    b_.drawSprite(
       Room._tileFloorLighterTR,
       g.ts.mul(this._light.x + 1, this._light.y),
     );
-    b_.sprite(
+    b_.drawSprite(
       Room._tileFloorLighterBL,
       g.ts.mul(this._light.x, this._light.y + 1),
     );
-    b_.sprite(
+    b_.drawSprite(
       Room._tileFloorLighterBR,
       g.ts.mul(this._light.x + 1, this._light.y + 1),
     );
 
     for (const ws of this._blueprint.wallSprites) {
-      b_.sprite(Room._tileWall, g.ts.mul(ws));
+      b_.drawSprite(Room._tileWall, g.ts.mul(ws));
     }
   }
 }
