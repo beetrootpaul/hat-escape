@@ -72,6 +72,14 @@ export class Hero {
     return this._attackTimer.framesLeft > Hero._attackRefreshFrames;
   }
 
+  pauseAnimations(): void {
+    this._attackAnimation?.pause();
+  }
+
+  resumeAnimations(): void {
+    this._attackAnimation?.resume();
+  }
+
   update(
     directions: BpxVector2d,
     tryDash: boolean,
@@ -124,8 +132,6 @@ export class Hero {
       );
     }
     this._attackTimer.update();
-
-    this._attackAnimation?.update();
   }
 
   draw(): void {

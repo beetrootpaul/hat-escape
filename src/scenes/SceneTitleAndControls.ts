@@ -30,6 +30,16 @@ export class SceneTitleAndControls implements Scene {
     AudioManager.startMusicDamped();
   }
 
+  pauseAnimations(): void {
+    this._hero.pauseAnimations();
+    this._light.pauseAnimations();
+  }
+
+  resumeAnimations(): void {
+    this._hero.resumeAnimations();
+    this._light.resumeAnimations();
+  }
+
   update(): void {
     this._slideIn.update();
 
@@ -39,7 +49,6 @@ export class SceneTitleAndControls implements Scene {
       b_.wasButtonJustPressed("b"),
       null,
     );
-    this._light.update();
 
     if (
       Collisions.areColliding(

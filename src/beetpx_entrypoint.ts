@@ -85,7 +85,10 @@ b_.init(
         currentScene = nextScene;
         currentScene.init();
       }
+      currentScene?.resumeAnimations();
       currentScene?.update();
+    } else {
+      currentScene?.pauseAnimations();
     }
     pauseMenu?.update();
   });

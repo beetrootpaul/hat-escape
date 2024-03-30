@@ -16,9 +16,23 @@ export class SceneRoomGameplay implements Scene {
 
   init(): void {}
 
-  update(): void {
-    this._gameplay.light.update();
+  pauseAnimations(): void {
+    this._gameplay.light.pauseAnimations();
+    this._gameplay.hero.pauseAnimations();
+    for (const mob of this._gameplay.mobs) {
+      mob.pauseAnimations();
+    }
+  }
 
+  resumeAnimations(): void {
+    this._gameplay.light.resumeAnimations();
+    this._gameplay.hero.resumeAnimations();
+    for (const mob of this._gameplay.mobs) {
+      mob.resumeAnimations();
+    }
+  }
+
+  update(): void {
     this._gameplay.hero.update(
       b_.getPressedDirection(),
       b_.wasButtonJustPressed("a"),

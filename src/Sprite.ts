@@ -36,8 +36,6 @@ export class StaticSprite {
 export class AnimatedSprite {
   private readonly _animatedSprite: BpxAnimatedSprite;
   private readonly _offset: BpxVector2d;
-  private _frame: number;
-  private readonly _framesN: number;
 
   constructor(
     spritesheetUrl: BpxImageUrl,
@@ -47,10 +45,6 @@ export class AnimatedSprite {
     spriteY: number,
     centered: boolean,
   ) {
-    this._frame = 0;
-    this._framesN = spriteXs.length;
-
-    // TODO: this animates even when the game is paused. Fix it
     this._animatedSprite = aspr_(spritesheetUrl)(
       spriteW,
       spriteH,
@@ -59,8 +53,11 @@ export class AnimatedSprite {
     this._offset = centered ? v_(-spriteW / 2, -spriteH / 2) : v_0_0_;
   }
 
-  update(): void {
-    this._frame = (this._frame + 1) % this._framesN;
+  pause(): void {
+    this._animatedSprite.pause();
+  }
+  resume(): void {
+    this._animatedSprite.resume();
   }
 
   draw(xy: BpxVector2d): void {

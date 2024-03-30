@@ -66,11 +66,31 @@ export class SceneRoomTransition implements Scene {
 
   init(): void {}
 
+  pauseAnimations(): void {
+    if ("fromTitle" in this._params) {
+      this._params.light.pauseAnimations();
+    } else {
+      this._params.gameplay.light.pauseAnimations();
+      for (const mob of this._params.gameplay.mobs) {
+        mob.pauseAnimations();
+      }
+    }
+  }
+
+  resumeAnimations(): void {
+    if ("fromTitle" in this._params) {
+      this._params.light.resumeAnimations();
+    } else {
+      this._params.gameplay.light.resumeAnimations();
+      for (const mob of this._params.gameplay.mobs) {
+        mob.resumeAnimations();
+      }
+    }
+  }
+
   update(): void {
     if ("fromTitle" in this._params) {
-      this._params.light.update();
     } else {
-      this._params.gameplay.light.update();
       for (const mob of this._params.gameplay.mobs) {
         mob.update(this._params.gameplay.room);
       }

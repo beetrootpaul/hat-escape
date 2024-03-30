@@ -29,8 +29,12 @@ export class Light {
     };
   }
 
-  update(): void {
-    this._sprite.update();
+  pauseAnimations(): void {
+    this._sprite?.pause();
+  }
+
+  resumeAnimations(): void {
+    this._sprite?.resume();
   }
 
   draw(): void {
