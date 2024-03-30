@@ -24,8 +24,6 @@ export class AudioManager {
         ],
       ],
     });
-    // TODO: why do I need to unmute immediately?
-    b_.unmutePlayback(this._playbackMusicDamped);
     this._playbackMusicRegular = b_.startPlaybackSequence(
       {
         loop: [
