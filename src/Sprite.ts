@@ -1,10 +1,11 @@
 import {
+  aspr_,
   b_,
+  BpxAnimatedSprite,
   BpxImageUrl,
   BpxSprite,
   BpxVector2d,
   spr_,
-  u_,
   v_,
   v_0_0_,
 } from "@beetpx/beetpx";
@@ -21,7 +22,7 @@ export class StaticSprite {
     spriteY: number,
     centered: boolean,
   ) {
-    this._sprite = spr_(spriteSheetUrl)(spriteX, spriteY, spriteW, spriteH);
+    this._sprite = spr_(spriteSheetUrl)(spriteW, spriteH, spriteX, spriteY);
     this._offset = centered ? v_(-spriteW / 2, -spriteH / 2) : v_0_0_;
   }
 
@@ -33,7 +34,7 @@ export class StaticSprite {
 }
 
 export class AnimatedSprite {
-  private readonly _sprites: BpxSprite[];
+  private readonly _animatedSprite: BpxAnimatedSprite;
   private readonly _offset: BpxVector2d;
   private _frame: number;
   private readonly _framesN: number;
@@ -49,11 +50,12 @@ export class AnimatedSprite {
     this._frame = 0;
     this._framesN = spriteXs.length;
 
-    this._sprites = u_
-      .range(this._framesN)
-      .map((frame) =>
-        spr_(spritesheetUrl)(spriteXs[frame]!, spriteY, spriteW, spriteH),
-      );
+    // TODO: this animates even when the game is paused. Fix it
+    this._animatedSprite = aspr_(spritesheetUrl)(
+      spriteW,
+      spriteH,
+      spriteXs.map((x) => [x, spriteY]),
+    );
     this._offset = centered ? v_(-spriteW / 2, -spriteH / 2) : v_0_0_;
   }
 
@@ -62,6 +64,6 @@ export class AnimatedSprite {
   }
 
   draw(xy: BpxVector2d): void {
-    b_.drawSprite(this._sprites[this._frame]!, xy.add(this._offset));
+    b_.drawSprite(this._animatedSprite.current, xy.add(this._offset));
   }
 }

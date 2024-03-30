@@ -6,31 +6,31 @@ import { Wall } from "./Wall";
 
 export class Room {
   private static _sizeTiles: BpxVector2d = v_(16, 14);
-  private static _tileFloor: BpxSprite = spr_(g.images.tiles)(40, 0, 8, 8);
-  private static _tileWall: BpxSprite = spr_(g.images.tiles)(48, 0, 8, 8);
+  private static _tileFloor: BpxSprite = spr_(g.images.tiles)(8, 8, 40, 0);
+  private static _tileWall: BpxSprite = spr_(g.images.tiles)(8, 8, 48, 0);
   private static _tileFloorLighterTL: BpxSprite = spr_(g.images.tiles)(
     8,
+    8,
+    8,
     0,
-    8,
-    8,
   );
   private static _tileFloorLighterTR: BpxSprite = spr_(g.images.tiles)(
+    8,
+    8,
     16,
     0,
-    8,
-    8,
   );
   private static _tileFloorLighterBL: BpxSprite = spr_(g.images.tiles)(
+    8,
+    8,
     24,
     0,
-    8,
-    8,
   );
   private static _tileFloorLighterBR: BpxSprite = spr_(g.images.tiles)(
+    8,
+    8,
     32,
     0,
-    8,
-    8,
   );
 
   constructor(blueprint: RoomBlueprint) {

@@ -71,7 +71,7 @@ export class SceneTitleAndControls implements Scene {
     b_.setCameraXy(v_(0, -16));
 
     if (this._slideIn.hasFinished) {
-      b_.drawSprite(spr_(g.images.controls)(0, 0, 128, 48), v_(7, 11));
+      b_.drawSprite(spr_(g.images.controls)(128, 48, 0, 0), v_(7, 11));
       // b_.drawText("dash: ", v_(8, 12), c.blueGreen1);
       // b_.drawText("attack: ", v_(8, 28), c.blueGreen1);
       // b_.drawText("reach the light! ", v_(8, 44), c.blueGreen1);
