@@ -43,16 +43,16 @@ export const c = {
   // Palette: Rebirth, created by VII
   //   - https://lospec.com/palette-list/rebirth
   //   - https://lospec.com/ventiique
-  blueGreen5: BpxRgbColor.fromCssHex("#0d0812"),
-  blueGreen4: BpxRgbColor.fromCssHex("#162c54"),
-  blueGreen3: BpxRgbColor.fromCssHex("#1c4c62"),
-  blueGreen2: BpxRgbColor.fromCssHex("#3b6166"),
-  blueGreen1: BpxRgbColor.fromCssHex("#46857b"),
-  redYellow5: BpxRgbColor.fromCssHex("#8f154f"),
-  redYellow4: BpxRgbColor.fromCssHex("#b82d46"),
-  redYellow3: BpxRgbColor.fromCssHex("#df803e"),
-  redYellow2: BpxRgbColor.fromCssHex("#e2a560"),
-  redYellow1: BpxRgbColor.fromCssHex("#edce5e"),
+  blueGreen5: rgb_("#0d0812"),
+  blueGreen4: rgb_("#162c54"),
+  blueGreen3: rgb_("#1c4c62"),
+  blueGreen2: rgb_("#3b6166"),
+  blueGreen1: rgb_("#46857b"),
+  redYellow5: rgb_("#8f154f"),
+  redYellow4: rgb_("#b82d46"),
+  redYellow3: rgb_("#df803e"),
+  redYellow2: rgb_("#e2a560"),
+  redYellow1: rgb_("#edce5e"),
 };
 
 export const cm = {

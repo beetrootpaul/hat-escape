@@ -1,14 +1,12 @@
-import { b_, BpxRgbColor } from "@beetpx/beetpx";
-import { AudioManager } from "./audio/AudioManager";
-import { g } from "./globals";
+import { b_ } from "@beetpx/beetpx";
 import { MagicBookFont } from "./MagicBookFont";
 import { MaxReachedRoom } from "./MaxReachedRoom";
-import { PauseMenu } from "./pause/PauseMenu";
 import { RoomBlueprints } from "./RoomBlueprints";
+import { AudioManager } from "./audio/AudioManager";
+import { g } from "./globals";
+import { PauseMenu } from "./pause/PauseMenu";
 import { Scene } from "./scenes/Scene";
 import { SceneTitleAndControls } from "./scenes/SceneTitleAndControls";
-
-const magicBookFont: MagicBookFont = new MagicBookFont();
 
 let pauseMenu: PauseMenu | null = null;
 
@@ -19,38 +17,33 @@ b_.init({
   gameCanvasSize: "128x128",
   fixedTimestep: "60fps",
   debugMode: !BEETPX__IS_PROD,
-  assets: {
-    images: [
-      { url: g.images.font },
-      { url: g.images.attack },
-      { url: g.images.hero },
-      { url: g.images.light },
-      { url: g.images.tiles },
-      { url: g.images.controls },
-    ],
-    fonts: [
-      {
-        font: magicBookFont,
-        spriteTextColor: BpxRgbColor.fromCssHex("#ffffff"),
-      },
-    ],
-    sounds: [
-      { url: g.music.drums1Damped },
-      { url: g.music.bass1Damped },
-      { url: g.music.melody1Damped },
-      { url: g.music.melody2Damped },
-      { url: g.music.drums1 },
-      { url: g.music.bass1 },
-      { url: g.music.melody1 },
-      { url: g.music.melody2 },
-    ],
-    jsons: [{ url: g.jsons.font }, { url: g.jsons.roomsLdtk }],
-  },
+  assets: [
+    // IMAGE files
+    g.images.font,
+    g.images.attack,
+    g.images.hero,
+    g.images.light,
+    g.images.tiles,
+    g.images.controls,
+    // MUSIC files
+    g.music.drums1Damped,
+    g.music.bass1Damped,
+    g.music.melody1Damped,
+    g.music.melody2Damped,
+    g.music.drums1,
+    g.music.bass1,
+    g.music.melody1,
+    g.music.melody2,
+    // JSON files
+    g.jsons.font,
+    g.jsons.roomsLdtk,
+  ],
 }).then(async ({ startGame }) => {
   b_.setOnStarted(() => {
     // font
-    magicBookFont.setMetrics(b_.getJsonAsset(g.jsons.font));
-    b_.setFont(g.fonts.magicBook);
+    const fontMetrics = b_.getJsonAsset(g.jsons.font).json;
+    const magicBookFont: MagicBookFont = new MagicBookFont(fontMetrics);
+    b_.useFont(magicBookFont);
 
     // input
     b_.setButtonRepeating("left", false);

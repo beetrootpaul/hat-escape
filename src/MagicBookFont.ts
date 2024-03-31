@@ -1,69 +1,76 @@
-import { BpxCharSprite, BpxFont, BpxVector2d, v_ } from "@beetpx/beetpx";
+import { BpxFont, BpxGlyph, BpxRgbColor, spr_, v_ } from "@beetpx/beetpx";
 import { g } from "./globals";
 
-export class MagicBookFont implements BpxFont {
-  id: string = g.fonts.magicBook;
-  imageUrl: string = g.images.font;
+type Metrics = {
+  name: string;
+  size: number;
+  ascent: number;
+  descent: number;
+  char_count: number;
+  kerning_count: number;
+  chars: number[];
+  advance: number[];
+  offset_x: number[];
+  offset_y: number[];
+  width: number[];
+  height: number[];
+  pack_x: number[];
+  pack_y: number[];
+  kerning: number[];
+};
 
-  private _metrics: any;
-  private _kerningData: Array<{
-    leftCode: number;
-    rightCode: number;
-    kerningX: number;
-  }> = [];
+export class MagicBookFont extends BpxFont {
+  readonly spriteSheetUrls = [g.images.font];
 
-  setMetrics(metrics: any): void {
-    this._metrics = metrics;
-    console.log(metrics.json.kerning.length);
-    for (let i = 0; i < metrics.json.kerning.length; i++) {
-      this._kerningData.push({
-        leftCode: metrics.json.kerning[i * 3],
-        rightCode: metrics.json.kerning[i * 3 + 1],
-        kerningX: metrics.json.kerning[i * 3 + 2],
-      });
-    }
-    console.log(this._kerningData);
+  isSpriteSheetTextColor(color: BpxRgbColor | null): boolean {
+    return color?.cssHex === "#ffffff" || color?.cssHex === "#fefefe";
   }
 
-  spritesFor(text: string): BpxCharSprite[] {
-    const j = this._metrics.json;
-    const sprites: BpxCharSprite[] = [];
-    let prevCode = -1;
+  ascent = 0;
+  descent = 0;
+  lineGap = 3;
 
-    let cursor: BpxVector2d = v_(0, j.ascent);
-    for (let i = 0; i < text.length; i++) {
-      const code = text.charCodeAt(i);
-      const idx = j.chars.indexOf(code);
-      if (!idx) {
-        // space or something else
-        cursor = cursor.add(3, 0);
-        prevCode = code;
-        continue;
-      }
+  protected mapChar(char: string): string {
+    return char;
+  }
 
-      let kerningX = 0;
-      const datum = this._kerningData.find(
-        (k) => k.leftCode == prevCode && k.rightCode == code,
-      );
-      if (datum) {
-        kerningX = datum.kerningX;
-      }
-      cursor = cursor.add(kerningX, 0);
+  readonly glyphs = new Map<string, BpxGlyph>([]);
 
-      sprites.push({
-        char: text[i]!,
-        positionInText: cursor.add(v_(j.offset_x[idx], j.offset_y[idx])),
-        type: "image",
-        spriteXyWh: [
-          v_(j.pack_x[idx], j.pack_y[idx]),
-          v_(j.width[idx], j.height[idx]),
-        ],
+  constructor(metrics: Metrics) {
+    super();
+
+    this.ascent = metrics.ascent;
+    this.descent = -metrics.descent;
+
+    metrics.chars.forEach((charCode, idx) => {
+      this.glyphs.set(String.fromCharCode(charCode), {
+        type: "sprite",
+        sprite: spr_(g.images.font)(
+          metrics.width[idx]!,
+          metrics.height[idx]!,
+          metrics.pack_x[idx]!,
+          metrics.pack_y[idx]!,
+        ),
+        offset: v_(
+          metrics.offset_x[idx]!,
+          metrics.height[idx]! + metrics.offset_y[idx]!,
+        ),
+        advance: metrics.advance[idx]! + 1,
       });
+    });
 
-      cursor = cursor.add(j.advance[idx] + 1, 0);
-      prevCode = code;
+    for (let idx = 0; idx < metrics.kerning_count; idx++) {
+      const charLeft = String.fromCharCode(metrics.kerning[3 * idx]!);
+      const charRight = String.fromCharCode(metrics.kerning[3 * idx + 1]!);
+      const kerning = metrics.kerning[3 * idx + 2]!;
+      const glyph = this.glyphs.get(charRight);
+      if (glyph) {
+        glyph.kerning ??= {};
+        glyph.kerning[charLeft] = kerning;
+      }
     }
 
-    return sprites;
+    // manual corrections to the font
+    this.glyphs.get("j")!.advance += 1;
   }
 }
