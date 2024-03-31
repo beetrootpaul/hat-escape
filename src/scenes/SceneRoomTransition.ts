@@ -68,6 +68,12 @@ export class SceneRoomTransition implements Scene {
     this._timerIn.pause();
     this._timerMid.pause();
     this._timerOut.pause();
+
+    if (!("fromTitle" in this._params)) {
+      for (const mobSpawner of this._params.gameplay.mobSpawners) {
+        mobSpawner.pauseTimers();
+      }
+    }
   }
 
   pauseAnimationsAndTimers(): void {
@@ -147,7 +153,6 @@ export class SceneRoomTransition implements Scene {
       }
     }
     if (this._timerOut.hasJustFinished) {
-      console.log("asdasdadasd");
       return new SceneRoomGameplay({
         gameplay:
           "fromTitle" in this._params ? new Gameplay() : this._params.gameplay,

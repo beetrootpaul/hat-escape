@@ -14,7 +14,11 @@ export class SceneRoomGameplay implements Scene {
   private readonly _gameplay: Gameplay;
   private readonly _hud: Hud = new Hud();
 
-  init(): void {}
+  init(): void {
+    for (const mobSpawner of this._gameplay.mobSpawners) {
+      mobSpawner.resumeTimers();
+    }
+  }
 
   pauseAnimationsAndTimers(): void {
     this._gameplay.light.pauseAnimations();

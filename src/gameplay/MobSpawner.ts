@@ -1,4 +1,4 @@
-import { BpxTimer, BpxVector2d, timer_ } from "@beetpx/beetpx";
+import { BpxTimerSequence, BpxVector2d, timerSeq_ } from "@beetpx/beetpx";
 import { StaticSprite } from "../Sprite";
 import { g } from "../globals";
 import { Mob, MobTarget } from "./Mob";
@@ -47,15 +47,17 @@ export class MobSpawner {
   );
 
   private readonly _xy: BpxVector2d;
-  private _timer: BpxTimer;
+  private _timer: BpxTimerSequence<"first_spawn" | "looped_spawn">;
 
   constructor(params: { xy: BpxVector2d }) {
     this._xy = params.xy;
-    this._timer = timer_(MobSpawner._interval, { loop: true });
-    // TODO: bring back this logic
-    // while (this._timer.framesLeft > MobSpawner._interval / 3) {
-    //   this._timer.update();
-    // }
+    this._timer = timerSeq_(
+      {
+        intro: [["first_spawn", MobSpawner._interval / 3]],
+        loop: [["looped_spawn", MobSpawner._interval]],
+      },
+      { pause: true },
+    );
   }
 
   pauseTimers(): void {
@@ -67,7 +69,7 @@ export class MobSpawner {
   }
 
   update(target: MobTarget): Mob | null {
-    if (this._timer.hasJustFinished) {
+    if (this._timer.justFinishedPhase) {
       return new Mob({ center: this._xy.add(g.ts.div(2)), target });
     }
 
@@ -75,7 +77,7 @@ export class MobSpawner {
   }
 
   draw(): void {
-    if (this._timer.framesLeft <= 4) {
+    if (this._timer.framesLeft <= 4 || this._timer.justFinishedPhase) {
       MobSpawner._spriteSpawning4.draw(this._xy);
     } else if (this._timer.framesLeft <= 8) {
       MobSpawner._spriteSpawning3.draw(this._xy);

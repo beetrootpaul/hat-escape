@@ -9,7 +9,6 @@ import { Room } from "./Room";
 
 export class Gameplay {
   constructor() {
-    console.log("NEW");
     this._roomNumber = 1;
     this._room = new Room(RoomBlueprints.nextRandomBlueprint());
     this._hero = new Hero({ center: this._room.center });
@@ -88,7 +87,6 @@ export class Gameplay {
 
   loadNextRoom() {
     this._roomNumber += 1;
-    console.log("NEXT");
     this._room = new Room(RoomBlueprints.nextRandomBlueprint());
     this._hero = new Hero({ center: this._room.center });
     this._light = new Light({ center: this._room.lightCenter });

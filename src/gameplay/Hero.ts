@@ -1,4 +1,11 @@
-import { b_, BpxTimer, BpxVector2d, timer_, u_, v_0_0_ } from "@beetpx/beetpx";
+import {
+  b_,
+  BpxTimerSequence,
+  BpxVector2d,
+  timerSeq_,
+  u_,
+  v_0_0_,
+} from "@beetpx/beetpx";
 import { CollisionCircle } from "../collisions/CollisionCircle";
 import { Collisions } from "../collisions/Collisions";
 import { g } from "../globals";
@@ -31,25 +38,13 @@ export class Hero {
     this._sprite = Hero._spriteLeft;
     this._center = params.center;
     this._speed = v_0_0_;
-    this._dashTimer = timer_(Hero._dashActiveFrames + Hero._dashRefreshFrames);
-    // TODO: bring this back
-    // while (!this._dashTimer.hasFinished) {
-    //   this._dashTimer.update();
-    // }
-    this._attackTimer = timer_(
-      Hero._attackActiveFrames + Hero._attackRefreshFrames,
-    );
-    // TODO: bring this back
-    // while (!this._attackTimer.hasFinished) {
-    //   this._attackTimer.update();
-    // }
   }
 
   private _sprite: StaticSprite;
   private _center: BpxVector2d;
   private _speed: BpxVector2d;
-  private _dashTimer: BpxTimer;
-  private _attackTimer: BpxTimer;
+  private _dashTimer?: BpxTimerSequence<"active" | "refresh">;
+  private _attackTimer?: BpxTimerSequence<"active" | "refresh">;
   private _attackAnimation: AnimatedSprite | null = null;
 
   get collisionCircle(): CollisionCircle {
@@ -67,23 +62,23 @@ export class Hero {
   }
 
   get isDashing(): boolean {
-    return this._dashTimer.framesLeft > Hero._dashRefreshFrames;
+    return this._dashTimer?.currentPhase === "active";
   }
 
   get isAttacking(): boolean {
-    return this._attackTimer.framesLeft > Hero._attackRefreshFrames;
+    return this._attackTimer?.currentPhase === "active";
   }
 
   pauseAnimationsAndTimers(): void {
     this._attackAnimation?.pause();
-    this._attackTimer.pause();
-    this._dashTimer.pause();
+    this._attackTimer?.pause();
+    this._dashTimer?.pause();
   }
 
   resumeAnimationsAndTimers(): void {
     this._attackAnimation?.resume();
-    this._attackTimer.resume();
-    this._dashTimer.resume();
+    this._attackTimer?.resume();
+    this._dashTimer?.resume();
   }
 
   update(
@@ -118,15 +113,28 @@ export class Hero {
       }
     }
 
-    if (tryDash && this._dashTimer.hasFinished) {
-      this._dashTimer.restart();
+    if (tryDash && (!this._dashTimer || this._dashTimer.hasFinishedOverall)) {
+      this._dashTimer = timerSeq_({
+        intro: [
+          ["active", Hero._dashActiveFrames],
+          ["refresh", Hero._dashRefreshFrames],
+        ],
+      });
     }
 
     if (!this.isAttacking) {
       this._attackAnimation = null;
     }
-    if (tryAttack && this._attackTimer.hasFinished) {
-      this._attackTimer.restart();
+    if (
+      tryAttack &&
+      (!this._attackTimer || this._attackTimer.hasFinishedOverall)
+    ) {
+      this._attackTimer = timerSeq_({
+        intro: [
+          ["active", Hero._attackActiveFrames],
+          ["refresh", Hero._attackRefreshFrames],
+        ],
+      });
       this._attackAnimation = new AnimatedSprite(
         g.images.attack,
         24,

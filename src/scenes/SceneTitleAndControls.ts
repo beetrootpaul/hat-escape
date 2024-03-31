@@ -23,8 +23,8 @@ export class SceneTitleAndControls implements Scene {
   }
 
   private _slideIn: BpxTimer = timer_(16);
-  private _hero: Hero;
-  private _light: Light;
+  private readonly _hero: Hero;
+  private readonly _light: Light;
 
   init(): void {
     AudioManager.startMusicDamped();
