@@ -15,13 +15,11 @@ let pauseMenu: PauseMenu | null = null;
 let currentScene: Scene | null = null;
 let nextScene: Scene | null = null;
 
-b_.init(
-  {
-    gameCanvasSize: "128x128",
-    desiredUpdateFps: 60,
-    debugFeatures: !BEETPX__IS_PROD,
-  },
-  {
+b_.init({
+  gameCanvasSize: "128x128",
+  fixedTimestep: "60fps",
+  debugMode: !BEETPX__IS_PROD,
+  assets: {
     images: [
       { url: g.images.font },
       { url: g.images.attack },
@@ -48,7 +46,7 @@ b_.init(
     ],
     jsons: [{ url: g.jsons.font }, { url: g.jsons.roomsLdtk }],
   },
-).then(async ({ startGame }) => {
+}).then(async ({ startGame }) => {
   b_.setOnStarted(() => {
     // font
     magicBookFont.setMetrics(b_.getJsonAsset(g.jsons.font));
