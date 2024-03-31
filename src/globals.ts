@@ -8,9 +8,9 @@ import {
 export const g = {
   fps: 60,
   // viewport size
-  vs: v_(128, 128),
+  vs: v_(128),
   // tile size
-  ts: v_(8, 8),
+  ts: v_(8),
 
   images: {
     font: "ChevyRay_MagicBook_atlas.png",
