@@ -16,17 +16,23 @@ export class SceneRoomGameplay implements Scene {
 
   init(): void {}
 
-  pauseAnimations(): void {
+  pauseAnimationsAndTimers(): void {
     this._gameplay.light.pauseAnimations();
-    this._gameplay.hero.pauseAnimations();
+    this._gameplay.hero.pauseAnimationsAndTimers();
+    for (const mobSpawner of this._gameplay.mobSpawners) {
+      mobSpawner.pauseTimers();
+    }
     for (const mob of this._gameplay.mobs) {
       mob.pauseAnimations();
     }
   }
 
-  resumeAnimations(): void {
+  resumeAnimationsAndTimers(): void {
     this._gameplay.light.resumeAnimations();
-    this._gameplay.hero.resumeAnimations();
+    this._gameplay.hero.resumeAnimationsAndTimers();
+    for (const mobSpawner of this._gameplay.mobSpawners) {
+      mobSpawner.resumeTimers();
+    }
     for (const mob of this._gameplay.mobs) {
       mob.resumeAnimations();
     }

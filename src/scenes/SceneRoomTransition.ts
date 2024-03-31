@@ -64,27 +64,47 @@ export class SceneRoomTransition implements Scene {
   private readonly _timerOut: BpxTimer;
   private readonly _bgColor: BpxRgbColor;
 
-  init(): void {}
+  init(): void {
+    this._timerIn.pause();
+    this._timerMid.pause();
+    this._timerOut.pause();
+  }
 
-  pauseAnimations(): void {
+  pauseAnimationsAndTimers(): void {
     if ("fromTitle" in this._params) {
       this._params.light.pauseAnimations();
+      this._params.hero.pauseAnimationsAndTimers();
     } else {
       this._params.gameplay.light.pauseAnimations();
+      this._params.gameplay.hero.pauseAnimationsAndTimers();
       for (const mob of this._params.gameplay.mobs) {
         mob.pauseAnimations();
       }
     }
+
+    this._timerIn.pause();
+    this._timerMid.pause();
+    this._timerOut.pause();
   }
 
-  resumeAnimations(): void {
+  resumeAnimationsAndTimers(): void {
     if ("fromTitle" in this._params) {
       this._params.light.resumeAnimations();
+      this._params.hero.resumeAnimationsAndTimers();
     } else {
       this._params.gameplay.light.resumeAnimations();
+      this._params.gameplay.hero.resumeAnimationsAndTimers();
       for (const mob of this._params.gameplay.mobs) {
         mob.resumeAnimations();
       }
+    }
+
+    if (this._timerMid.hasFinished) {
+      this._timerOut.resume();
+    } else if (this._timerIn.hasFinished) {
+      this._timerMid.resume();
+    } else {
+      this._timerIn.resume();
     }
   }
 
@@ -112,12 +132,12 @@ export class SceneRoomTransition implements Scene {
     }
 
     if (this._timerMid.hasFinished) {
-      this._timerOut.update();
+      this._timerOut.resume();
+    } else if (this._timerIn.hasFinished) {
+      this._timerMid.resume();
+    } else {
+      this._timerIn.resume();
     }
-    if (this._timerIn.hasFinished) {
-      this._timerMid.update();
-    }
-    this._timerIn.update();
   }
 
   postUpdate(): Scene | null {
@@ -126,7 +146,8 @@ export class SceneRoomTransition implements Scene {
         AudioManager.makeMusicNotDamped();
       }
     }
-    if (this._timerOut.hasFinished) {
+    if (this._timerOut.hasJustFinished) {
+      console.log("asdasdadasd");
       return new SceneRoomGameplay({
         gameplay:
           "fromTitle" in this._params ? new Gameplay() : this._params.gameplay,

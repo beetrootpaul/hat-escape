@@ -51,19 +51,25 @@ export class MobSpawner {
 
   constructor(params: { xy: BpxVector2d }) {
     this._xy = params.xy;
-    this._timer = timer_(MobSpawner._interval);
-    while (this._timer.framesLeft > MobSpawner._interval / 3) {
-      this._timer.update();
-    }
+    this._timer = timer_(MobSpawner._interval, { loop: true });
+    // TODO: bring back this logic
+    // while (this._timer.framesLeft > MobSpawner._interval / 3) {
+    //   this._timer.update();
+    // }
+  }
+
+  pauseTimers(): void {
+    this._timer.pause();
+  }
+
+  resumeTimers(): void {
+    this._timer.resume();
   }
 
   update(target: MobTarget): Mob | null {
-    if (this._timer.hasFinished) {
-      this._timer.restart();
+    if (this._timer.hasJustFinished) {
       return new Mob({ center: this._xy.add(g.ts.div(2)), target });
     }
-
-    this._timer.update();
 
     return null;
   }

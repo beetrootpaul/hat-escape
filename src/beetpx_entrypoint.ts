@@ -85,10 +85,10 @@ b_.init(
         currentScene = nextScene;
         currentScene.init();
       }
-      currentScene?.resumeAnimations();
+      currentScene?.resumeAnimationsAndTimers();
       currentScene?.update();
     } else {
-      currentScene?.pauseAnimations();
+      currentScene?.pauseAnimationsAndTimers();
     }
     pauseMenu?.update();
   });

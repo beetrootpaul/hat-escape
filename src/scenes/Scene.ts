@@ -1,9 +1,9 @@
 export interface Scene {
   init(): void;
 
-  pauseAnimations(): void;
+  pauseAnimationsAndTimers(): void;
 
-  resumeAnimations(): void;
+  resumeAnimationsAndTimers(): void;
 
   update(): void;
 

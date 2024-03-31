@@ -32,15 +32,17 @@ export class Hero {
     this._center = params.center;
     this._speed = v_0_0_;
     this._dashTimer = timer_(Hero._dashActiveFrames + Hero._dashRefreshFrames);
-    while (!this._dashTimer.hasFinished) {
-      this._dashTimer.update();
-    }
+    // TODO: bring this back
+    // while (!this._dashTimer.hasFinished) {
+    //   this._dashTimer.update();
+    // }
     this._attackTimer = timer_(
       Hero._attackActiveFrames + Hero._attackRefreshFrames,
     );
-    while (!this._attackTimer.hasFinished) {
-      this._attackTimer.update();
-    }
+    // TODO: bring this back
+    // while (!this._attackTimer.hasFinished) {
+    //   this._attackTimer.update();
+    // }
   }
 
   private _sprite: StaticSprite;
@@ -72,12 +74,16 @@ export class Hero {
     return this._attackTimer.framesLeft > Hero._attackRefreshFrames;
   }
 
-  pauseAnimations(): void {
+  pauseAnimationsAndTimers(): void {
     this._attackAnimation?.pause();
+    this._attackTimer.pause();
+    this._dashTimer.pause();
   }
 
-  resumeAnimations(): void {
+  resumeAnimationsAndTimers(): void {
     this._attackAnimation?.resume();
+    this._attackTimer.resume();
+    this._dashTimer.resume();
   }
 
   update(
@@ -115,7 +121,6 @@ export class Hero {
     if (tryDash && this._dashTimer.hasFinished) {
       this._dashTimer.restart();
     }
-    this._dashTimer.update();
 
     if (!this.isAttacking) {
       this._attackAnimation = null;
@@ -131,7 +136,6 @@ export class Hero {
         true,
       );
     }
-    this._attackTimer.update();
   }
 
   draw(): void {
