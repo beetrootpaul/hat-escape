@@ -27,7 +27,7 @@
     "itch": "npm run build && beetpx zip"
   },
   "devDependencies": {
-    "@beetpx/beetpx": "0.36.1-fix1",
+    "@beetpx/beetpx": "0.37.0-fix1",
     "husky": "8.0.3",
     "prettier": "3.2.5",
     "prettier-plugin-organize-imports": "3.2.4",
