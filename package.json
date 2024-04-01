@@ -23,11 +23,11 @@
     "syncAssets:watch": "node ./scripts/syncAssets.js watch",
     "start": "beetpx dev --open --htmlTitle \"[dev] Hat Escape\"",
     "build": "npm run cleanup && npm run tsc && beetpx build --htmlTitle \"Hat Escape\" && beetpx zip",
-    "prod": "npm run build && beetpx preview",
+    "prod": "npm run build && beetpx preview --open",
     "itch": "npm run build && beetpx zip"
   },
   "devDependencies": {
-    "@beetpx/beetpx": "0.31.0-fix3",
+    "@beetpx/beetpx": "0.32.0-fix1",
     "husky": "8.0.3",
     "prettier": "3.2.4",
     "prettier-plugin-organize-imports": "3.2.4",
