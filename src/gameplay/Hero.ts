@@ -13,36 +13,20 @@ import { AnimatedSprite, StaticSprite } from "../Sprite";
 import { Room } from "./Room";
 
 export class Hero {
-  private static _spriteLeft = new StaticSprite(
-    g.images.hero,
-    12,
-    12,
-    0,
-    0,
-    true,
-  );
-  private static _spriteRight = new StaticSprite(
-    g.images.hero,
-    12,
-    12,
-    12,
-    0,
-    true,
-  );
+  private static _sprite = new StaticSprite(g.images.hero, 12, 12, 12, 0, true);
   private static _dashActiveFrames: number = 6;
   private static _dashRefreshFrames: number = 20;
   private static _attackActiveFrames: number = 58;
   private static _attackRefreshFrames: number = 20;
 
   constructor(params: { center: BpxVector2d }) {
-    this._sprite = Hero._spriteLeft;
     this._center = params.center;
-    this._speed = v_0_0_;
   }
 
-  private _sprite: StaticSprite;
+  private readonly _sprite: StaticSprite = Hero._sprite;
+  private _directionRight: boolean = true;
   private _center: BpxVector2d;
-  private _speed: BpxVector2d;
+  private _speed: BpxVector2d = v_0_0_;
   private _dashTimer?: BpxTimerSequence<"active" | "refresh">;
   private _attackTimer?: BpxTimerSequence<"active" | "refresh">;
   private _attackAnimation: AnimatedSprite | null = null;
@@ -95,9 +79,9 @@ export class Hero {
     }
 
     if (this._speed.x > 0) {
-      this._sprite = Hero._spriteRight;
+      this._directionRight = true;
     } else if (this._speed.x < 0) {
-      this._sprite = Hero._spriteLeft;
+      this._directionRight = false;
     }
 
     const diff = this._speed;
@@ -147,7 +131,7 @@ export class Hero {
   }
 
   draw(): void {
-    this._sprite.draw(this._center);
+    this._sprite.draw(this._center, !this._directionRight);
     this._attackAnimation?.draw(this._center);
     if (b_.debug) {
       Collisions.drawCollisionCircle(this.collisionCircle);

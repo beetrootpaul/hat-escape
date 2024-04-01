@@ -28,8 +28,10 @@ export class StaticSprite {
 
   update(): void {}
 
-  draw(xy: BpxVector2d): void {
-    b_.drawSprite(this._sprite, xy.add(this._offset));
+  draw(xy: BpxVector2d, flipX: boolean = false): void {
+    b_.drawSprite(this._sprite, xy.add(this._offset), {
+      flipXy: [flipX, false],
+    });
   }
 }
 
