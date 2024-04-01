@@ -16,7 +16,6 @@ let nextScene: Scene | null = null;
 b_.init({
   gameCanvasSize: "128x128",
   fixedTimestep: "60fps",
-  debugMode: !window.BEETPX__IS_PROD,
   assets: [
     // IMAGE files
     g.images.font,
@@ -38,6 +37,15 @@ b_.init({
     g.jsons.font,
     g.jsons.roomsLdtk,
   ],
+  debugMode: {
+    available: !window.BEETPX__IS_PROD,
+    fpsDisplay: {
+      enabled: true,
+    },
+  },
+  frameByFrame: {
+    available: !window.BEETPX__IS_PROD,
+  },
 }).then(async ({ startGame }) => {
   b_.setOnStarted(() => {
     // font
