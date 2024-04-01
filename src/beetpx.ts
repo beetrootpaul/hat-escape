@@ -53,15 +53,6 @@ b_.init({
     const magicBookFont: MagicBookFont = new MagicBookFont(fontMetrics);
     b_.useFont(magicBookFont);
 
-    // input
-    b_.setButtonRepeating("left", false);
-    b_.setButtonRepeating("right", false);
-    b_.setButtonRepeating("up", false);
-    b_.setButtonRepeating("down", false);
-    b_.setButtonRepeating("a", false);
-    b_.setButtonRepeating("b", false);
-    b_.setButtonRepeating("menu", false);
-
     // audio
     AudioManager.restart();
 
