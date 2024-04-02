@@ -13,7 +13,7 @@ export class Gameplay {
     this._room = new Room(RoomBlueprints.nextRandomBlueprint());
     this._hero = new Hero({ center: this._room.center });
     this._light = new Light({ center: this._room.lightCenter });
-    this._spawners = this._room.mobSpawners.map((xy) => new MobSpawner({ xy }));
+    this._spawners = this._room.mobSpawners.map(xy => new MobSpawner({ xy }));
     this._mobs = [];
     this._reachedLight = false;
     this._touchedMob = false;
@@ -71,7 +71,7 @@ export class Gameplay {
     if (this._hero.isAttacking) return false;
 
     const hcc = this._hero.collisionCircle;
-    return this._mobs.some((m) =>
+    return this._mobs.some(m =>
       Collisions.areColliding(m.collisionCircle, hcc),
     );
   }
@@ -81,7 +81,7 @@ export class Gameplay {
 
     const hcc = this._hero.attackCollisionCircle;
     this._mobs = this._mobs.filter(
-      (m) => !Collisions.areColliding(m.collisionCircle, hcc),
+      m => !Collisions.areColliding(m.collisionCircle, hcc),
     );
   }
 
@@ -90,7 +90,7 @@ export class Gameplay {
     this._room = new Room(RoomBlueprints.nextRandomBlueprint());
     this._hero = new Hero({ center: this._room.center });
     this._light = new Light({ center: this._room.lightCenter });
-    this._spawners = this._room.mobSpawners.map((xy) => new MobSpawner({ xy }));
+    this._spawners = this._room.mobSpawners.map(xy => new MobSpawner({ xy }));
     this._mobs = [];
     this._reachedLight = false;
     this._touchedMob = false;
@@ -103,7 +103,7 @@ export class Gameplay {
     this._room = new Room(RoomBlueprints.nextRandomBlueprint());
     this._hero = new Hero({ center: this._room.center });
     this._light = new Light({ center: this._room.lightCenter });
-    this._spawners = this._room.mobSpawners.map((xy) => new MobSpawner({ xy }));
+    this._spawners = this._room.mobSpawners.map(xy => new MobSpawner({ xy }));
     this._mobs = [];
     this._reachedLight = false;
     this._touchedMob = false;

@@ -37,7 +37,7 @@ export class Room {
     this._blueprint = blueprint;
     this._light = u_.randomElementOf(blueprint.lights)!;
     this._walls = blueprint.wallShapes.map(
-      (ws) => new Wall(ws[0].mul(g.ts), ws[1].mul(g.ts)),
+      ws => new Wall(ws[0].mul(g.ts), ws[1].mul(g.ts)),
     );
   }
 
@@ -54,11 +54,11 @@ export class Room {
   }
 
   get mobSpawners(): BpxVector2d[] {
-    return this._blueprint.spawners.map((s) => s.mul(g.ts));
+    return this._blueprint.spawners.map(s => s.mul(g.ts));
   }
 
   doesCollideWithAnyWall(cc: CollisionCircle): boolean {
-    return this._walls.some((w) => w.collidesWith(cc));
+    return this._walls.some(w => w.collidesWith(cc));
   }
 
   draw(): void {

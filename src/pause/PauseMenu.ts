@@ -31,7 +31,7 @@ export class PauseMenu {
       new PauseMenuEntryToggle(
         "sound:",
         () => !b_.isAudioMuted(),
-        (newValue) => {
+        newValue => {
           if (newValue) {
             b_.unmuteAudio();
           } else {
@@ -101,9 +101,9 @@ export class PauseMenu {
           ),
           whTotal.y +
             entry.size.y +
-            (index < this._entries.length - 1
-              ? PauseMenu._gapBetweenEntries
-              : 0),
+            (index < this._entries.length - 1 ?
+              PauseMenu._gapBetweenEntries
+            : 0),
         ),
       v_(
         PauseMenu._padding.left + PauseMenu._padding.right,

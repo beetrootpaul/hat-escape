@@ -50,7 +50,7 @@ export class AnimatedSprite {
     this._animatedSprite = aspr_(spritesheetUrl)(
       spriteW,
       spriteH,
-      spriteXs.map((x) => [x, spriteY]),
+      spriteXs.map(x => [x, spriteY]),
     );
     this._offset = centered ? v_(-spriteW / 2, -spriteH / 2) : v_0_0_;
   }

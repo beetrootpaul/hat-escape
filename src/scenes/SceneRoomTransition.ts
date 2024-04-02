@@ -42,15 +42,15 @@ export class SceneRoomTransition implements Scene {
     // }
     this._timerIn = timer_(16);
     this._timerMid = timer_(
-      "fromTitle" in params ? 60 : params.success ? 10 : 60,
+      "fromTitle" in params ? 60
+      : params.success ? 10
+      : 60,
     );
     this._timerOut = timer_(16);
     this._bgColor =
-      "fromTitle" in params
-        ? c.blueGreen2
-        : params.success
-          ? c.redYellow2
-          : c.redYellow5;
+      "fromTitle" in params ? c.blueGreen2
+      : params.success ? c.redYellow2
+      : c.redYellow5;
   }
 
   private _params:
