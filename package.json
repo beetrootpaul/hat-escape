@@ -1,37 +1,37 @@
 {
-  "name": "mini-jam-150-game",
+  "name": "hat-escape",
   "version": "0.0.0",
   "author": "Beetroot Paul",
   "license": "UNLICENSED",
   "private": true,
-  "description": "TODO TODO TODO",
-  "homepage": "https://todo.todo/todo",
+  "description": "A game created during a weekend for a 150th Mini Jam.",
+  "homepage": "https://github.com/beetrootpaul/hat-escape#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/beetrootpaul/mini-jam-150-game.git"
+    "url": "git+https://github.com/beetrootpaul/hat-escape.git"
   },
   "engines": {
     "node": ">=18.0.0"
   },
   "scripts": {
     "prepare": "husky",
-    "cleanup": "rimraf ./.beetpx/ ./index.html",
-    "format": "prettier --ignore-path .gitignore --write src/ README.md",
-    "tsc": "tsc",
-    "tsc:watch": "tsc --watch",
     "syncAssets": "node ./scripts/syncAssets.js",
     "syncAssets:watch": "node ./scripts/syncAssets.js watch",
     "start": "beetpx dev --open --htmlTitle \"[dev] Hat Escape\"",
-    "build": "npm run cleanup && npm run tsc && beetpx build --htmlTitle \"Hat Escape\" && beetpx zip",
+    "build": "npm run tsc && beetpx build --htmlTitle \"Hat Escape\"",
     "prod": "npm run build && beetpx preview --open",
-    "itch": "npm run build && beetpx zip"
+    "itch": "npm run build && beetpx zip",
+    "format": "prettier --ignore-path .gitignore --write scripts/ src/ README.md",
+    "tsc": "tsc",
+    "tsc:watch": "tsc --watch",
+    "test": "vitest run",
+    "checkForDepedencyUpdates": "npx npm-check-updates"
   },
   "devDependencies": {
     "@beetpx/beetpx": "0.37.0-fix1",
     "husky": "9.0.11",
     "prettier": "3.2.5",
     "prettier-plugin-organize-imports": "3.2.4",
-    "rimraf": "5.0.5",
     "typescript": "5.4.3"
   }
 }

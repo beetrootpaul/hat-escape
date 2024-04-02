@@ -70,8 +70,8 @@ for (const otherAsset of otherAssets) {
 function convertWavToFlac(wavInputDir, flacOutputDir) {
   console.log(wavInputDir, "-->", flacOutputDir);
   fs.readdirSync(wavInputDir)
-    .filter((filename) => filename.toLowerCase().endsWith(".wav"))
-    .forEach((filename) => {
+    .filter(filename => filename.toLowerCase().endsWith(".wav"))
+    .forEach(filename => {
       const inputPath = path.resolve(wavInputDir, filename);
       const outputPath = path.resolve(
         flacOutputDir,
@@ -107,15 +107,15 @@ function simplifyLdtkJson(roomsLdtkPath, simplifiedRoomsJsonPath) {
     externalLevels: fullJson.externalLevels,
     simplifiedExport: fullJson.simplifiedExport,
     // actual rooms data
-    levels: fullJson.levels.map((l) => ({
+    levels: fullJson.levels.map(l => ({
       identifier: l.identifier,
-      layerInstances: l.layerInstances.map((li) => ({
+      layerInstances: l.layerInstances.map(li => ({
         __identifier: li.__identifier,
-        gridTiles: li.gridTiles.map((gt) => ({
+        gridTiles: li.gridTiles.map(gt => ({
           t: gt.t,
           px: [gt.px[0], gt.px[1]],
         })),
-        entityInstances: li.entityInstances.map((ei) => ({
+        entityInstances: li.entityInstances.map(ei => ({
           __identifier: ei.__identifier,
           __grid: [ei.__grid[0], ei.__grid[1]],
           px: [ei.px[0], ei.px[1]],
