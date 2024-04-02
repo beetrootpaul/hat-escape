@@ -9,8 +9,5 @@
 # Node.js: dependencies
 /node_modules/
 
-# JetBrains IDEs: project configuration
-/.idea/
-
 # local playground etc.
 /tmp/
