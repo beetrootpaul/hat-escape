@@ -71,46 +71,8 @@ export class SceneRoomTransition implements Scene {
 
     if (!("fromTitle" in this._params)) {
       for (const mobSpawner of this._params.gameplay.mobSpawners) {
-        mobSpawner.pauseTimers();
+        mobSpawner.pause();
       }
-    }
-  }
-
-  pauseAnimationsAndTimers(): void {
-    if ("fromTitle" in this._params) {
-      this._params.light.pauseAnimations();
-      this._params.hero.pauseAnimationsAndTimers();
-    } else {
-      this._params.gameplay.light.pauseAnimations();
-      this._params.gameplay.hero.pauseAnimationsAndTimers();
-      for (const mob of this._params.gameplay.mobs) {
-        mob.pauseAnimations();
-      }
-    }
-
-    this._timerIn.pause();
-    this._timerMid.pause();
-    this._timerOut.pause();
-  }
-
-  resumeAnimationsAndTimers(): void {
-    if ("fromTitle" in this._params) {
-      this._params.light.resumeAnimations();
-      this._params.hero.resumeAnimationsAndTimers();
-    } else {
-      this._params.gameplay.light.resumeAnimations();
-      this._params.gameplay.hero.resumeAnimationsAndTimers();
-      for (const mob of this._params.gameplay.mobs) {
-        mob.resumeAnimations();
-      }
-    }
-
-    if (this._timerMid.hasFinished) {
-      this._timerOut.resume();
-    } else if (this._timerIn.hasFinished) {
-      this._timerMid.resume();
-    } else {
-      this._timerIn.resume();
     }
   }
 

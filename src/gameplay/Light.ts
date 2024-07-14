@@ -29,14 +29,6 @@ export class Light {
     };
   }
 
-  pauseAnimations(): void {
-    this._sprite?.pause();
-  }
-
-  resumeAnimations(): void {
-    this._sprite?.resume();
-  }
-
   draw(): void {
     this._sprite.draw(this._center.sub(0, 8));
     if (b_.debug) {

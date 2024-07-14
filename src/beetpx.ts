@@ -2,7 +2,6 @@ import { b_ } from "@beetpx/beetpx";
 import { MagicBookFont } from "./MagicBookFont";
 import { MaxReachedRoom } from "./MaxReachedRoom";
 import { RoomBlueprints } from "./RoomBlueprints";
-import { AudioManager } from "./audio/AudioManager";
 import { g } from "./globals";
 import { PauseMenu } from "./pause/PauseMenu";
 import { Scene } from "./scenes/Scene";
@@ -16,6 +15,9 @@ let nextScene: Scene | null = null;
 b_.init({
   canvasSize: "128x128",
   fixedTimestep: "60fps",
+  globalPause: {
+    available: true,
+  },
   assets: [
     // IMAGE files
     g.images.font,
@@ -53,9 +55,6 @@ b_.init({
     const magicBookFont: MagicBookFont = new MagicBookFont(fontMetrics);
     b_.useFont(magicBookFont);
 
-    // audio
-    AudioManager.restart();
-
     // pause
     pauseMenu = new PauseMenu();
 
@@ -75,10 +74,7 @@ b_.init({
         currentScene = nextScene;
         currentScene.init();
       }
-      currentScene?.resumeAnimationsAndTimers();
       currentScene?.update();
-    } else {
-      currentScene?.pauseAnimationsAndTimers();
     }
     pauseMenu?.update();
   });

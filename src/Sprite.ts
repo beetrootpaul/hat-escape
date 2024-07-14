@@ -55,13 +55,6 @@ export class AnimatedSprite {
     this._offset = centered ? v_(-spriteW / 2, -spriteH / 2) : v_0_0_;
   }
 
-  pause(): void {
-    this._animatedSprite.pause();
-  }
-  resume(): void {
-    this._animatedSprite.resume();
-  }
-
   draw(xy: BpxVector2d): void {
     b_.drawSprite(this._animatedSprite.current, xy.add(this._offset));
   }

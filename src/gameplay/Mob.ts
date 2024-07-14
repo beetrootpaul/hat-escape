@@ -29,13 +29,6 @@ export class Mob {
     };
   }
 
-  pauseAnimations(): void {
-    this._sprite.pause();
-  }
-  resumeAnimations(): void {
-    this._sprite.resume();
-  }
-
   update(room: Room): void {
     const distance = this._target.collisionCircle.center.sub(this._center);
     const angle = u_.trigAtan2(distance.x, distance.y);

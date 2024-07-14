@@ -23,7 +23,7 @@ export class PauseMenu {
 
   constructor() {
     this._entryResume = new PauseMenuEntrySimple("resume", () => {
-      this._isActive = false;
+      b_.resume();
     });
 
     this._entries = [
@@ -45,27 +45,20 @@ export class PauseMenu {
     ];
   }
 
-  private _isActive: boolean = false;
   private readonly _entries: PauseMenuEntry[];
   private _focusedEntry: number = 0;
   private readonly _entryResume: PauseMenuEntry | null = null;
 
   get isActive(): boolean {
-    return this._isActive;
+    return b_.isPaused;
   }
 
   update(): void {
     if (!this.isActive) {
-      if (b_.wasButtonJustPressed("menu")) {
-        this._isActive = true;
-      }
       return;
     }
 
-    if (
-      this.isActive &&
-      (b_.wasButtonJustPressed("menu") || b_.wasButtonJustPressed("b"))
-    ) {
+    if (b_.wasButtonJustPressed("b")) {
       this._entryResume?.execute();
       return;
     }
@@ -88,7 +81,7 @@ export class PauseMenu {
   }
 
   draw(): void {
-    if (!this.isActive) return;
+    if (!b_.isPaused) return;
 
     this._dimContentBehind();
 

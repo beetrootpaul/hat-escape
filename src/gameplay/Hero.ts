@@ -53,18 +53,6 @@ export class Hero {
     return this._attackTimer?.currentPhase === "active";
   }
 
-  pauseAnimationsAndTimers(): void {
-    this._attackAnimation?.pause();
-    this._attackTimer?.pause();
-    this._dashTimer?.pause();
-  }
-
-  resumeAnimationsAndTimers(): void {
-    this._attackAnimation?.resume();
-    this._attackTimer?.resume();
-    this._dashTimer?.resume();
-  }
-
   update(
     directions: BpxVector2d,
     tryDash: boolean,

@@ -30,18 +30,6 @@ export class SceneTitleAndControls implements Scene {
     AudioManager.startMusicDamped();
   }
 
-  pauseAnimationsAndTimers(): void {
-    this._hero.pauseAnimationsAndTimers();
-    this._light.pauseAnimations();
-    this._slideIn.pause();
-  }
-
-  resumeAnimationsAndTimers(): void {
-    this._hero.resumeAnimationsAndTimers();
-    this._light.resumeAnimations();
-    this._slideIn.resume();
-  }
-
   update(): void {
     this._hero.update(
       b_.getPressedDirection(),

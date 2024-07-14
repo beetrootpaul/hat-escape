@@ -60,12 +60,12 @@ export class MobSpawner {
     );
   }
 
-  pauseTimers(): void {
+  pause(): void {
     this._timer.pause();
   }
 
-  resumeTimers(): void {
-    this._timer.resume();
+  restart(): void {
+    this._timer.restart();
   }
 
   update(target: MobTarget): Mob | null {

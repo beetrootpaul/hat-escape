@@ -5,10 +5,6 @@ export class AudioManager {
   private static _playbackMusicDamped: BpxAudioPlaybackId | null = null;
   private static _playbackMusicRegular: BpxAudioPlaybackId | null = null;
 
-  static restart() {
-    b_.stopAllPlaybacks();
-  }
-
   static startMusicDamped(): void {
     this._playbackMusicDamped = b_.startPlaybackSequence({
       loop: [
