@@ -1,8 +1,8 @@
 import { b_ } from "@beetpx/beetpx";
-import { MagicBookFont } from "./MagicBookFont";
 import { MaxReachedRoom } from "./MaxReachedRoom";
 import { RoomBlueprints } from "./RoomBlueprints";
 import { g } from "./globals";
+import { magicBookFontFrom } from "./magicBookFont";
 import { PauseMenu } from "./pause/PauseMenu";
 import { Scene } from "./scenes/Scene";
 import { SceneTitleAndControls } from "./scenes/SceneTitleAndControls";
@@ -52,8 +52,7 @@ b_.init({
   b_.setOnStarted(() => {
     // font
     const fontMetrics = b_.getJsonAsset(g.jsons.font).json;
-    const magicBookFont: MagicBookFont = new MagicBookFont(fontMetrics);
-    b_.useFont(magicBookFont);
+    b_.useFont(magicBookFontFrom(fontMetrics));
 
     // pause
     pauseMenu = new PauseMenu();
