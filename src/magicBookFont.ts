@@ -1,4 +1,4 @@
-import { BpxFont, BpxGlyph, font_, spr_, v_ } from "@beetpx/beetpx";
+import { $font, $spr, $v, BpxFont, BpxGlyph } from "@beetpx/beetpx";
 import { g } from "./globals";
 
 type Metrics = {
@@ -25,7 +25,7 @@ export const magicBookFontFrom = (metrics: Metrics): BpxFont => {
   metrics.chars.forEach((charCode, idx) => {
     glyphs.set(String.fromCharCode(charCode), {
       type: "sprite",
-      sprite: spr_(g.images.font)(
+      sprite: $spr(g.images.font)(
         metrics.width[idx]!,
         metrics.height[idx]!,
         metrics.pack_x[idx]!,
@@ -33,7 +33,7 @@ export const magicBookFontFrom = (metrics: Metrics): BpxFont => {
       ),
       isTextColor: color =>
         color?.cssHex === "#ffffff" || color?.cssHex === "#fefefe",
-      offset: v_(
+      offset: $v(
         metrics.offset_x[idx]!,
         metrics.height[idx]! + metrics.offset_y[idx]!,
       ),
@@ -55,7 +55,7 @@ export const magicBookFontFrom = (metrics: Metrics): BpxFont => {
   // manual corrections to the font
   glyphs.get("j")!.advance += 1;
 
-  return font_({
+  return $font({
     ascent: metrics.ascent,
     descent: -metrics.descent,
     lineGap: 3,

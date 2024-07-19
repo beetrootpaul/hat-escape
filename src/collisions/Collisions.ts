@@ -1,4 +1,4 @@
-import { b_, v_ } from "@beetpx/beetpx";
+import { $d, $v } from "@beetpx/beetpx";
 import { c } from "../globals";
 import { CollisionCircle } from "./CollisionCircle";
 
@@ -10,6 +10,6 @@ export class Collisions {
   }
 
   static drawCollisionCircle(cc: CollisionCircle) {
-    b_.drawEllipse(cc.center.sub(cc.r), v_(2, 2).mul(cc.r), c.redYellow1);
+    $d.ellipse(cc.center.sub(cc.r), $v(2, 2).mul(cc.r), c.redYellow1);
   }
 }

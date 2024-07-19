@@ -1,4 +1,4 @@
-import { b_ } from "@beetpx/beetpx";
+import { $, $d } from "@beetpx/beetpx";
 import { MaxReachedRoom } from "./MaxReachedRoom";
 import { RoomBlueprints } from "./RoomBlueprints";
 import { g } from "./globals";
@@ -12,7 +12,7 @@ let pauseMenu: PauseMenu | null = null;
 let currentScene: Scene | null = null;
 let nextScene: Scene | null = null;
 
-b_.init({
+$.init({
   canvasSize: "128x128",
   fixedTimestep: "60fps",
   globalPause: {
@@ -49,16 +49,16 @@ b_.init({
     available: !window.BEETPX__IS_PROD,
   },
 }).then(async ({ startGame }) => {
-  b_.setOnStarted(() => {
+  $.setOnStarted(() => {
     // font
-    const fontMetrics = b_.getJsonAsset(g.jsons.font).json;
-    b_.useFont(magicBookFontFrom(fontMetrics));
+    const fontMetrics = $.getJsonAsset(g.jsons.font).json;
+    $d.useFont(magicBookFontFrom(fontMetrics));
 
     // pause
     pauseMenu = new PauseMenu();
 
     // rooms
-    RoomBlueprints.loadFromLdtkJson(b_.getJsonAsset(g.jsons.roomsLdtk).json);
+    RoomBlueprints.loadFromLdtkJson($.getJsonAsset(g.jsons.roomsLdtk).json);
     MaxReachedRoom.loadFromStorage();
 
     // scene
@@ -66,7 +66,7 @@ b_.init({
     currentScene.init();
   });
 
-  b_.setOnUpdate(() => {
+  $.setOnUpdate(() => {
     if (!pauseMenu?.isActive) {
       nextScene = currentScene?.postUpdate() ?? null;
       if (nextScene) {
@@ -78,7 +78,7 @@ b_.init({
     pauseMenu?.update();
   });
 
-  b_.setOnDraw(() => {
+  $.setOnDraw(() => {
     currentScene?.draw();
     pauseMenu?.draw();
   });

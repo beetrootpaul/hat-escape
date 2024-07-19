@@ -1,8 +1,8 @@
-import { b_, BpxVector2d, u_, v_ } from "@beetpx/beetpx";
+import { $, $u, $v, BpxVector2d } from "@beetpx/beetpx";
+import { AnimatedSprite } from "../Sprite";
 import { CollisionCircle } from "../collisions/CollisionCircle";
 import { Collisions } from "../collisions/Collisions";
 import { g } from "../globals";
-import { AnimatedSprite } from "../Sprite";
 import { Room } from "./Room";
 
 export class Mob {
@@ -31,10 +31,10 @@ export class Mob {
 
   update(room: Room): void {
     const distance = this._target.collisionCircle.center.sub(this._center);
-    const angle = u_.trigAtan2(distance.x, distance.y);
+    const angle = $u.trigAtan2(distance.x, distance.y);
     const speed = 0.7;
 
-    const diff = v_(speed * u_.trigCos(angle), speed * u_.trigSin(angle));
+    const diff = $v(speed * $u.trigCos(angle), speed * $u.trigSin(angle));
     const prevCenter = this._center;
     this._center = prevCenter.add(diff);
     if (room.doesCollideWithAnyWall(this.collisionCircle)) {
@@ -51,7 +51,7 @@ export class Mob {
   draw(): void {
     this._sprite.draw(this._center);
 
-    if (b_.debug) {
+    if ($.debug) {
       Collisions.drawCollisionCircle(this.collisionCircle);
     }
   }

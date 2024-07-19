@@ -1,26 +1,26 @@
-import { b_, v_ } from "@beetpx/beetpx";
+import { $d, $v } from "@beetpx/beetpx";
 import { c, g } from "./globals";
 
 export class Hud {
   draw(currentRoom: number, maxRoom: number): void {
-    const roomLabelSize = b_.measureText("ROOM").wh;
-    b_.drawText("ROOM", v_(2, g.vs.y - 3 - roomLabelSize.y), c.redYellow3);
-    b_.drawText(
+    const roomLabelSize = $d.measureText("ROOM").wh;
+    $d.text("ROOM", $v(2, g.vs.y - 3 - roomLabelSize.y), c.redYellow3);
+    $d.text(
       currentRoom.toString(),
-      v_(2 + roomLabelSize.x + 6, g.vs.y - 3 - roomLabelSize.y),
+      $v(2 + roomLabelSize.x + 6, g.vs.y - 3 - roomLabelSize.y),
       c.redYellow2,
     );
 
-    const bestLabelSize = b_.measureText("BEST").wh;
-    b_.drawText(
+    const bestLabelSize = $d.measureText("BEST").wh;
+    $d.text(
       "BEST",
-      v_(g.vs.x - 2 - bestLabelSize.x, g.vs.y - 3 - bestLabelSize.y),
+      $v(g.vs.x - 2 - bestLabelSize.x, g.vs.y - 3 - bestLabelSize.y),
       c.blueGreen2,
     );
-    const maxRoomSize = b_.measureText(maxRoom.toString()).wh;
-    b_.drawText(
+    const maxRoomSize = $d.measureText(maxRoom.toString()).wh;
+    $d.text(
       maxRoom.toString(),
-      v_(
+      $v(
         g.vs.x - 2 - bestLabelSize.x - 6 - maxRoomSize.x,
         g.vs.y - 3 - bestLabelSize.y,
       ),

@@ -1,4 +1,4 @@
-import { b_ } from "@beetpx/beetpx";
+import { $, $d } from "@beetpx/beetpx";
 import { Hud } from "../Hud";
 import { MaxReachedRoom } from "../MaxReachedRoom";
 import { Gameplay } from "../gameplay/Gameplay";
@@ -22,9 +22,9 @@ export class SceneRoomGameplay implements Scene {
 
   update(): void {
     this._gameplay.hero.update(
-      b_.getPressedDirection(),
-      b_.wasButtonJustPressed("a"),
-      b_.wasButtonJustPressed("b"),
+      $.getPressedDirection(),
+      $.wasButtonJustPressed("a"),
+      $.wasButtonJustPressed("b"),
       this._gameplay.room,
     );
 
@@ -59,7 +59,7 @@ export class SceneRoomGameplay implements Scene {
   }
 
   draw(): void {
-    b_.clearCanvas(c.blueGreen5);
+    $d.clearCanvas(c.blueGreen5);
 
     this._gameplay.room.draw();
     for (const mobSpawner of this._gameplay.mobSpawners) {

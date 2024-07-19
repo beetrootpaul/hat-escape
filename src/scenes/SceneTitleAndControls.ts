@@ -1,12 +1,13 @@
 import {
-  b_,
+  $,
+  $d,
+  $spr,
+  $timer,
+  $u,
+  $v,
+  $v_0_0,
   BpxEasing,
   BpxTimer,
-  spr_,
-  timer_,
-  u_,
-  v_,
-  v_0_0_,
 } from "@beetpx/beetpx";
 import { AudioManager } from "../audio/AudioManager";
 import { Collisions } from "../collisions/Collisions";
@@ -22,7 +23,7 @@ export class SceneTitleAndControls implements Scene {
     this._light = new Light({ center: g.vs.mul(3 / 4, 3 / 5) });
   }
 
-  private _slideIn: BpxTimer = timer_(16);
+  private _slideIn: BpxTimer = $timer(16);
   private readonly _hero: Hero;
   private readonly _light: Light;
 
@@ -32,9 +33,9 @@ export class SceneTitleAndControls implements Scene {
 
   update(): void {
     this._hero.update(
-      b_.getPressedDirection(),
-      b_.wasButtonJustPressed("a"),
-      b_.wasButtonJustPressed("b"),
+      $.getPressedDirection(),
+      $.wasButtonJustPressed("a"),
+      $.wasButtonJustPressed("b"),
       null,
     );
 
@@ -64,23 +65,23 @@ export class SceneTitleAndControls implements Scene {
   }
 
   draw(): void {
-    b_.clearCanvas(c.blueGreen4);
-    b_.setCameraXy(v_(0, -16));
+    $d.clearCanvas(c.blueGreen4);
+    $d.setCameraXy($v(0, -16));
 
     if (this._slideIn.hasFinished) {
-      b_.drawSprite(spr_(g.images.controls)(128, 48, 0, 0), v_(7, 11));
+      $d.sprite($spr(g.images.controls)(128, 48, 0, 0), $v(7, 11));
     }
 
     this._hero.draw();
     this._light.draw();
 
-    u_.drawTextWithOutline(
+    $u.drawTextWithOutline(
       "Hat Escape",
-      v_(8, u_.lerp(-28, -12, BpxEasing.outQuartic(this._slideIn.progress))),
+      $v(8, $u.lerp(-28, -12, BpxEasing.outQuartic(this._slideIn.progress))),
       c.redYellow3,
       c.blueGreen5,
     );
 
-    b_.setCameraXy(v_0_0_);
+    $d.setCameraXy($v_0_0);
   }
 }

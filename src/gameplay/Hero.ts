@@ -1,15 +1,15 @@
 import {
-  b_,
+  $,
+  $timerSeq,
+  $u,
+  $v_0_0,
   BpxTimerSequence,
   BpxVector2d,
-  timerSeq_,
-  u_,
-  v_0_0_,
 } from "@beetpx/beetpx";
+import { AnimatedSprite, StaticSprite } from "../Sprite";
 import { CollisionCircle } from "../collisions/CollisionCircle";
 import { Collisions } from "../collisions/Collisions";
 import { g } from "../globals";
-import { AnimatedSprite, StaticSprite } from "../Sprite";
 import { Room } from "./Room";
 
 export class Hero {
@@ -26,7 +26,7 @@ export class Hero {
   private readonly _sprite: StaticSprite = Hero._sprite;
   private _directionRight: boolean = true;
   private _center: BpxVector2d;
-  private _speed: BpxVector2d = v_0_0_;
+  private _speed: BpxVector2d = $v_0_0;
   private _dashTimer?: BpxTimerSequence<"active" | "refresh">;
   private _attackTimer?: BpxTimerSequence<"active" | "refresh">;
   private _attackAnimation: AnimatedSprite | null = null;
@@ -86,7 +86,7 @@ export class Hero {
     }
 
     if (tryDash && (!this._dashTimer || this._dashTimer.hasFinishedOverall)) {
-      this._dashTimer = timerSeq_({
+      this._dashTimer = $timerSeq({
         intro: [
           ["active", Hero._dashActiveFrames],
           ["refresh", Hero._dashRefreshFrames],
@@ -101,7 +101,7 @@ export class Hero {
       tryAttack &&
       (!this._attackTimer || this._attackTimer.hasFinishedOverall)
     ) {
-      this._attackTimer = timerSeq_({
+      this._attackTimer = $timerSeq({
         intro: [
           ["active", Hero._attackActiveFrames],
           ["refresh", Hero._attackRefreshFrames],
@@ -111,7 +111,7 @@ export class Hero {
         g.images.attack,
         24,
         24,
-        u_.range(28).reduce((xs, i) => [...xs, i * 24, i * 24], [] as number[]),
+        $u.range(28).reduce((xs, i) => [...xs, i * 24, i * 24], [] as number[]),
         0,
         true,
       );
@@ -121,7 +121,7 @@ export class Hero {
   draw(): void {
     this._sprite.draw(this._center, !this._directionRight);
     this._attackAnimation?.draw(this._center);
-    if (b_.debug) {
+    if ($.debug) {
       Collisions.drawCollisionCircle(this.collisionCircle);
       if (this.isAttacking) {
         Collisions.drawCollisionCircle(this.attackCollisionCircle);

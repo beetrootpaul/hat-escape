@@ -1,4 +1,4 @@
-import { b_, BpxPixels, BpxVector2d, v_, v_0_0_ } from "@beetpx/beetpx";
+import { $, $d, $v, $v_0_0, BpxPixels, BpxVector2d } from "@beetpx/beetpx";
 import { c, cm, g } from "../globals";
 import { PauseMenuEntry } from "./PauseMenuEntry";
 import { PauseMenuEntrySimple } from "./PauseMenuEntrySimple";
@@ -23,24 +23,24 @@ export class PauseMenu {
 
   constructor() {
     this._entryResume = new PauseMenuEntrySimple("resume", () => {
-      b_.resume();
+      $.resume();
     });
 
     this._entries = [
       this._entryResume,
       new PauseMenuEntryToggle(
         "sound:",
-        () => !b_.isAudioMuted(),
+        () => !$.isAudioMuted(),
         newValue => {
           if (newValue) {
-            b_.unmuteAudio();
+            $.unmuteAudio();
           } else {
-            b_.muteAudio();
+            $.muteAudio();
           }
         },
       ),
       new PauseMenuEntrySimple("reboot", () => {
-        b_.restart();
+        $.restart();
       }),
     ];
   }
@@ -50,7 +50,7 @@ export class PauseMenu {
   private readonly _entryResume: PauseMenuEntry | null = null;
 
   get isActive(): boolean {
-    return b_.isPaused;
+    return $.isPaused;
   }
 
   update(): void {
@@ -58,20 +58,20 @@ export class PauseMenu {
       return;
     }
 
-    if (b_.wasButtonJustPressed("b")) {
+    if ($.wasButtonJustPressed("b")) {
       this._entryResume?.execute();
       return;
     }
 
-    if (b_.wasButtonJustPressed("a")) {
+    if ($.wasButtonJustPressed("a")) {
       this._entries[this._focusedEntry]!.execute();
     }
 
-    if (b_.wasButtonJustPressed("up")) {
+    if ($.wasButtonJustPressed("up")) {
       this._focusedEntry =
         (this._focusedEntry - 1 + this._entries.length) % this._entries.length;
     }
-    if (b_.wasButtonJustPressed("down")) {
+    if ($.wasButtonJustPressed("down")) {
       this._focusedEntry = (this._focusedEntry + 1) % this._entries.length;
     }
 
@@ -81,13 +81,13 @@ export class PauseMenu {
   }
 
   draw(): void {
-    if (!b_.isPaused) return;
+    if (!$.isPaused) return;
 
     this._dimContentBehind();
 
     let wh = this._entries.reduce(
       (whTotal, entry, index) =>
-        v_(
+        $v(
           Math.max(
             whTotal.x,
             PauseMenu._padding.left + entry.size.x + PauseMenu._padding.right,
@@ -98,13 +98,13 @@ export class PauseMenu {
               PauseMenu._gapBetweenEntries
             : 0),
         ),
-      v_(
+      $v(
         PauseMenu._padding.left + PauseMenu._padding.right,
         PauseMenu._padding.top + PauseMenu._padding.bottom,
       ),
     );
     // make sure the width is even, therefore the pause menu will be placed horizontally in the center
-    wh = v_(wh.x % 2 ? wh.x + 1 : wh.x, wh.y);
+    wh = $v(wh.x % 2 ? wh.x + 1 : wh.x, wh.y);
     let xy = g.vs.sub(wh).div(2);
 
     this._drawMenuBox(xy, wh);
@@ -116,14 +116,14 @@ export class PauseMenu {
   }
 
   private _dimContentBehind(): void {
-    b_.takeCanvasSnapshot();
-    b_.drawRectFilled(v_0_0_, g.vs, cm.snapshotDarker);
+    $d.takeCanvasSnapshot();
+    $d.rectFilled($v_0_0, g.vs, cm.snapshotDarker);
   }
 
   private _drawMenuBox(xy: BpxVector2d, wh: BpxVector2d): void {
-    b_.drawRectFilled(xy.sub(2), wh.add(4), c.blueGreen5);
+    $d.rectFilled(xy.sub(2), wh.add(4), c.blueGreen5);
 
-    b_.drawRect(xy.sub(1), wh.add(2), c.redYellow2);
+    $d.rect(xy.sub(1), wh.add(2), c.redYellow2);
   }
 
   private _drawEntry(
@@ -136,7 +136,7 @@ export class PauseMenu {
     entry.draw(xy);
 
     if (this._focusedEntry === entryIndex) {
-      b_.drawPixels(PauseMenu._arrowPixels, xy.add(-7, 4), c.redYellow2);
+      $d.pixels(PauseMenu._arrowPixels, xy.add(-7, 4), c.redYellow2);
     }
   }
 }

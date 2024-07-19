@@ -1,20 +1,20 @@
 import {
-  b_,
+  $d,
+  $timer,
+  $u,
+  $v,
+  $v_0_0,
   BpxEasing,
   BpxRgbColor,
   BpxTimer,
-  timer_,
-  u_,
-  v_,
-  v_0_0_,
 } from "@beetpx/beetpx";
+import { Hud } from "../Hud";
+import { MaxReachedRoom } from "../MaxReachedRoom";
 import { AudioManager } from "../audio/AudioManager";
 import { Gameplay } from "../gameplay/Gameplay";
 import { Hero } from "../gameplay/Hero";
 import { Light } from "../gameplay/Light";
 import { c, g } from "../globals";
-import { Hud } from "../Hud";
-import { MaxReachedRoom } from "../MaxReachedRoom";
 import { Scene } from "./Scene";
 import { SceneRoomGameplay } from "./SceneRoomGameplay";
 
@@ -28,25 +28,25 @@ export class SceneRoomTransition implements Scene {
     // if ("fromTitle" in params) {
     //   this._gameplay = params.gameplay;
     //   this._success = params.success;
-    //   this._timerIn = timer_(16);
-    //   this._timerMid = timer_(params.success ? 10 : 60);
-    //   this._timerOut = timer_(16);
+    //   this._timerIn = $timer(16);
+    //   this._timerMid = $timer(params.success ? 10 : 60);
+    //   this._timerOut = $timer(16);
     //   this._bgColor = params.success ? c.redYellow2 : c.redYellow5;
     // } else {
     //   this._gameplay = params.gameplay;
     //   this._success = params.success;
-    //   this._timerIn = timer_(16);
-    //   this._timerMid = timer_(params.success ? 10 : 60);
-    //   this._timerOut = timer_(16);
+    //   this._timerIn = $timer(16);
+    //   this._timerMid = $timer(params.success ? 10 : 60);
+    //   this._timerOut = $timer(16);
     //   this._bgColor = params.success ? c.redYellow2 : c.redYellow5;
     // }
-    this._timerIn = timer_(16);
-    this._timerMid = timer_(
+    this._timerIn = $timer(16);
+    this._timerMid = $timer(
       "fromTitle" in params ? 60
       : params.success ? 10
       : 60,
     );
-    this._timerOut = timer_(16);
+    this._timerOut = $timer(16);
     this._bgColor =
       "fromTitle" in params ? c.blueGreen2
       : params.success ? c.redYellow2
@@ -124,18 +124,18 @@ export class SceneRoomTransition implements Scene {
   }
 
   draw(): void {
-    b_.clearCanvas("fromTitle" in this._params ? c.blueGreen4 : c.blueGreen5);
+    $d.clearCanvas("fromTitle" in this._params ? c.blueGreen4 : c.blueGreen5);
 
     if (!this._timerIn.hasFinished && "fromTitle" in this._params) {
-      b_.setCameraXy(v_(0, -16));
+      $d.setCameraXy($v(0, -16));
     }
 
     if ("fromTitle" in this._params) {
       this._params.hero.draw();
       this._params.light.draw();
-      u_.drawTextWithOutline(
+      $u.drawTextWithOutline(
         "Hat Escape",
-        v_(8, -12),
+        $v(8, -12),
         c.redYellow3,
         c.blueGreen5,
       );
@@ -157,16 +157,16 @@ export class SceneRoomTransition implements Scene {
     }
 
     if (!this._timerIn.hasFinished) {
-      const transitionX = u_.lerp(
+      const transitionX = $u.lerp(
         g.vs.x,
         0,
         BpxEasing.inQuartic(this._timerIn.progress),
       );
-      b_.drawRectFilled(v_(transitionX, -16), g.vs.add(0, 16), this._bgColor);
+      $d.rectFilled($v(transitionX, -16), g.vs.add(0, 16), this._bgColor);
     } else if (!this._timerMid.hasFinished) {
-      b_.drawRectFilled(v_0_0_, g.vs, this._bgColor);
+      $d.rectFilled($v_0_0, g.vs, this._bgColor);
       if ("fromTitle" in this._params) {
-        u_.drawTextWithOutline(
+        $u.drawTextWithOutline(
           "get ready",
           g.vs.div(2).sub(0, 4),
           c.redYellow3,
@@ -176,7 +176,7 @@ export class SceneRoomTransition implements Scene {
           },
         );
       } else if (!this._params.success) {
-        u_.drawTextWithOutline(
+        $u.drawTextWithOutline(
           "death",
           g.vs.div(2).sub(0, 4),
           c.blueGreen3,
@@ -187,14 +187,14 @@ export class SceneRoomTransition implements Scene {
         );
       }
     } else if (!this._timerOut.hasFinished) {
-      const transitionX = u_.lerp(
+      const transitionX = $u.lerp(
         g.vs.x,
         0,
         BpxEasing.outQuartic(this._timerOut.progress),
       );
-      b_.drawRectFilled(v_0_0_, v_(transitionX, g.vs.y), this._bgColor);
+      $d.rectFilled($v_0_0, $v(transitionX, g.vs.y), this._bgColor);
     }
 
-    b_.setCameraXy(v_0_0_);
+    $d.setCameraXy($v_0_0);
   }
 }

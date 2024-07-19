@@ -1,4 +1,4 @@
-import { b_, BpxVector2d } from "@beetpx/beetpx";
+import { $d, BpxVector2d } from "@beetpx/beetpx";
 import { c } from "../globals";
 import { PauseMenuEntry } from "./PauseMenuEntry";
 
@@ -6,7 +6,7 @@ export class PauseMenuEntrySimple implements PauseMenuEntry {
   constructor(text: string, onExecute: () => void) {
     this._text = text;
     this._onExecute = onExecute;
-    this._size = b_.measureText(text).wh;
+    this._size = $d.measureText(text).wh;
   }
 
   private readonly _text: string;
@@ -23,7 +23,7 @@ export class PauseMenuEntrySimple implements PauseMenuEntry {
   }
 
   draw(xy: BpxVector2d): void {
-    b_.drawText(this._text, xy, this._isFocused ? c.redYellow2 : c.blueGreen3);
+    $d.text(this._text, xy, this._isFocused ? c.redYellow2 : c.blueGreen3);
   }
 
   execute(): void {

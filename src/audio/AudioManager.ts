@@ -1,4 +1,4 @@
-import { b_, BpxAudioPlaybackId } from "@beetpx/beetpx";
+import { $, BpxAudioPlaybackId } from "@beetpx/beetpx";
 import { g } from "../globals";
 
 export class AudioManager {
@@ -6,7 +6,7 @@ export class AudioManager {
   private static _playbackMusicRegular: BpxAudioPlaybackId | null = null;
 
   static startMusicDamped(): void {
-    this._playbackMusicDamped = b_.startPlaybackSequence({
+    this._playbackMusicDamped = $.startPlaybackSequence({
       loop: [
         [
           { url: g.music.drums1Damped },
@@ -20,7 +20,7 @@ export class AudioManager {
         ],
       ],
     });
-    this._playbackMusicRegular = b_.startPlaybackSequence(
+    this._playbackMusicRegular = $.startPlaybackSequence(
       {
         loop: [
           [
@@ -41,19 +41,19 @@ export class AudioManager {
 
   static makeMusicNotDamped() {
     if (this._playbackMusicDamped) {
-      b_.mutePlayback(this._playbackMusicDamped);
+      $.mutePlayback(this._playbackMusicDamped);
     }
     if (this._playbackMusicRegular) {
-      b_.unmutePlayback(this._playbackMusicRegular);
+      $.unmutePlayback(this._playbackMusicRegular);
     }
   }
 
   static makeMusicDamped() {
     if (this._playbackMusicDamped) {
-      b_.unmutePlayback(this._playbackMusicDamped);
+      $.unmutePlayback(this._playbackMusicDamped);
     }
     if (this._playbackMusicRegular) {
-      b_.mutePlayback(this._playbackMusicRegular);
+      $.mutePlayback(this._playbackMusicRegular);
     }
   }
 }

@@ -1,4 +1,4 @@
-import { BpxTimerSequence, BpxVector2d, timerSeq_ } from "@beetpx/beetpx";
+import { $timerSeq, BpxTimerSequence, BpxVector2d } from "@beetpx/beetpx";
 import { StaticSprite } from "../Sprite";
 import { g } from "../globals";
 import { Mob, MobTarget } from "./Mob";
@@ -51,7 +51,7 @@ export class MobSpawner {
 
   constructor(params: { xy: BpxVector2d }) {
     this._xy = params.xy;
-    this._timer = timerSeq_(
+    this._timer = $timerSeq(
       {
         intro: [["first_spawn", MobSpawner._interval / 3]],
         loop: [["looped_spawn", MobSpawner._interval]],

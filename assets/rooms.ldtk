@@ -1,5 +1,5 @@
 {
-	"__header__": {
+	"$__header_": {
 		"fileType": "LDtk Project JSON",
 		"app": "LDtk",
 		"doc": "https://ldtk.io/json",
@@ -36,7 +36,7 @@
 	"backupOnSave": false,
 	"backupLimit": 10,
 	"backupRelPath": null,
-	"levelNamePattern": "room_blueprint_%idx",
+	"levelNamePattern": "$room_blueprint%idx",
 	"tutorialDesc": null,
 	"customCommands": [],
 	"flags": [],

@@ -1,4 +1,4 @@
-import { BpxVector2d, u_, v_ } from "@beetpx/beetpx";
+import { $u, $v, BpxVector2d } from "@beetpx/beetpx";
 
 export class RoomBlueprints {
   private static _blueprints: RoomBlueprint[];
@@ -19,28 +19,28 @@ export class RoomBlueprints {
         .entityInstances.filter(
           (ei: any) => ei.__identifier === "light_position",
         )
-        .map((ei: any) => v_(ei.__grid[0]!, ei.__grid[1]!));
+        .map((ei: any) => $v(ei.__grid[0]!, ei.__grid[1]!));
 
       rb.spawners = l.layerInstances
         .find((li: any) => li.__identifier === "layer_tiles")!
         .gridTiles.filter((gt: any) => gt.t === 10)
         .map((gt: any) =>
-          v_(Math.ceil(gt.px[0]! / 8), Math.ceil(gt.px[1]! / 8)),
+          $v(Math.ceil(gt.px[0]! / 8), Math.ceil(gt.px[1]! / 8)),
         );
 
       rb.wallShapes = l.layerInstances
         .find((li: any) => li.__identifier === "layer_lights_and_walls")!
         .entityInstances.filter((ei: any) => ei.__identifier === "walls")
         .map((ei: any) => [
-          v_(ei.__grid[0]!, ei.__grid[1]!),
-          v_(Math.ceil(ei.width / 8), Math.ceil(ei.height / 8)),
+          $v(ei.__grid[0]!, ei.__grid[1]!),
+          $v(Math.ceil(ei.width / 8), Math.ceil(ei.height / 8)),
         ]);
 
       rb.wallSprites = l.layerInstances
         .find((li: any) => li.__identifier === "layer_tiles")!
         .gridTiles.filter((gt: any) => gt.t === 6)
         .map((gt: any) =>
-          v_(Math.ceil(gt.px[0]! / 8), Math.ceil(gt.px[1]! / 8)),
+          $v(Math.ceil(gt.px[0]! / 8), Math.ceil(gt.px[1]! / 8)),
         );
 
       return rb;
@@ -52,9 +52,9 @@ export class RoomBlueprints {
       return this._blueprints[0]!;
     }
 
-    let nextBlueprint: RoomBlueprint = u_.randomElementOf(this._blueprints)!;
+    let nextBlueprint: RoomBlueprint = $u.randomElementOf(this._blueprints)!;
     while (nextBlueprint.id === this._prevBlueprintId) {
-      nextBlueprint = u_.randomElementOf(this._blueprints)!;
+      nextBlueprint = $u.randomElementOf(this._blueprints)!;
     }
     this._prevBlueprintId = nextBlueprint?.id;
     return nextBlueprint!;
