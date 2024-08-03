@@ -12,12 +12,51 @@ let pauseMenu: PauseMenu | null = null;
 let currentScene: Scene | null = null;
 let nextScene: Scene | null = null;
 
-$.init({
+$.setOnStarted(() => {
+  // font
+  const fontMetrics = $.getJsonAsset(g.jsons.font).json;
+  $d.setFont(magicBookFontFrom(fontMetrics));
+
+  // pause
+  pauseMenu = new PauseMenu();
+
+  // rooms
+  RoomBlueprints.loadFromLdtkJson($.getJsonAsset(g.jsons.roomsLdtk).json);
+  MaxReachedRoom.loadFromStorage();
+
+  // scene
+  currentScene = new SceneTitleAndControls();
+  currentScene.init();
+});
+
+$.setOnUpdate(() => {
+  if (!pauseMenu?.isActive) {
+    nextScene = currentScene?.postUpdate() ?? null;
+    if (nextScene) {
+      currentScene = nextScene;
+      currentScene.init();
+    }
+    currentScene?.update();
+  }
+  pauseMenu?.update();
+});
+
+$.setOnDraw(() => {
+  currentScene?.draw();
+  pauseMenu?.draw();
+});
+
+$.start({
+  gameId: "hat-escape",
   canvasSize: "128x128",
   fixedTimestep: "60fps",
-  globalPause: {
+  gamePause: {
     available: true,
   },
+  screenshots: {
+    available: true,
+  },
+  requireConfirmationOnTabClose: BEETPX__IS_PROD,
   assets: [
     // IMAGE files
     g.images.font,
@@ -48,40 +87,4 @@ $.init({
   frameByFrame: {
     available: !window.BEETPX__IS_PROD,
   },
-}).then(async ({ startGame }) => {
-  $.setOnStarted(() => {
-    // font
-    const fontMetrics = $.getJsonAsset(g.jsons.font).json;
-    $d.useFont(magicBookFontFrom(fontMetrics));
-
-    // pause
-    pauseMenu = new PauseMenu();
-
-    // rooms
-    RoomBlueprints.loadFromLdtkJson($.getJsonAsset(g.jsons.roomsLdtk).json);
-    MaxReachedRoom.loadFromStorage();
-
-    // scene
-    currentScene = new SceneTitleAndControls();
-    currentScene.init();
-  });
-
-  $.setOnUpdate(() => {
-    if (!pauseMenu?.isActive) {
-      nextScene = currentScene?.postUpdate() ?? null;
-      if (nextScene) {
-        currentScene = nextScene;
-        currentScene.init();
-      }
-      currentScene?.update();
-    }
-    pauseMenu?.update();
-  });
-
-  $.setOnDraw(() => {
-    currentScene?.draw();
-    pauseMenu?.draw();
-  });
-
-  await startGame();
 });

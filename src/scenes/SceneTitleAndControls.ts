@@ -34,8 +34,8 @@ export class SceneTitleAndControls implements Scene {
   update(): void {
     this._hero.update(
       $.getPressedDirection(),
-      $.wasButtonJustPressed("a"),
-      $.wasButtonJustPressed("b"),
+      $.wasButtonJustPressed("O"),
+      $.wasButtonJustPressed("X"),
       null,
     );
 

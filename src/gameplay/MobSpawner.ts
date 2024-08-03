@@ -56,7 +56,7 @@ export class MobSpawner {
         intro: [["first_spawn", MobSpawner._interval / 3]],
         loop: [["looped_spawn", MobSpawner._interval]],
       },
-      { pause: true },
+      { paused: true },
     );
   }
 

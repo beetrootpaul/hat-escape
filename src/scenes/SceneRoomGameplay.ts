@@ -23,8 +23,8 @@ export class SceneRoomGameplay implements Scene {
   update(): void {
     this._gameplay.hero.update(
       $.getPressedDirection(),
-      $.wasButtonJustPressed("a"),
-      $.wasButtonJustPressed("b"),
+      $.wasButtonJustPressed("O"),
+      $.wasButtonJustPressed("X"),
       this._gameplay.room,
     );
 
