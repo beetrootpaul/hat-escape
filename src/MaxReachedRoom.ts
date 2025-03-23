@@ -1,4 +1,4 @@
-import { $ } from "@beetpx/beetpx";
+import { $x } from "@beetpx/beetpx";
 
 export class MaxReachedRoom {
   private static _maxReached: number = 1;
@@ -8,7 +8,7 @@ export class MaxReachedRoom {
   }
 
   static loadFromStorage(): void {
-    const persistedState = $.loadPersistedState();
+    const persistedState = $x.loadPersistedState();
     if (
       persistedState &&
       "max_reached" in persistedState &&
@@ -21,7 +21,7 @@ export class MaxReachedRoom {
   static saveToStorageIfHigher(maybeNewMaxReached: number): void {
     if (maybeNewMaxReached > this._maxReached) {
       this._maxReached = maybeNewMaxReached;
-      $.savePersistedState({ max_reached: maybeNewMaxReached });
+      $x.savePersistedState({ max_reached: maybeNewMaxReached });
     }
   }
 }

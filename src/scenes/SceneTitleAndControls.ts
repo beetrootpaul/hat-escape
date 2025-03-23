@@ -1,11 +1,11 @@
 import {
-  $,
   $d,
   $spr,
   $timer,
   $u,
   $v,
   $v_0_0,
+  $x,
   BpxEasing,
   BpxTimer,
 } from "@beetpx/beetpx";
@@ -33,9 +33,9 @@ export class SceneTitleAndControls implements Scene {
 
   update(): void {
     this._hero.update(
-      $.getPressedDirection(),
-      $.wasButtonJustPressed("O"),
-      $.wasButtonJustPressed("X"),
+      $x.getPressedDirection(),
+      $x.wasButtonJustPressed("O"),
+      $x.wasButtonJustPressed("X"),
       null,
     );
 

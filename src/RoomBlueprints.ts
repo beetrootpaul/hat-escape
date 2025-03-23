@@ -52,9 +52,9 @@ export class RoomBlueprints {
       return this._blueprints[0]!;
     }
 
-    let nextBlueprint: RoomBlueprint = $u.randomElementOf(this._blueprints)!;
+    let nextBlueprint: RoomBlueprint = $u.randOf(this._blueprints)!;
     while (nextBlueprint.id === this._prevBlueprintId) {
-      nextBlueprint = $u.randomElementOf(this._blueprints)!;
+      nextBlueprint = $u.randOf(this._blueprints)!;
     }
     this._prevBlueprintId = nextBlueprint?.id;
     return nextBlueprint!;

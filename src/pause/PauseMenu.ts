@@ -1,4 +1,4 @@
-import { $, $d, $v, $v_0_0, BpxPixels, BpxVector2d } from "@beetpx/beetpx";
+import { $d, $v, $v_0_0, $x, BpxPixels, BpxVector2d } from "@beetpx/beetpx";
 import { c, cm, g } from "../globals";
 import { PauseMenuEntry } from "./PauseMenuEntry";
 import { PauseMenuEntrySimple } from "./PauseMenuEntrySimple";
@@ -23,24 +23,24 @@ export class PauseMenu {
 
   constructor() {
     this._entryResume = new PauseMenuEntrySimple("resume", () => {
-      $.resume();
+      $x.resume();
     });
 
     this._entries = [
       this._entryResume,
       new PauseMenuEntryToggle(
         "sound:",
-        () => !$.isAudioMuted(),
+        () => !$x.isAudioMuted(),
         newValue => {
           if (newValue) {
-            $.unmuteAudio();
+            $x.unmuteAudio();
           } else {
-            $.muteAudio();
+            $x.muteAudio();
           }
         },
       ),
       new PauseMenuEntrySimple("reboot", () => {
-        $.restart();
+        $x.restart();
       }),
     ];
   }
@@ -50,7 +50,7 @@ export class PauseMenu {
   private readonly _entryResume: PauseMenuEntry | null = null;
 
   get isActive(): boolean {
-    return $.isPaused;
+    return $x.isPaused;
   }
 
   update(): void {
@@ -58,20 +58,20 @@ export class PauseMenu {
       return;
     }
 
-    if ($.wasButtonJustPressed("X")) {
+    if ($x.wasButtonJustPressed("X")) {
       this._entryResume?.execute();
       return;
     }
 
-    if ($.wasButtonJustPressed("O")) {
+    if ($x.wasButtonJustPressed("O")) {
       this._entries[this._focusedEntry]!.execute();
     }
 
-    if ($.wasButtonJustPressed("up")) {
+    if ($x.wasButtonJustPressed("up")) {
       this._focusedEntry =
         (this._focusedEntry - 1 + this._entries.length) % this._entries.length;
     }
-    if ($.wasButtonJustPressed("down")) {
+    if ($x.wasButtonJustPressed("down")) {
       this._focusedEntry = (this._focusedEntry + 1) % this._entries.length;
     }
 
@@ -81,7 +81,7 @@ export class PauseMenu {
   }
 
   draw(): void {
-    if (!$.isPaused) return;
+    if (!$x.isPaused) return;
 
     this._dimContentBehind();
 

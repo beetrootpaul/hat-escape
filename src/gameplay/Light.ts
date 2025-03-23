@@ -1,4 +1,4 @@
-import { $, BpxVector2d } from "@beetpx/beetpx";
+import { $x, BpxVector2d } from "@beetpx/beetpx";
 import { AnimatedSprite } from "../Sprite";
 import { CollisionCircle } from "../collisions/CollisionCircle";
 import { Collisions } from "../collisions/Collisions";
@@ -31,7 +31,7 @@ export class Light {
 
   draw(): void {
     this._sprite.draw(this._center.sub(0, 8));
-    if ($.debug) {
+    if ($x.debug) {
       Collisions.drawCollisionCircle(this.collisionCircle);
     }
   }

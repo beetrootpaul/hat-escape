@@ -1,4 +1,4 @@
-import { $, $d } from "@beetpx/beetpx";
+import { $d, $x } from "@beetpx/beetpx";
 import { Hud } from "../Hud";
 import { MaxReachedRoom } from "../MaxReachedRoom";
 import { Gameplay } from "../gameplay/Gameplay";
@@ -22,9 +22,9 @@ export class SceneRoomGameplay implements Scene {
 
   update(): void {
     this._gameplay.hero.update(
-      $.getPressedDirection(),
-      $.wasButtonJustPressed("O"),
-      $.wasButtonJustPressed("X"),
+      $x.getPressedDirection(),
+      $x.wasButtonJustPressed("O"),
+      $x.wasButtonJustPressed("X"),
       this._gameplay.room,
     );
 

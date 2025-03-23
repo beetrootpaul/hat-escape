@@ -35,7 +35,7 @@ export class Room {
 
   constructor(blueprint: RoomBlueprint) {
     this._blueprint = blueprint;
-    this._light = $u.randomElementOf(blueprint.lights)!;
+    this._light = $u.randOf(blueprint.lights)!;
     this._walls = blueprint.wallShapes.map(
       ws => new Wall(ws[0].mul(g.ts), ws[1].mul(g.ts)),
     );

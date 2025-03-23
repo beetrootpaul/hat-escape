@@ -1,4 +1,4 @@
-import { $, $d } from "@beetpx/beetpx";
+import { $d, $x } from "@beetpx/beetpx";
 import { MaxReachedRoom } from "./MaxReachedRoom";
 import { RoomBlueprints } from "./RoomBlueprints";
 import { g } from "./globals";
@@ -12,16 +12,16 @@ let pauseMenu: PauseMenu | null = null;
 let currentScene: Scene | null = null;
 let nextScene: Scene | null = null;
 
-$.setOnStarted(() => {
+$x.setOnStarted(() => {
   // font
-  const fontMetrics = $.getJsonAsset(g.jsons.font).json;
+  const fontMetrics = $x.getJsonAsset(g.jsons.font).json;
   $d.setFont(magicBookFontFrom(fontMetrics));
 
   // pause
   pauseMenu = new PauseMenu();
 
   // rooms
-  RoomBlueprints.loadFromLdtkJson($.getJsonAsset(g.jsons.roomsLdtk).json);
+  RoomBlueprints.loadFromLdtkJson($x.getJsonAsset(g.jsons.roomsLdtk).json);
   MaxReachedRoom.loadFromStorage();
 
   // scene
@@ -29,7 +29,7 @@ $.setOnStarted(() => {
   currentScene.init();
 });
 
-$.setOnUpdate(() => {
+$x.setOnUpdate(() => {
   if (!pauseMenu?.isActive) {
     nextScene = currentScene?.postUpdate() ?? null;
     if (nextScene) {
@@ -41,12 +41,12 @@ $.setOnUpdate(() => {
   pauseMenu?.update();
 });
 
-$.setOnDraw(() => {
+$x.setOnDraw(() => {
   currentScene?.draw();
   pauseMenu?.draw();
 });
 
-$.start({
+$x.start({
   gameId: "hat-escape",
   canvasSize: "128x128",
   fixedTimestep: "60fps",

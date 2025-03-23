@@ -1,8 +1,8 @@
 import {
-  $,
   $timerSeq,
   $u,
   $v_0_0,
+  $x,
   BpxTimerSequence,
   BpxVector2d,
 } from "@beetpx/beetpx";
@@ -59,12 +59,7 @@ export class Hero {
     tryAttack: boolean,
     room: Room | null,
   ): void {
-    this._speed = directions.mul(this.isDashing ? 5.2 : 1.3);
-
-    if (this._speed.x !== 0 && this._speed.y !== 0) {
-      // normalization of diagonal speed
-      this._speed = this._speed.div(1.41);
-    }
+    this._speed = directions.normalize().mul(this.isDashing ? 5.2 : 1.3);
 
     if (this._speed.x > 0) {
       this._directionRight = true;
@@ -121,7 +116,7 @@ export class Hero {
   draw(): void {
     this._sprite.draw(this._center, !this._directionRight);
     this._attackAnimation?.draw(this._center);
-    if ($.debug) {
+    if ($x.debug) {
       Collisions.drawCollisionCircle(this.collisionCircle);
       if (this.isAttacking) {
         Collisions.drawCollisionCircle(this.attackCollisionCircle);
